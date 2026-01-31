@@ -20,7 +20,6 @@
 import Meta from 'gi://Meta'
 import Shell from 'gi://Shell'
 import Gio from 'gi://Gio'
-import GLib from 'gi://GLib'
 import { Extension, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { osdWindowManager, wm } from 'resource:///org/gnome/shell/ui/main.js';
 import * as windowMover from './windowMover.js';
@@ -29,7 +28,17 @@ import {
   TILING_STEPS_CENTER,
   TILING_STEPS_SIDE,
 } from './constants.js'
-import { isRectEqual, parseTilingSteps } from  './utils.js'
+import { isRectEqual, parseTilingSteps } from './utils.js'
+
+const WORKSPACE_KEYBINDINGS = [
+  'move-to-workspace-left',
+  'move-to-workspace-last',
+  'move-to-workspace-down',
+  'move-to-workspace-up',
+  'move-to-workspace-right',
+  'switch-to-workspace-left',
+  'switch-to-workspace-right',
+]
 
 export default class AwesomeTilesExtension extends Extension {
   enable() {
@@ -37,9 +46,14 @@ export default class AwesomeTilesExtension extends Extension {
     this._settings = this.getSettings()
     this._osdGapChangedIcon = Gio.icon_new_for_string("view-grid-symbolic")
     this._shortcutsBindingIds = []
-    this._keybindingsApplySourceId = 0
-    this._keybindingsRetrySourceId = 0
-    this._enabled = true
+   
+    try {
+      const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      WORKSPACE_KEYBINDINGS.forEach(key => keybindingsSettings.set_strv(key, []))
+      Gio.Settings.sync()
+    } catch (e) {
+      logError(e)
+    }
 
     this._bindShortcut("shortcut-align-window-to-center", this._alignWindowToCenter.bind(this))
     this._bindShortcut("shortcut-tile-window-to-center", this._tileWindowCenter.bind(this))
@@ -53,78 +67,21 @@ export default class AwesomeTilesExtension extends Extension {
     this._bindShortcut("shortcut-tile-window-to-bottom-right", this._tileWindowBottomRight.bind(this))
     this._bindShortcut("shortcut-increase-gap-size", this._increaseGapSize.bind(this))
     this._bindShortcut("shortcut-decrease-gap-size", this._decreaseGapSize.bind(this))
-
-    if (this._keybindingsApplySourceId) {
-      GLib.source_remove(this._keybindingsApplySourceId)
-      this._keybindingsApplySourceId = 0
-    }
-
-    if (this._keybindingsRetrySourceId) {
-      GLib.source_remove(this._keybindingsRetrySourceId)
-      this._keybindingsRetrySourceId = 0
-    }
-
-    this._keybindingsApplySourceId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 800, () => {
-      try {
-        if (!this._enabled)
-          return GLib.SOURCE_REMOVE
-
-        const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
-        keybindingsSettings.set_strv('move-to-workspace-left', [])
-        keybindingsSettings.set_strv('move-to-workspace-right', [])
-        Gio.Settings.sync()
-      } catch (e) {
-        logError(e)
-      }
-
-      this._keybindingsApplySourceId = 0
-      return GLib.SOURCE_REMOVE
-    })
-
-    this._keybindingsRetrySourceId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2500, () => {
-      try {
-        if (!this._enabled)
-          return GLib.SOURCE_REMOVE
-
-        const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
-        keybindingsSettings.set_strv('move-to-workspace-left', [])
-        keybindingsSettings.set_strv('move-to-workspace-right', [])
-        Gio.Settings.sync()
-      } catch (e) {
-        logError(e)
-      }
-
-      this._keybindingsRetrySourceId = 0
-      return GLib.SOURCE_REMOVE
-    })
   }
 
   disable() {
-    this._enabled = false
-    this._windowMover.destroy()
+    this._windowMover.destroy() 
     this._shortcutsBindingIds.forEach((id) => wm.removeKeybinding(id))
-
-    if (this._keybindingsApplySourceId) {
-      GLib.source_remove(this._keybindingsApplySourceId)
-      this._keybindingsApplySourceId = 0
-    }
-
-    if (this._keybindingsRetrySourceId) {
-      GLib.source_remove(this._keybindingsRetrySourceId)
-      this._keybindingsRetrySourceId = 0
-    }
 
     try {
       const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
-      keybindingsSettings.reset('move-to-workspace-left')
-      keybindingsSettings.reset('move-to-workspace-right')
+      WORKSPACE_KEYBINDINGS.forEach(key => keybindingsSettings.reset(key))
       Gio.Settings.sync()
     } catch (e) {
       logError(e)
     }
 
-    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = this._keybindingsApplySourceId = this._keybindingsRetrySourceId = null
-    
+    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
   }
 
   _alignWindowToCenter() {
@@ -164,44 +121,40 @@ export default class AwesomeTilesExtension extends Extension {
     const monitor = window.get_monitor()
     const monitorGeometry = global.display.get_monitor_geometry(monitor)
     const isVertical = monitorGeometry.width < monitorGeometry.height
-  
+
     const workspace = window.get_workspace()
     const workspaceArea = workspace.get_work_area_for_monitor(monitor)
     const gap = this._gapSize
 
-    
     if (gap <= 0 && !this._isBottomGapEnabled) return {
       x: workspaceArea.x,
       y: workspaceArea.y,
       height: workspaceArea.height,
       width: workspaceArea.width,
     }
-    
+
     const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
     const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
-    
+
     const gaps = {
       x: Math.min(gapUncheckedX, gapUncheckedY * 2),
       y: Math.min(gapUncheckedY, gapUncheckedX * 2),
     }
-    
-    // If the monitor is vertical, swap the gap values
+
     if (isVertical) {
       const temp = gaps.x
       gaps.x = gaps.y
       gaps.y = temp
     }
-    
-    // Calculate additional bottom gap if enabled
+
     let bottomGap = 0
     if (this._isBottomGapEnabled) {
-      // Check if bottom gap should only be applied to the main screen
       const isPrimaryMonitor = monitor === global.display.get_primary_monitor();
       if (!this._isBottomGapMainScreenOnly || isPrimaryMonitor) {
         bottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
       }
     }
-    
+
     return {
       x: workspaceArea.x + gaps.x,
       y: workspaceArea.y + gaps.y,
@@ -233,19 +186,22 @@ export default class AwesomeTilesExtension extends Extension {
   set _gapSize(intValue) {
     this._settings.set_int("gap-size", intValue)
   }
-
   _notifyGapSize() {
-    const gapSize = this._gapSize
-    osdWindowManager.show(-1,this._osdGapChangedIcon,
-      ngettext(
-        'Gap size is now at %d percent',
-        'Gap size is now at %d percent',
-        gapSize
-      ).format(gapSize),
-      null,null,null
-    )
-  }
+    const gapSize = this._gapSize;
+    const label = ngettext(
+      'Gap size is now at %d percent',
+      'Gap size is now at %d percent',
+      gapSize
+    ).format(gapSize);
 
+    osdWindowManager.showOne(
+      global.display.get_current_monitor(),
+      this._osdGapChangedIcon,
+      label,
+      null,
+      -1
+    );
+  }
   get _isInnerGapsEnabled() {
     return this._settings.get_boolean("enable-inner-gaps")
   }
@@ -311,7 +267,6 @@ export default class AwesomeTilesExtension extends Extension {
     let iteration = successive ? prev.iteration : 0
     let rect = this._computeWindowRect(window, top, bottom, left, right, steps[iteration], center)
 
-    // Iterate through the tiling steps until we find one that changes the window size.
     for (const end = iteration; successive && isRectEqual(rect, prev.rect);) {
       iteration = (iteration + 1) % steps.length
       if (iteration === end)
@@ -332,8 +287,6 @@ export default class AwesomeTilesExtension extends Extension {
     const workArea = this._calculateWorkspaceArea(window)
     let { x, y, width, height } = workArea
 
-    // Special case - when tiling to the center we want the largest size to
-    // cover the whole available space
     if (center) {
       const monitor = window.get_monitor()
       const monitorGeometry = global.display.get_monitor_geometry(monitor)
