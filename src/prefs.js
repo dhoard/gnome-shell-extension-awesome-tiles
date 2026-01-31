@@ -215,6 +215,50 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       description: _('Assign shortcuts to the functionalities'),
     })
 
+    const workspaceSwitchLeftButton = new Gtk.Button({
+      name: 'shortcut-workspace-switch-left',
+      valign: Gtk.Align.CENTER,
+    })
+    const workspaceSwitchLeftActionRow = new Adw.ActionRow({
+      title: _('Switch to Workspace Left'),
+      subtitle: _('Shortcut to switch to the workspace on the left.'),
+    })
+    workspaceSwitchLeftActionRow.add_suffix(workspaceSwitchLeftButton)
+    shortcutsGroup.add(workspaceSwitchLeftActionRow)
+
+    const workspaceSwitchRightButton = new Gtk.Button({
+      name: 'shortcut-workspace-switch-right',
+      valign: Gtk.Align.CENTER,
+    })
+    const workspaceSwitchRightActionRow = new Adw.ActionRow({
+      title: _('Switch to Workspace Right'),
+      subtitle: _('Shortcut to switch to the workspace on the right.'),
+    })
+    workspaceSwitchRightActionRow.add_suffix(workspaceSwitchRightButton)
+    shortcutsGroup.add(workspaceSwitchRightActionRow)
+
+    const workspaceMoveLeftButton = new Gtk.Button({
+      name: 'shortcut-workspace-move-left',
+      valign: Gtk.Align.CENTER,
+    })
+    const workspaceMoveLeftActionRow = new Adw.ActionRow({
+      title: _('Move Window to Workspace Left'),
+      subtitle: _('Shortcut to move the focused window to the workspace on the left.'),
+    })
+    workspaceMoveLeftActionRow.add_suffix(workspaceMoveLeftButton)
+    shortcutsGroup.add(workspaceMoveLeftActionRow)
+
+    const workspaceMoveRightButton = new Gtk.Button({
+      name: 'shortcut-workspace-move-right',
+      valign: Gtk.Align.CENTER,
+    })
+    const workspaceMoveRightActionRow = new Adw.ActionRow({
+      title: _('Move Window to Workspace Right'),
+      subtitle: _('Shortcut to move the focused window to the workspace on the right.'),
+    })
+    workspaceMoveRightActionRow.add_suffix(workspaceMoveRightButton)
+    shortcutsGroup.add(workspaceMoveRightActionRow)
+
     const alignWindowToCenterButton = new Gtk.Button({
       name: 'shortcut-align-window-to-center',
       valign: Gtk.Align.CENTER,
@@ -349,6 +393,10 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
     shortcutsGroup.add(tileWindowToBottomRightActionRow)
 
     this._bindShortcutSettings(window, settings, [
+      workspaceSwitchLeftButton,
+      workspaceSwitchRightButton,
+      workspaceMoveLeftButton,
+      workspaceMoveRightButton,
       alignWindowToCenterButton,
       incrementGapSizeButton,
       decreaseGapSizeButton,

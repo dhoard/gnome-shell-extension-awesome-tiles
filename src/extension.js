@@ -30,18 +30,16 @@ import {
 } from './constants.js'
 import { isRectEqual, parseTilingSteps } from './utils.js'
 
-const WORKSPACE_KEYBINDINGS = [
-  'move-to-workspace-left',
-  'move-to-workspace-last',
-  'move-to-workspace-down',
-  'move-to-workspace-up',
-  'move-to-workspace-right',
-  'switch-to-workspace-left',
-  'switch-to-workspace-right',
+const DESKTOP_WM_WORKSPACE_KEYBINDINGS = [
+  { key: 'switch-to-workspace-left', setting: 'shortcut-workspace-switch-left' },
+  { key: 'switch-to-workspace-right', setting: 'shortcut-workspace-switch-right' },
+  { key: 'move-to-workspace-left', setting: 'shortcut-workspace-move-left' },
+  { key: 'move-to-workspace-right', setting: 'shortcut-workspace-move-right' },
 ]
-
-const AWESOME_TILES_ORIGINAL_GNOME_KEYBINDINGS_PREFIX = 'awesome-tiles-original-gnome-keybindings-'
-
+const MUTTER_TILED_KEYBINDINGS = [
+  'toggle-tiled-left',
+  'toggle-tiled-right',
+]
 export default class AwesomeTilesExtension extends Extension {
   enable() {
     this._windowMover = new windowMover.WindowMover()
@@ -50,24 +48,15 @@ export default class AwesomeTilesExtension extends Extension {
     this._shortcutsBindingIds = []
 
     try {
-      const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
-      const anyEmpty = WORKSPACE_KEYBINDINGS.some(key => {
-        const current = keybindingsSettings.get_strv(key)
-        return current.length === 0
+      const gnomeDesktopWmKeybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      const gnomeMutterKeybindingSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter.keybindings' })
+      
+      DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => {
+        const shortcut = this._settings.get_strv(binding.setting)
+        gnomeDesktopWmKeybindingsSettings.set_strv(binding.key, shortcut)
       })
-
-      if (anyEmpty) {
-        WORKSPACE_KEYBINDINGS.forEach(key => keybindingsSettings.reset(key))
-        log('Awesome Tiles: Recovered from previous crash - reset workspace keybindings')
-      }
-
-      WORKSPACE_KEYBINDINGS.forEach(key => {
-        const currentValue = keybindingsSettings.get_strv(key)
-        this._settings.set_strv(AWESOME_TILES_ORIGINAL_GNOME_KEYBINDINGS_PREFIX + key, currentValue)
-      })
-
-      // Now safe to disable
-      WORKSPACE_KEYBINDINGS.forEach(key => keybindingsSettings.set_strv(key, []))
+      
+      MUTTER_TILED_KEYBINDINGS.forEach(key => gnomeMutterKeybindingSettings.set_strv(key, []))
       Gio.Settings.sync()
     } catch (e) {
       logError(e)
@@ -85,29 +74,51 @@ export default class AwesomeTilesExtension extends Extension {
     this._bindShortcut("shortcut-tile-window-to-bottom-right", this._tileWindowBottomRight.bind(this))
     this._bindShortcut("shortcut-increase-gap-size", this._increaseGapSize.bind(this))
     this._bindShortcut("shortcut-decrease-gap-size", this._decreaseGapSize.bind(this))
+
+    // Listen for workspace shortcut changes and sync immediately
+    this._workspaceSettingsConnections = []
+    DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => {
+      const connection = this._settings.connect(`changed::${binding.setting}`, () => {
+        this._syncWorkspaceKeybindings()
+      })
+      this._workspaceSettingsConnections.push({ setting: binding.setting, connection })
+    })
   }
 
   disable() {
     this._windowMover.destroy()
     this._shortcutsBindingIds.forEach((id) => wm.removeKeybinding(id))
 
-    try {
-      const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
-
-      WORKSPACE_KEYBINDINGS.forEach(key => {
-        const originalValue = this._settings.get_strv(AWESOME_TILES_ORIGINAL_GNOME_KEYBINDINGS_PREFIX + key)
-        if (originalValue.length > 0) {
-          keybindingsSettings.set_strv(key, originalValue)
-        } else {
-          keybindingsSettings.reset(key)
-        }
+    // Disconnect workspace settings listeners
+    if (this._workspaceSettingsConnections) {
+      this._workspaceSettingsConnections.forEach(({ connection }) => {
+        this._settings.disconnect(connection)
       })
+    }
 
+    try {
+      const gnomeDesktopWmKeybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      const gnomeMutterKeybindingSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter.keybindings' })
+      DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => gnomeDesktopWmKeybindingsSettings.reset(binding.key))
+      MUTTER_TILED_KEYBINDINGS.forEach(key => gnomeMutterKeybindingSettings.reset(key))
       Gio.Settings.sync()
     } catch (e) {
       logError(e)
     }
-    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
+    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = this._workspaceSettingsConnections = null
+  }
+
+  _syncWorkspaceKeybindings() {
+    try {
+      const gnomeDesktopWmKeybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => {
+        const shortcut = this._settings.get_strv(binding.setting)
+        gnomeDesktopWmKeybindingsSettings.set_strv(binding.key, shortcut)
+      })
+      Gio.Settings.sync()
+    } catch (e) {
+      logError(e)
+    }
   }
 
   _alignWindowToCenter() {

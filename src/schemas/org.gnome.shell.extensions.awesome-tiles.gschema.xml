@@ -113,6 +113,42 @@
         Shortcut to decrease the gap size.
       </description>
     </key>
+    <key name="shortcut-workspace-switch-left" type="as">
+      <default>
+        <![CDATA[['<Super>Left']]]>
+      </default>
+      <summary>Switch to Workspace Left</summary>
+      <description>
+        Shortcut to switch to the workspace on the left.
+      </description>
+    </key>
+    <key name="shortcut-workspace-switch-right" type="as">
+      <default>
+        <![CDATA[['<Super>Right']]]>
+      </default>
+      <summary>Switch to Workspace Right</summary>
+      <description>
+        Shortcut to switch to the workspace on the right.
+      </description>
+    </key>
+    <key name="shortcut-workspace-move-left" type="as">
+      <default>
+        <![CDATA[['<Super><Alt>Left']]]>
+      </default>
+      <summary>Move Window to Workspace Left</summary>
+      <description>
+        Shortcut to move the focused window to the workspace on the left.
+      </description>
+    </key>
+    <key name="shortcut-workspace-move-right" type="as">
+      <default>
+        <![CDATA[['<Super><Alt>Right']]]>
+      </default>
+      <summary>Move Window to Workspace Right</summary>
+      <description>
+        Shortcut to move the focused window to the workspace on the right.
+      </description>
+    </key>
     <key name="enable-inner-gaps" type="b">
       <default>true</default>
       <summary>Enable Inner Gaps</summary>
