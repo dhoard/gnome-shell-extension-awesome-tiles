@@ -106,12 +106,12 @@ export default class AwesomeTilesExtension extends Extension {
       Gio.Settings.sync()
     } catch (e) {
       logError(e)
-
-      this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
     }
+    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
+  }
 
-    _alignWindowToCenter() {
-      const window = global.display.get_focus_window()
+  _alignWindowToCenter() {
+    const window = global.display.get_focus_window()
       if (!window) return
 
       const windowArea = window.get_frame_rect()
