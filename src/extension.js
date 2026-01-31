@@ -20,6 +20,7 @@
 import Meta from 'gi://Meta'
 import Shell from 'gi://Shell'
 import Gio from 'gi://Gio'
+import GLib from 'gi://GLib'
 import { Extension, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { osdWindowManager, wm } from 'resource:///org/gnome/shell/ui/main.js';
 import * as windowMover from './windowMover.js';
@@ -36,6 +37,9 @@ export default class AwesomeTilesExtension extends Extension {
     this._settings = this.getSettings()
     this._osdGapChangedIcon = Gio.icon_new_for_string("view-grid-symbolic")
     this._shortcutsBindingIds = []
+    this._keybindingsApplySourceId = 0
+    this._keybindingsRetrySourceId = 0
+    this._enabled = true
 
     this._bindShortcut("shortcut-align-window-to-center", this._alignWindowToCenter.bind(this))
     this._bindShortcut("shortcut-tile-window-to-center", this._tileWindowCenter.bind(this))
@@ -49,12 +53,78 @@ export default class AwesomeTilesExtension extends Extension {
     this._bindShortcut("shortcut-tile-window-to-bottom-right", this._tileWindowBottomRight.bind(this))
     this._bindShortcut("shortcut-increase-gap-size", this._increaseGapSize.bind(this))
     this._bindShortcut("shortcut-decrease-gap-size", this._decreaseGapSize.bind(this))
+
+    if (this._keybindingsApplySourceId) {
+      GLib.source_remove(this._keybindingsApplySourceId)
+      this._keybindingsApplySourceId = 0
+    }
+
+    if (this._keybindingsRetrySourceId) {
+      GLib.source_remove(this._keybindingsRetrySourceId)
+      this._keybindingsRetrySourceId = 0
+    }
+
+    this._keybindingsApplySourceId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 800, () => {
+      try {
+        if (!this._enabled)
+          return GLib.SOURCE_REMOVE
+
+        const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+        keybindingsSettings.set_strv('move-to-workspace-left', [])
+        keybindingsSettings.set_strv('move-to-workspace-right', [])
+        Gio.Settings.sync()
+      } catch (e) {
+        logError(e)
+      }
+
+      this._keybindingsApplySourceId = 0
+      return GLib.SOURCE_REMOVE
+    })
+
+    this._keybindingsRetrySourceId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2500, () => {
+      try {
+        if (!this._enabled)
+          return GLib.SOURCE_REMOVE
+
+        const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+        keybindingsSettings.set_strv('move-to-workspace-left', [])
+        keybindingsSettings.set_strv('move-to-workspace-right', [])
+        Gio.Settings.sync()
+      } catch (e) {
+        logError(e)
+      }
+
+      this._keybindingsRetrySourceId = 0
+      return GLib.SOURCE_REMOVE
+    })
   }
 
   disable() {
+    this._enabled = false
     this._windowMover.destroy()
     this._shortcutsBindingIds.forEach((id) => wm.removeKeybinding(id))
-    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
+
+    if (this._keybindingsApplySourceId) {
+      GLib.source_remove(this._keybindingsApplySourceId)
+      this._keybindingsApplySourceId = 0
+    }
+
+    if (this._keybindingsRetrySourceId) {
+      GLib.source_remove(this._keybindingsRetrySourceId)
+      this._keybindingsRetrySourceId = 0
+    }
+
+    try {
+      const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      keybindingsSettings.reset('move-to-workspace-left')
+      keybindingsSettings.reset('move-to-workspace-right')
+      Gio.Settings.sync()
+    } catch (e) {
+      logError(e)
+    }
+
+    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = this._keybindingsApplySourceId = this._keybindingsRetrySourceId = null
+    
   }
 
   _alignWindowToCenter() {
