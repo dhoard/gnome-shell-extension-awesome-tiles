@@ -1,7 +1,5 @@
 import Clutter from 'gi://Clutter'
 import Gio from 'gi://Gio'
-import Meta from 'gi://Meta'
-import Mtk from 'gi://Mtk';
 
 export class WindowMover {
   constructor() {

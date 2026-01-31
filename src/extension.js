@@ -70,7 +70,7 @@ export default class AwesomeTilesExtension extends Extension {
   }
 
   disable() {
-    this._windowMover.destroy() 
+    this._windowMover.destroy()
     this._shortcutsBindingIds.forEach((id) => wm.removeKeybinding(id))
 
     try {
@@ -192,7 +192,7 @@ export default class AwesomeTilesExtension extends Extension {
       'Gap size is now at %d percent',
       'Gap size is now at %d percent',
       gapSize
-    ).format(gapSize);
+    ).format(gapSize)
 
     osdWindowManager.showOne(
       global.display.get_current_monitor(),
@@ -200,7 +200,7 @@ export default class AwesomeTilesExtension extends Extension {
       label,
       null,
       -1
-    );
+    )
   }
   get _isInnerGapsEnabled() {
     return this._settings.get_boolean("enable-inner-gaps")
