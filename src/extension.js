@@ -40,15 +40,33 @@ const WORKSPACE_KEYBINDINGS = [
   'switch-to-workspace-right',
 ]
 
+const AWESOME_TILES_ORIGINAL_GNOME_KEYBINDINGS_PREFIX = 'awesome-tiles-original-gnome-keybindings-'
+
 export default class AwesomeTilesExtension extends Extension {
   enable() {
     this._windowMover = new windowMover.WindowMover()
     this._settings = this.getSettings()
     this._osdGapChangedIcon = Gio.icon_new_for_string("view-grid-symbolic")
     this._shortcutsBindingIds = []
-   
+
     try {
       const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      const anyEmpty = WORKSPACE_KEYBINDINGS.some(key => {
+        const current = keybindingsSettings.get_strv(key)
+        return current.length === 0
+      })
+
+      if (anyEmpty) {
+        WORKSPACE_KEYBINDINGS.forEach(key => keybindingsSettings.reset(key))
+        log('Awesome Tiles: Recovered from previous crash - reset workspace keybindings')
+      }
+
+      WORKSPACE_KEYBINDINGS.forEach(key => {
+        const currentValue = keybindingsSettings.get_strv(key)
+        this._settings.set_strv(AWESOME_TILES_ORIGINAL_GNOME_KEYBINDINGS_PREFIX + key, currentValue)
+      })
+
+      // Now safe to disable
       WORKSPACE_KEYBINDINGS.forEach(key => keybindingsSettings.set_strv(key, []))
       Gio.Settings.sync()
     } catch (e) {
@@ -75,289 +93,297 @@ export default class AwesomeTilesExtension extends Extension {
 
     try {
       const keybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
-      WORKSPACE_KEYBINDINGS.forEach(key => keybindingsSettings.reset(key))
+
+      WORKSPACE_KEYBINDINGS.forEach(key => {
+        const originalValue = this._settings.get_strv(AWESOME_TILES_ORIGINAL_GNOME_KEYBINDINGS_PREFIX + key)
+        if (originalValue.length > 0) {
+          keybindingsSettings.set_strv(key, originalValue)
+        } else {
+          keybindingsSettings.reset(key)
+        }
+      })
+
       Gio.Settings.sync()
     } catch (e) {
       logError(e)
+
+      this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
     }
 
-    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
-  }
+    _alignWindowToCenter() {
+      const window = global.display.get_focus_window()
+      if (!window) return
 
-  _alignWindowToCenter() {
-    const window = global.display.get_focus_window()
-    if (!window) return
+      const windowArea = window.get_frame_rect()
+      const monitor = window.get_monitor()
+      const workspace = window.get_workspace()
+      const workspaceArea = workspace.get_work_area_for_monitor(monitor)
 
-    const windowArea = window.get_frame_rect()
-    const monitor = window.get_monitor()
-    const workspace = window.get_workspace()
-    const workspaceArea = workspace.get_work_area_for_monitor(monitor)
+      const x = Math.floor(
+        workspaceArea.x + ((workspaceArea.width - windowArea.width) / 2),
+      )
+      const y = Math.floor(
+        workspaceArea.y + ((workspaceArea.height - windowArea.height) / 2),
+      )
 
-    const x = Math.floor(
-      workspaceArea.x + ((workspaceArea.width - windowArea.width) / 2),
-    )
-    const y = Math.floor(
-      workspaceArea.y + ((workspaceArea.height - windowArea.height) / 2),
-    )
-
-    this._windowMover._setWindowRect(window, x, y, windowArea.width, windowArea.height, this._isWindowAnimationEnabled)
-  }
-
-  _bindShortcut(name, callback) {
-    const mode = Shell.hasOwnProperty('ActionMode') ? Shell.ActionMode : Shell.KeyBindingMode
-
-    wm.addKeybinding(
-      name,
-      this._settings,
-      Meta.KeyBindingFlags.NONE,
-      mode.ALL,
-      callback
-    )
-
-    this._shortcutsBindingIds.push(name)
-  }
-
-  _calculateWorkspaceArea(window) {
-    const monitor = window.get_monitor()
-    const monitorGeometry = global.display.get_monitor_geometry(monitor)
-    const isVertical = monitorGeometry.width < monitorGeometry.height
-
-    const workspace = window.get_workspace()
-    const workspaceArea = workspace.get_work_area_for_monitor(monitor)
-    const gap = this._gapSize
-
-    if (gap <= 0 && !this._isBottomGapEnabled) return {
-      x: workspaceArea.x,
-      y: workspaceArea.y,
-      height: workspaceArea.height,
-      width: workspaceArea.width,
+      this._windowMover._setWindowRect(window, x, y, windowArea.width, windowArea.height, this._isWindowAnimationEnabled)
     }
 
-    const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
-    const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
+    _bindShortcut(name, callback) {
+      const mode = Shell.hasOwnProperty('ActionMode') ? Shell.ActionMode : Shell.KeyBindingMode
 
-    const gaps = {
-      x: Math.min(gapUncheckedX, gapUncheckedY * 2),
-      y: Math.min(gapUncheckedY, gapUncheckedX * 2),
+      wm.addKeybinding(
+        name,
+        this._settings,
+        Meta.KeyBindingFlags.NONE,
+        mode.ALL,
+        callback
+      )
+
+      this._shortcutsBindingIds.push(name)
     }
 
-    if (isVertical) {
-      const temp = gaps.x
-      gaps.x = gaps.y
-      gaps.y = temp
-    }
-
-    let bottomGap = 0
-    if (this._isBottomGapEnabled) {
-      const isPrimaryMonitor = monitor === global.display.get_primary_monitor();
-      if (!this._isBottomGapMainScreenOnly || isPrimaryMonitor) {
-        bottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
-      }
-    }
-
-    return {
-      x: workspaceArea.x + gaps.x,
-      y: workspaceArea.y + gaps.y,
-      height: workspaceArea.height - (gaps.y * 2) - bottomGap,
-      width: workspaceArea.width - (gaps.x * 2),
-      gaps,
-      bottomGap,
-    }
-  }
-
-  get _gapSizeIncrements() {
-    return this._settings.get_int("gap-size-increments")
-  }
-
-  _decreaseGapSize() {
-    this._gapSize = Math.max(this._gapSize - this._gapSizeIncrements, 0)
-    this._notifyGapSize()
-  }
-
-  _increaseGapSize() {
-    this._gapSize = Math.min(this._gapSize + this._gapSizeIncrements, GAP_SIZE_MAX)
-    this._notifyGapSize()
-  }
-
-  get _gapSize() {
-    return this._settings.get_int("gap-size")
-  }
-
-  set _gapSize(intValue) {
-    this._settings.set_int("gap-size", intValue)
-  }
-  _notifyGapSize() {
-    const gapSize = this._gapSize;
-    const label = ngettext(
-      'Gap size is now at %d percent',
-      'Gap size is now at %d percent',
-      gapSize
-    ).format(gapSize)
-
-    osdWindowManager.showOne(
-      global.display.get_current_monitor(),
-      this._osdGapChangedIcon,
-      label,
-      null,
-      -1
-    )
-  }
-  get _isInnerGapsEnabled() {
-    return this._settings.get_boolean("enable-inner-gaps")
-  }
-
-  get _isBottomGapEnabled() {
-    return this._settings.get_boolean("enable-bottom-gap")
-  }
-
-  get _isBottomGapMainScreenOnly() {
-    return this._settings.get_boolean("bottom-gap-main-screen-only")
-  }
-
-  get _bottomGapSize() {
-    return this._settings.get_int("bottom-gap-size")
-  }
-
-  get _tilingStepsCenter() {
-    return parseTilingSteps(
-      this._settings.get_string("tiling-steps-center"),
-      TILING_STEPS_CENTER,
-    )
-  }
-
-  get _tilingStepsSide() {
-    return parseTilingSteps(
-      this._settings.get_string("tiling-steps-side"),
-      TILING_STEPS_SIDE,
-    )
-  }
-
-  get _isWindowAnimationEnabled() {
-    return this._settings.get_boolean("enable-window-animation")
-  }
-
-  get _nextStepTimeout() {
-    return this._settings.get_int("next-step-timeout")
-  }
-
-  _tileWindow(top, bottom, left, right) {
-    const window = global.display.get_focus_window()
-    if (!window) return
-
-    const { x, y, width, height } = this._nextWindowRect(window, top, bottom, left, right)
-
-    this._windowMover._setWindowRect(window, x, y, width, height, this._isWindowAnimationEnabled)
-  }
-
-  _nextWindowRect(window, top, bottom, left, right) {
-    const time = Date.now()
-    const center = !(top || bottom || left || right)
-    const prev = this._previousTilingOperation
-    const windowId = window.get_id()
-    const steps = center ? this._tilingStepsCenter : this._tilingStepsSide
-    const successive =
-      prev &&
-      prev.windowId === windowId &&
-      time - prev.time <= this._nextStepTimeout &&
-      prev.top === top &&
-      prev.bottom === bottom &&
-      prev.left === left &&
-      prev.right === right &&
-      prev.iteration < steps.length
-    let iteration = successive ? prev.iteration : 0
-    let rect = this._computeWindowRect(window, top, bottom, left, right, steps[iteration], center)
-
-    for (const end = iteration; successive && isRectEqual(rect, prev.rect);) {
-      iteration = (iteration + 1) % steps.length
-      if (iteration === end)
-        break;
-      rect = this._computeWindowRect(window, top, bottom, left, right, steps[iteration], center)
-    }
-
-    this._previousTilingOperation =
-      { windowId, top, bottom, left, right, rect, time, iteration: iteration + 1 }
-
-    return rect
-  }
-
-  _computeWindowRect(window, top, bottom, left, right, step, center) {
-    const widthFactor = 1.0 - step[0]
-    const heightFactor = step.length > 1 ? (1.0 - step[1]) : widthFactor
-
-    const workArea = this._calculateWorkspaceArea(window)
-    let { x, y, width, height } = workArea
-
-    if (center) {
+    _calculateWorkspaceArea(window) {
       const monitor = window.get_monitor()
       const monitorGeometry = global.display.get_monitor_geometry(monitor)
       const isVertical = monitorGeometry.width < monitorGeometry.height
-      const centerTilingWidthFactor = isVertical ? widthFactor / 2 : widthFactor
-      const centerTilingHeightFactor = isVertical ? heightFactor : heightFactor / 2
 
-      width -= width * centerTilingWidthFactor
-      height -= height * centerTilingHeightFactor
-      x += (workArea.width - width) / 2
-      y += (workArea.height - height) / 2
+      const workspace = window.get_workspace()
+      const workspaceArea = workspace.get_work_area_for_monitor(monitor)
+      const gap = this._gapSize
 
-    } else {
-      if (left !== right) width -= width * widthFactor
-      if (top !== bottom) height -= height * heightFactor
-      if (!left) x += (workArea.width - width) / (right ? 1 : 2)
-      if (!top) y += (workArea.height - height) / (bottom ? 1 : 2)
+      if (gap <= 0 && !this._isBottomGapEnabled) return {
+        x: workspaceArea.x,
+        y: workspaceArea.y,
+        height: workspaceArea.height,
+        width: workspaceArea.width,
+      }
 
-      if (this._isInnerGapsEnabled && workArea.gaps !== undefined) {
-        if (left !== right) {
-          if (right) x += workArea.gaps.x / 2
-          width -= workArea.gaps.x / 2
+      const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
+      const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
+
+      const gaps = {
+        x: Math.min(gapUncheckedX, gapUncheckedY * 2),
+        y: Math.min(gapUncheckedY, gapUncheckedX * 2),
+      }
+
+      if (isVertical) {
+        const temp = gaps.x
+        gaps.x = gaps.y
+        gaps.y = temp
+      }
+
+      let bottomGap = 0
+      if (this._isBottomGapEnabled) {
+        const isPrimaryMonitor = monitor === global.display.get_primary_monitor();
+        if (!this._isBottomGapMainScreenOnly || isPrimaryMonitor) {
+          bottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
         }
-        if (top !== bottom) {
-          if (bottom) y += workArea.gaps.y / 2
-          height -= workArea.gaps.y / 2
-        }
+      }
+
+      return {
+        x: workspaceArea.x + gaps.x,
+        y: workspaceArea.y + gaps.y,
+        height: workspaceArea.height - (gaps.y * 2) - bottomGap,
+        width: workspaceArea.width - (gaps.x * 2),
+        gaps,
+        bottomGap,
       }
     }
 
-    x = Math.round(x)
-    y = Math.round(y)
-    width = Math.round(width)
-    height = Math.round(height)
+  get _gapSizeIncrements() {
+      return this._settings.get_int("gap-size-increments")
+    }
 
-    return { x, y, width, height }
-  }
+    _decreaseGapSize() {
+      this._gapSize = Math.max(this._gapSize - this._gapSizeIncrements, 0)
+      this._notifyGapSize()
+    }
 
-  _tileWindowBottom() {
-    this._tileWindow(false, true, true, true)
-  }
+    _increaseGapSize() {
+      this._gapSize = Math.min(this._gapSize + this._gapSizeIncrements, GAP_SIZE_MAX)
+      this._notifyGapSize()
+    }
 
-  _tileWindowBottomLeft() {
-    this._tileWindow(false, true, true, false)
-  }
+  get _gapSize() {
+      return this._settings.get_int("gap-size")
+    }
 
-  _tileWindowBottomRight() {
-    this._tileWindow(false, true, false, true)
-  }
+  set _gapSize(intValue) {
+      this._settings.set_int("gap-size", intValue)
+    }
+    _notifyGapSize() {
+      const gapSize = this._gapSize;
+      const label = ngettext(
+        'Gap size is now at %d percent',
+        'Gap size is now at %d percent',
+        gapSize
+      ).format(gapSize)
 
-  _tileWindowCenter() {
-    this._tileWindow(false, false, false, false)
-  }
+      osdWindowManager.showOne(
+        global.display.get_current_monitor(),
+        this._osdGapChangedIcon,
+        label,
+        null,
+        -1
+      )
+    }
+  get _isInnerGapsEnabled() {
+      return this._settings.get_boolean("enable-inner-gaps")
+    }
 
-  _tileWindowLeft() {
-    this._tileWindow(true, true, true, false)
-  }
+  get _isBottomGapEnabled() {
+      return this._settings.get_boolean("enable-bottom-gap")
+    }
 
-  _tileWindowRight() {
-    this._tileWindow(true, true, false, true)
-  }
+  get _isBottomGapMainScreenOnly() {
+      return this._settings.get_boolean("bottom-gap-main-screen-only")
+    }
 
-  _tileWindowTop() {
-    this._tileWindow(true, false, true, true)
-  }
+  get _bottomGapSize() {
+      return this._settings.get_int("bottom-gap-size")
+    }
 
-  _tileWindowTopLeft() {
-    this._tileWindow(true, false, true, false)
-  }
+  get _tilingStepsCenter() {
+      return parseTilingSteps(
+        this._settings.get_string("tiling-steps-center"),
+        TILING_STEPS_CENTER,
+      )
+    }
 
-  _tileWindowTopRight() {
-    this._tileWindow(true, false, false, true)
+  get _tilingStepsSide() {
+      return parseTilingSteps(
+        this._settings.get_string("tiling-steps-side"),
+        TILING_STEPS_SIDE,
+      )
+    }
+
+  get _isWindowAnimationEnabled() {
+      return this._settings.get_boolean("enable-window-animation")
+    }
+
+  get _nextStepTimeout() {
+      return this._settings.get_int("next-step-timeout")
+    }
+
+    _tileWindow(top, bottom, left, right) {
+      const window = global.display.get_focus_window()
+      if (!window) return
+
+      const { x, y, width, height } = this._nextWindowRect(window, top, bottom, left, right)
+
+      this._windowMover._setWindowRect(window, x, y, width, height, this._isWindowAnimationEnabled)
+    }
+
+    _nextWindowRect(window, top, bottom, left, right) {
+      const time = Date.now()
+      const center = !(top || bottom || left || right)
+      const prev = this._previousTilingOperation
+      const windowId = window.get_id()
+      const steps = center ? this._tilingStepsCenter : this._tilingStepsSide
+      const successive =
+        prev &&
+        prev.windowId === windowId &&
+        time - prev.time <= this._nextStepTimeout &&
+        prev.top === top &&
+        prev.bottom === bottom &&
+        prev.left === left &&
+        prev.right === right &&
+        prev.iteration < steps.length
+      let iteration = successive ? prev.iteration : 0
+      let rect = this._computeWindowRect(window, top, bottom, left, right, steps[iteration], center)
+
+      for (const end = iteration; successive && isRectEqual(rect, prev.rect);) {
+        iteration = (iteration + 1) % steps.length
+        if (iteration === end)
+          break;
+        rect = this._computeWindowRect(window, top, bottom, left, right, steps[iteration], center)
+      }
+
+      this._previousTilingOperation =
+        { windowId, top, bottom, left, right, rect, time, iteration: iteration + 1 }
+
+      return rect
+    }
+
+    _computeWindowRect(window, top, bottom, left, right, step, center) {
+      const widthFactor = 1.0 - step[0]
+      const heightFactor = step.length > 1 ? (1.0 - step[1]) : widthFactor
+
+      const workArea = this._calculateWorkspaceArea(window)
+      let { x, y, width, height } = workArea
+
+      if (center) {
+        const monitor = window.get_monitor()
+        const monitorGeometry = global.display.get_monitor_geometry(monitor)
+        const isVertical = monitorGeometry.width < monitorGeometry.height
+        const centerTilingWidthFactor = isVertical ? widthFactor / 2 : widthFactor
+        const centerTilingHeightFactor = isVertical ? heightFactor : heightFactor / 2
+
+        width -= width * centerTilingWidthFactor
+        height -= height * centerTilingHeightFactor
+        x += (workArea.width - width) / 2
+        y += (workArea.height - height) / 2
+
+      } else {
+        if (left !== right) width -= width * widthFactor
+        if (top !== bottom) height -= height * heightFactor
+        if (!left) x += (workArea.width - width) / (right ? 1 : 2)
+        if (!top) y += (workArea.height - height) / (bottom ? 1 : 2)
+
+        if (this._isInnerGapsEnabled && workArea.gaps !== undefined) {
+          if (left !== right) {
+            if (right) x += workArea.gaps.x / 2
+            width -= workArea.gaps.x / 2
+          }
+          if (top !== bottom) {
+            if (bottom) y += workArea.gaps.y / 2
+            height -= workArea.gaps.y / 2
+          }
+        }
+      }
+
+      x = Math.round(x)
+      y = Math.round(y)
+      width = Math.round(width)
+      height = Math.round(height)
+
+      return { x, y, width, height }
+    }
+
+    _tileWindowBottom() {
+      this._tileWindow(false, true, true, true)
+    }
+
+    _tileWindowBottomLeft() {
+      this._tileWindow(false, true, true, false)
+    }
+
+    _tileWindowBottomRight() {
+      this._tileWindow(false, true, false, true)
+    }
+
+    _tileWindowCenter() {
+      this._tileWindow(false, false, false, false)
+    }
+
+    _tileWindowLeft() {
+      this._tileWindow(true, true, true, false)
+    }
+
+    _tileWindowRight() {
+      this._tileWindow(true, true, false, true)
+    }
+
+    _tileWindowTop() {
+      this._tileWindow(true, false, true, true)
+    }
+
+    _tileWindowTopLeft() {
+      this._tileWindow(true, false, true, false)
+    }
+
+    _tileWindowTopRight() {
+      this._tileWindow(true, false, false, true)
+    }
   }
-}
