@@ -136,6 +136,7 @@ export default class AwesomeTilesExtension extends Extension {
     )
 
     this._windowMover._setWindowRect(window, x, y, windowArea.width, windowArea.height, this._isWindowAnimationEnabled)
+    
   }
 
   _bindShortcut(name, callback) {
