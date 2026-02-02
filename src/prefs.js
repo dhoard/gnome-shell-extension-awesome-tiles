@@ -29,6 +29,8 @@ import {
   GAP_SIZE_PIXEL_MAX,
   GAP_SIZE_PIXEL_INCREMENTS,
   BOTTOM_GAP_SIZE_PIXEL_MAX,
+  INDIVIDUAL_GAP_SIZE_MAX,
+  INDIVIDUAL_GAP_SIZE_PIXEL_MAX,
 } from './constants.js'
 
 export default class AwesomeTilesPreferences extends ExtensionPreferences {
@@ -147,6 +149,140 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       'active',
       Gio.SettingsBindFlags.DEFAULT,
     )
+    
+    const individualGapSizesSwitchRow = new Adw.SwitchRow({
+      title: _('Enable Individual Gap Sizes'),
+      subtitle: _('Configure separate gap sizes for each side (top, left, bottom, right) and between windows.'),
+    })
+    gapsGroup.add(individualGapSizesSwitchRow)
+    settings.bind(
+      'enable-individual-gap-sizes',
+      individualGapSizesSwitchRow,
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+    
+    const gapSizeTopSpinRow = new Adw.SpinRow({
+      title: _('Top Gap Size'),
+      subtitle: _('Gap size at the top (percent).'),
+      adjustment: new Gtk.Adjustment({
+        lower: 0,
+        upper: 50,
+        'step-increment': 1,
+      })
+    })
+    gapsGroup.add(gapSizeTopSpinRow)
+    settings.bind(
+      'gap-size-top',
+      gapSizeTopSpinRow,
+      'value',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    const gapSizeLeftSpinRow = new Adw.SpinRow({
+      title: _('Left Gap Size'),
+      subtitle: _('Gap size at the left (percent).'),
+      adjustment: new Gtk.Adjustment({
+        lower: 0,
+        upper: 50,
+        'step-increment': 1,
+      })
+    })
+    gapsGroup.add(gapSizeLeftSpinRow)
+    settings.bind(
+      'gap-size-left',
+      gapSizeLeftSpinRow,
+      'value',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    const gapSizeRightSpinRow = new Adw.SpinRow({
+      title: _('Right Gap Size'),
+      subtitle: _('Gap size at the right (percent).'),
+      adjustment: new Gtk.Adjustment({
+        lower: 0,
+        upper: 50,
+        'step-increment': 1,
+      })
+    })
+    gapsGroup.add(gapSizeRightSpinRow)
+    settings.bind(
+      'gap-size-right',
+      gapSizeRightSpinRow,
+      'value',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    const gapSizeBottomSpinRow = new Adw.SpinRow({
+      title: _('Bottom Gap Size'),
+      subtitle: _('Gap size at the bottom (percent).'),
+      adjustment: new Gtk.Adjustment({
+        lower: 0,
+        upper: 50,
+        'step-increment': 1,
+      })
+    })
+    gapsGroup.add(gapSizeBottomSpinRow)
+    settings.bind(
+      'gap-size-bottom',
+      gapSizeBottomSpinRow,
+      'value',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    const gapSizeInnerSpinRow = new Adw.SpinRow({
+      title: _('Inner Gap Size'),
+      subtitle: _('Gap size between windows (percent).'),
+      adjustment: new Gtk.Adjustment({
+        lower: 0,
+        upper: 50,
+        'step-increment': 1,
+      })
+    })
+    gapsGroup.add(gapSizeInnerSpinRow)
+    settings.bind(
+      'gap-size-inner',
+      gapSizeInnerSpinRow,
+      'value',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    const individualGapRows = [
+      gapSizeTopSpinRow,
+      gapSizeLeftSpinRow,
+      gapSizeRightSpinRow,
+      gapSizeBottomSpinRow,
+      gapSizeInnerSpinRow,
+    ]
+
+    const updateIndividualGapRows = () => {
+      const useIndividual = settings.get_boolean('enable-individual-gap-sizes')
+      const usePixels = settings.get_boolean('gap-size-in-pixels')
+
+      
+      individualGapRows.forEach(row => {
+        row.visible = useIndividual
+      })
+
+      const maxValue = usePixels ? INDIVIDUAL_GAP_SIZE_PIXEL_MAX : INDIVIDUAL_GAP_SIZE_MAX
+      const stepIncrement = usePixels ? GAP_SIZE_PIXEL_INCREMENTS : 1
+      
+      const unit = usePixels ? _('pixels') : _('percent')
+      gapSizeTopSpinRow.subtitle = `${_('Gap size at the top')} (${unit})`
+      gapSizeLeftSpinRow.subtitle = `${_('Gap size at the left')} (${unit})`
+      gapSizeRightSpinRow.subtitle = `${_('Gap size at the right')} (${unit})`
+      gapSizeBottomSpinRow.subtitle = `${_('Gap size at the bottom')} (${unit})`
+      gapSizeInnerSpinRow.subtitle = `${_('Gap size between windows')} (${unit})`
+
+      individualGapRows.forEach(row => {
+        row.adjustment.upper = maxValue
+        row.adjustment.step_increment = stepIncrement
+      })
+    }
+
+    settings.connect('changed::enable-individual-gap-sizes', updateIndividualGapRows)
+    settings.connect('changed::gap-size-in-pixels', updateIndividualGapRows)
+    updateIndividualGapRows()
 
     const gapSizeSpinRow = new Adw.SpinRow({
       title: _('Gap Between Window and Workspace'),
@@ -164,17 +300,19 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       'value',
       Gio.SettingsBindFlags.DEFAULT,
     )
-
-    // Update gap size row based on pixel mode
+    
     const updateGapSizeRow = () => {
       const usePixels = settings.get_boolean('gap-size-in-pixels')
+      const useIndividual = settings.get_boolean('enable-individual-gap-sizes')
       gapSizeSpinRow.subtitle = usePixels
         ? _('Pixels to leave out as gap when a window is tiled.')
         : _('Percentage to leave out as gap when a window is tiled.')
       gapSizeSpinRow.adjustment.upper = usePixels ? GAP_SIZE_PIXEL_MAX : GAP_SIZE_MAX
       gapSizeSpinRow.adjustment.step_increment = usePixels ? GAP_SIZE_PIXEL_INCREMENTS : 1
+      gapSizeSpinRow.visible = !useIndividual
     }
     settings.connect('changed::gap-size-in-pixels', updateGapSizeRow)
+    settings.connect('changed::enable-individual-gap-sizes', updateGapSizeRow)
     updateGapSizeRow()
 
     const gapSizeIncrementsSpinRow = new Adw.SpinRow({
@@ -194,7 +332,6 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
-    // Update increments row based on pixel mode
     const updateIncrementsRow = () => {
       const usePixels = settings.get_boolean('gap-size-in-pixels')
       gapSizeIncrementsSpinRow.adjustment.upper = usePixels ? GAP_SIZE_PIXEL_MAX : GAP_SIZE_MAX
@@ -202,8 +339,7 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
     }
     settings.connect('changed::gap-size-in-pixels', updateIncrementsRow)
     updateIncrementsRow()
-
-    // Bottom gap settings
+    
     const bottomGapSwitchRow = new Adw.SwitchRow({
       title: _('Enable Additional Bottom Gap'),
       subtitle: _('Add an additional gap at the bottom of the screen to prevent dock overlap.'),
@@ -222,7 +358,7 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       adjustment: new Gtk.Adjustment({
         lower: 0,
         upper: 50,
-        'step-increment': 5,
+        'step-increment': 1,
       })
     })
     gapsGroup.add(bottomGapSizeSpinRow)
@@ -233,7 +369,6 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
-    // Update bottom gap size row based on pixel mode
     const updateBottomGapSizeRow = () => {
       const usePixels = settings.get_boolean('gap-size-in-pixels')
       bottomGapSizeSpinRow.subtitle = usePixels
@@ -256,6 +391,14 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       'active',
       Gio.SettingsBindFlags.DEFAULT,
     )
+
+    const updateBottomGapVisibility = () => {
+      const enabled = settings.get_boolean('enable-bottom-gap')
+      bottomGapSizeSpinRow.visible = enabled
+      bottomGapMainScreenOnlySwitchRow.visible = enabled
+    }
+    settings.connect('changed::enable-bottom-gap', updateBottomGapVisibility)
+    updateBottomGapVisibility()
 
     return gapsGroup
   }

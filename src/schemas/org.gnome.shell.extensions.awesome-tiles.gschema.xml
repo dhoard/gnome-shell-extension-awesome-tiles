@@ -1,5 +1,35 @@
 <schemalist gettext-domain="awesome-tiles@velitasali.com">
   <schema id="org.gnome.shell.extensions.awesome-tiles" path="/org/gnome/shell/extensions/awesome-tiles/">
+    <key name="enable-individual-gap-sizes" type="b">
+      <default>false</default>
+      <summary>Enable Individual Gap Sizes</summary>
+      <description>Configure separate gap sizes for each side (top, left, bottom, right) and between windows.</description>
+    </key>
+    <key name="gap-size-top" type="i">
+      <default>15</default>
+      <summary>Top Gap Size</summary>
+      <description>Gap size at the top of the workspace.</description>
+    </key>
+    <key name="gap-size-left" type="i">
+      <default>15</default>
+      <summary>Left Gap Size</summary>
+      <description>Gap size at the left of the workspace.</description>
+    </key>
+    <key name="gap-size-right" type="i">
+      <default>15</default>
+      <summary>Right Gap Size</summary>
+      <description>Gap size at the right of the workspace.</description>
+    </key>
+    <key name="gap-size-bottom" type="i">
+      <default>15</default>
+      <summary>Bottom Gap Size</summary>
+      <description>Gap size at the bottom of the workspace.</description>
+    </key>
+    <key name="gap-size-inner" type="i">
+      <default>10</default>
+      <summary>Inner Gap Size</summary>
+      <description>Gap size between windows.</description>
+    </key>
     <key name="gap-size-in-pixels" type="b">
       <default>false</default>
       <summary>Gap Size in Pixels</summary>

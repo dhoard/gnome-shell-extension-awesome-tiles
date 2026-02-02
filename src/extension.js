@@ -161,6 +161,11 @@ export default class AwesomeTilesExtension extends Extension {
 
     const workspace = window.get_workspace()
     const workspaceArea = workspace.get_work_area_for_monitor(monitor)
+
+    if (this._isIndividualGapSizesEnabled) {
+      return this._calculateIndividualWorkspaceArea(workspaceArea, monitor, isVertical)
+    }
+
     const gap = this._gapSize
 
     if (gap <= 0 && !this._isBottomGapEnabled) return {
@@ -172,16 +177,12 @@ export default class AwesomeTilesExtension extends Extension {
 
     let gaps
     if (this._isGapSizeInPixels) {
-      // Pixel mode: gap is directly in pixels
-      const gapPixels = Math.round(gap)
-      const gapX = Math.min(gapPixels, Math.round(workspaceArea.height / 2))
-      const gapY = Math.min(gapPixels, Math.round(workspaceArea.height / 2))
+      const gapPx = Math.round(gap)
       gaps = {
-        x: gapX,
-        y: gapY,
+        x: Math.min(gapPx, Math.floor(workspaceArea.width / 2)),
+        y: Math.min(gapPx, Math.floor(workspaceArea.height / 2)),
       }
     } else {
-      // Percent mode: gap is percentage
       const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
       const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
 
@@ -216,6 +217,78 @@ export default class AwesomeTilesExtension extends Extension {
       width: workspaceArea.width - (gaps.x * 2),
       gaps,
       bottomGap,
+    }
+  }
+
+  _calculateIndividualWorkspaceArea(workspaceArea, monitor, isVertical) {
+    const gapTop = this._gapSizeTop
+    const gapBottom = this._gapSizeBottom
+    const gapLeft = this._gapSizeLeft
+    const gapRight = this._gapSizeRight
+
+    let gaps = { x: 0, y: 0 }
+
+    if (this._isGapSizeInPixels) {
+      gaps.x = Math.min(gapLeft + gapRight, workspaceArea.width)
+      gaps.y = Math.min(gapTop + gapBottom, workspaceArea.height)
+    } else {
+      const gapTopPx = Math.round(gapTop / 200 * workspaceArea.height)
+      const gapBottomPx = Math.round(gapBottom / 200 * workspaceArea.height)
+      const gapLeftPx = Math.round(gapLeft / 200 * workspaceArea.width)
+      const gapRightPx = Math.round(gapRight / 200 * workspaceArea.width)
+
+      gaps.x = Math.min(gapLeftPx + gapRightPx, (gapTopPx + gapBottomPx) * 2)
+      gaps.y = Math.min(gapTopPx + gapBottomPx, (gapLeftPx + gapRightPx) * 2)
+    }
+
+    if (isVertical) {
+      const tempX = gaps.x
+      gaps.x = gaps.y
+      gaps.y = tempX
+    }
+
+    let extraBottomGap = 0
+    if (this._isBottomGapEnabled) {
+      const isPrimaryMonitor = monitor === global.display.get_primary_monitor();
+      if (!this._isBottomGapMainScreenOnly || isPrimaryMonitor) {
+        if (this._isGapSizeInPixels) {
+          extraBottomGap = Math.round(this._bottomGapSize)
+        } else {
+          extraBottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
+        }
+      }
+    }
+
+    let topGap, leftGap, rightGap, bottomGap
+    if (this._isGapSizeInPixels) {
+      topGap = gapTop
+      leftGap = gapLeft
+      rightGap = gapRight
+      bottomGap = gapBottom + extraBottomGap
+    } else {
+      topGap = Math.round(gapTop / 200 * workspaceArea.height)
+      leftGap = Math.round(gapLeft / 200 * workspaceArea.width)
+      rightGap = Math.round(gapRight / 200 * workspaceArea.width)
+      bottomGap = Math.round(gapBottom / 200 * workspaceArea.height) + extraBottomGap
+    }
+
+    if (isVertical) {
+      const tempTop = topGap
+      topGap = leftGap
+      leftGap = tempTop
+      const tempBottom = bottomGap
+      bottomGap = rightGap
+      rightGap = tempBottom
+    }
+
+    return {
+      x: workspaceArea.x + leftGap,
+      y: workspaceArea.y + topGap,
+      height: workspaceArea.height - topGap - bottomGap,
+      width: workspaceArea.width - leftGap - rightGap,
+      gaps,
+      bottomGap: extraBottomGap,
+      individualGaps: { top: topGap, left: leftGap, right: rightGap, bottom: bottomGap }
     }
   }
 
@@ -265,6 +338,30 @@ export default class AwesomeTilesExtension extends Extension {
         -1
       )
     }
+  }
+
+  get _isIndividualGapSizesEnabled() {
+    return this._settings.get_boolean("enable-individual-gap-sizes")
+  }
+
+  get _gapSizeTop() {
+    return this._settings.get_int("gap-size-top")
+  }
+
+  get _gapSizeLeft() {
+    return this._settings.get_int("gap-size-left")
+  }
+
+  get _gapSizeRight() {
+    return this._settings.get_int("gap-size-right")
+  }
+
+  get _gapSizeBottom() {
+    return this._settings.get_int("gap-size-bottom")
+  }
+
+  get _gapSizeInner() {
+    return this._settings.get_int("gap-size-inner")
   }
 
   get _isInnerGapsEnabled() {
@@ -329,7 +426,7 @@ export default class AwesomeTilesExtension extends Extension {
       prev.left === left &&
       prev.right === right &&
       prev.iteration < steps.length &&
-      prev.window === window  // Verify window object is same (not reused ID)
+      prev.window === window 
     let iteration = successive ? prev.iteration : 0
     let rect = this._computeWindowRect(window, top, bottom, left, right, steps[iteration], center)
 
@@ -371,14 +468,28 @@ export default class AwesomeTilesExtension extends Extension {
       if (!left) x += (workArea.width - width) / (right ? 1 : 2)
       if (!top) y += (workArea.height - height) / (bottom ? 1 : 2)
 
-      if (this._isInnerGapsEnabled && workArea.gaps !== undefined) {
+      if (this._isInnerGapsEnabled) {
+        let innerGapX, innerGapY
+        if (this._isIndividualGapSizesEnabled) {
+          const innerGap = this._gapSizeInner
+          if (this._isGapSizeInPixels) {
+            innerGapX = innerGap
+            innerGapY = innerGap
+          } else {
+            innerGapX = Math.round(innerGap / 200 * workArea.width)
+            innerGapY = Math.round(innerGap / 200 * workArea.height)
+          }
+        } else {
+          innerGapX = workArea.gaps?.x ?? 0
+          innerGapY = workArea.gaps?.y ?? 0
+        }
         if (left !== right) {
-          if (right) x += workArea.gaps.x / 2
-          width -= workArea.gaps.x / 2
+          if (right) x += innerGapX / 2
+          width -= innerGapX / 2
         }
         if (top !== bottom) {
-          if (bottom) y += workArea.gaps.y / 2
-          height -= workArea.gaps.y / 2
+          if (bottom) y += innerGapY / 2
+          height -= innerGapY / 2
         }
       }
     }
