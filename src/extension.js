@@ -25,6 +25,7 @@ import { osdWindowManager, wm } from 'resource:///org/gnome/shell/ui/main.js';
 import * as windowMover from './windowMover.js';
 import {
   GAP_SIZE_MAX,
+  GAP_SIZE_PIXEL_MAX,
   TILING_STEPS_CENTER,
   TILING_STEPS_SIDE,
 } from './constants.js'
@@ -169,12 +170,25 @@ export default class AwesomeTilesExtension extends Extension {
       width: workspaceArea.width,
     }
 
-    const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
-    const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
+    let gaps
+    if (this._isGapSizeInPixels) {
+      // Pixel mode: gap is directly in pixels
+      const gapPixels = Math.round(gap)
+      const gapX = Math.min(gapPixels, Math.round(workspaceArea.height / 2))
+      const gapY = Math.min(gapPixels, Math.round(workspaceArea.height / 2))
+      gaps = {
+        x: gapX,
+        y: gapY,
+      }
+    } else {
+      // Percent mode: gap is percentage
+      const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
+      const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
 
-    const gaps = {
-      x: Math.min(gapUncheckedX, gapUncheckedY * 2),
-      y: Math.min(gapUncheckedY, gapUncheckedX * 2),
+      gaps = {
+        x: Math.min(gapUncheckedX, gapUncheckedY * 2),
+        y: Math.min(gapUncheckedY, gapUncheckedX * 2),
+      }
     }
 
     if (isVertical) {
@@ -187,7 +201,11 @@ export default class AwesomeTilesExtension extends Extension {
     if (this._isBottomGapEnabled) {
       const isPrimaryMonitor = monitor === global.display.get_primary_monitor();
       if (!this._isBottomGapMainScreenOnly || isPrimaryMonitor) {
-        bottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
+        if (this._isGapSizeInPixels) {
+          bottomGap = Math.round(this._bottomGapSize)
+        } else {
+          bottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
+        }
       }
     }
 
@@ -206,13 +224,19 @@ export default class AwesomeTilesExtension extends Extension {
   }
 
   _decreaseGapSize() {
+    const maxGap = this._isGapSizeInPixels ? GAP_SIZE_PIXEL_MAX : GAP_SIZE_MAX
     this._gapSize = Math.max(this._gapSize - this._gapSizeIncrements, 0)
     this._notifyGapSize()
   }
 
   _increaseGapSize() {
-    this._gapSize = Math.min(this._gapSize + this._gapSizeIncrements, GAP_SIZE_MAX)
+    const maxGap = this._isGapSizeInPixels ? GAP_SIZE_PIXEL_MAX : GAP_SIZE_MAX
+    this._gapSize = Math.min(this._gapSize + this._gapSizeIncrements, maxGap)
     this._notifyGapSize()
+  }
+
+  get _isGapSizeInPixels() {
+    return this._settings.get_boolean("gap-size-in-pixels")
   }
 
   get _gapSize() {
@@ -225,9 +249,10 @@ export default class AwesomeTilesExtension extends Extension {
 
   _notifyGapSize() {
     const gapSize = this._gapSize;
+    const unit = this._isGapSizeInPixels ? 'pixels' : 'percent';
     const label = ngettext(
-      'Gap size is now at %d percent',
-      'Gap size is now at %d percent',
+      `Gap size is now at %d ${unit}`,
+      `Gap size is now at %d ${unit}`,
       gapSize
     ).format(gapSize)
 

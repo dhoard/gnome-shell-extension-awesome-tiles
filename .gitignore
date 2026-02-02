@@ -4,4 +4,5 @@ gschemas.compiled
 *.gmo
 *.mo
 *.zip
+.windsurf
 node_modules

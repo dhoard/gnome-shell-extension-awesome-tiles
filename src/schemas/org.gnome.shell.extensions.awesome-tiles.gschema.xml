@@ -1,5 +1,10 @@
 <schemalist gettext-domain="awesome-tiles@velitasali.com">
   <schema id="org.gnome.shell.extensions.awesome-tiles" path="/org/gnome/shell/extensions/awesome-tiles/">
+    <key name="gap-size-in-pixels" type="b">
+      <default>false</default>
+      <summary>Gap Size in Pixels</summary>
+      <description>Use pixels instead of percentage for gap size.</description>
+    </key>
     <key name="gap-size" type="i">
       <default>15</default>
       <summary>Gap Between Window and Workspace</summary>
@@ -171,7 +176,7 @@
     <key name="gap-size-increments" type="i">
       <default>1</default>
       <summary>Gap Size Increments</summary>
-      <description>Determine how much gap size adjust by keybinding.</description>
+      <description>Determine how much gap size adjust by keybinding. In percent mode this is percentage points, in pixel mode this is pixels.</description>
     </key>
     <key name="enable-bottom-gap" type="b">
       <default>false</default>
