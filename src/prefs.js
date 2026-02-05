@@ -118,6 +118,43 @@ export default class AwesomeTilesPreferences extends ExtensionPreferences {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    const enableLinkedResizeSwitchRow = new Adw.SwitchRow({
+      title: _('Enable Linked Window Resize'),
+      subtitle: _('When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap.'),
+    })
+    behaviorGroup.add(enableLinkedResizeSwitchRow)
+    settings.bind(
+      'enable-linked-resize',
+      enableLinkedResizeSwitchRow,
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    const linkedResizeGlowColorEntry = new Gtk.Entry({
+      valign: Gtk.Align.CENTER,
+      placeholder_text: _('Use theme accent color'),
+      width_chars: 12,
+    });
+    const linkedResizeGlowColorActionRow = new Adw.ActionRow({
+      title: _('Linked Resize Glow Color'),
+      subtitle: _('Custom color for the glow effect during linked resize (hex format like #3584e4). Leave empty to use theme accent color.'),
+    })
+    linkedResizeGlowColorActionRow.add_suffix(linkedResizeGlowColorEntry)
+    behaviorGroup.add(linkedResizeGlowColorActionRow)
+    settings.bind(
+      'linked-resize-glow-color',
+      linkedResizeGlowColorEntry.buffer,
+      'text',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    const updateLinkedResizeGlowRow = () => {
+      const enabled = settings.get_boolean('enable-linked-resize')
+      linkedResizeGlowColorActionRow.visible = enabled
+    }
+    settings.connect('changed::enable-linked-resize', updateLinkedResizeGlowRow)
+    updateLinkedResizeGlowRow()
+
     return behaviorGroup
   }
 

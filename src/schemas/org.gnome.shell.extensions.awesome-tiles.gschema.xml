@@ -233,5 +233,15 @@
       <summary>Side Tiling Steps</summary>
       <description>Steps on first and successive key presses when tiling.</description>
     </key>
+    <key name="enable-linked-resize" type="b">
+      <default>true</default>
+      <summary>Enable Linked Window Resize</summary>
+      <description>When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap.</description>
+    </key>
+    <key name="linked-resize-glow-color" type="s">
+      <default><![CDATA['']]></default>
+      <summary>Linked Resize Glow Color</summary>
+      <description>Custom color for the glow effect during linked resize. Leave empty to use the default theme accent color.</description>
+    </key>
   </schema>
 </schemalist>

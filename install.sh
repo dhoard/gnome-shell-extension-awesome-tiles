@@ -18,6 +18,7 @@ function pack-extension {
         --extra-source="prefs-utils.js" \
         --extra-source="utils.js" \
         --extra-source="windowMover.js" \
+        --extra-source="linkedResize.js" \
         --extra-source="prefs-shortcut-dialog.ui" \
         --extra-source="../LICENSE"
 }
@@ -41,8 +42,12 @@ function compile-preferences {
 }
 
 function restart-shell {
-    echo 'Restarting shell...'
-    busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting…", global.context)'
+    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+        echo 'Restarting shell on Wayland...'
+    else
+        echo 'Restarting shell on X11...'
+        busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting…", global.context)'
+    fi
     echo 'Done'
 }
 

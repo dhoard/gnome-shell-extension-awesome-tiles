@@ -23,6 +23,7 @@ import Gio from 'gi://Gio'
 import { Extension, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { osdWindowManager, wm } from 'resource:///org/gnome/shell/ui/main.js';
 import * as windowMover from './windowMover.js';
+import { LinkedResizeHandler } from './linkedResize.js';
 import {
   GAP_SIZE_MAX,
   GAP_SIZE_PIXEL_MAX,
@@ -47,6 +48,7 @@ export default class AwesomeTilesExtension extends Extension {
     this._settings = this.getSettings()
     this._osdGapChangedIcon = Gio.icon_new_for_string("view-grid-symbolic")
     this._shortcutsBindingIds = []
+    this._linkedResizeHandler = new LinkedResizeHandler(this._settings, this._windowMover)
 
     try {
       const gnomeDesktopWmKeybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
@@ -76,6 +78,8 @@ export default class AwesomeTilesExtension extends Extension {
     this._bindShortcut("shortcut-increase-gap-size", this._increaseGapSize.bind(this))
     this._bindShortcut("shortcut-decrease-gap-size", this._decreaseGapSize.bind(this))
 
+    this._linkedResizeHandler.enable()
+
     this._workspaceSettingsConnections = []
     DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => {
       const connection = this._settings.connect(`changed::${binding.setting}`, () => {
@@ -88,6 +92,11 @@ export default class AwesomeTilesExtension extends Extension {
   disable() {
     this._windowMover.destroy()
     this._shortcutsBindingIds.forEach((id) => wm.removeKeybinding(id))
+
+    if (this._linkedResizeHandler) {
+      this._linkedResizeHandler.disable()
+      this._linkedResizeHandler = null
+    }
 
     if (this._workspaceSettingsConnections) {
       this._workspaceSettingsConnections.forEach(({ connection }) => {
@@ -104,7 +113,7 @@ export default class AwesomeTilesExtension extends Extension {
     } catch (e) {
       logError(e)
     }
-    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = this._workspaceSettingsConnections = null
+    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = this._workspaceSettingsConnections = this._linkedResizeHandler = null
   }
 
   _syncWorkspaceKeybindings() {
