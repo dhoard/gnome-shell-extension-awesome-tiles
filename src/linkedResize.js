@@ -105,16 +105,13 @@ export class LinkedResizeHandler {
 
     if (type === Clutter.EventType.KEY_PRESS) {
       const keyCode = event.get_key_code()
-      console.log(`[LinkedResize] Key press: code=${keyCode}`)
-      if (keyCode === 64 || keyCode === 108) {
+      if (keyCode === Clutter.KEY_Alt_L || keyCode === Clutter.KEY_Alt_R) {
         this._altKeyPressed = true
-        console.log('[LinkedResize] Alt key pressed')
       }
     } else if (type === Clutter.EventType.KEY_RELEASE) {
       const keyCode = event.get_key_code()
-      if (keyCode === 64 || keyCode === 108) {
+      if (keyCode === Clutter.KEY_Alt_L || keyCode === Clutter.KEY_Alt_R) {
         this._altKeyPressed = false
-        console.log('[LinkedResize] Alt key released')
         if (this._isResizing) {
           this._stopResize()
         }
@@ -129,7 +126,6 @@ export class LinkedResizeHandler {
     const [x, y, mods] = global.get_pointer()
     const isAltHeld = (mods & Clutter.ModifierType.MOD1_MASK) !== 0
 
-    console.log(`[LinkedResize] Grab op begin: grabOp=${grabOp}, mods=${mods}, altHeld=${isAltHeld}`)
 
     if (!isAltHeld) return
     if (!window) return
@@ -141,15 +137,12 @@ export class LinkedResizeHandler {
       Meta.GrabOp.RESIZING_W,
     ].includes(grabOp)
 
-    console.log(`[LinkedResize] Is resize op: ${isResizeOp}`)
     if (!isResizeOp) return
 
     const direction = this._getResizeDirection(grabOp)
-    console.log(`[LinkedResize] Direction: ${direction}`)
     if (!direction) return
 
     const linkedWindows = this._findLinkedWindows(window, direction)
-    console.log(`[LinkedResize] Found ${linkedWindows.length} linked windows`)
     if (linkedWindows.length === 0) return
 
     this._isResizing = true
@@ -169,7 +162,7 @@ export class LinkedResizeHandler {
 
   _startResizeTracking() {
 
-    this._resizeTimerId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 16, () => {
+    this._resizeTimerId = GLib.timeout_add(GLib.PRIORITY_LOW, 16, () => {
       if (!this._isResizing) {
         this._resizeTimerId = 0
         return GLib.SOURCE_REMOVE
@@ -205,11 +198,9 @@ export class LinkedResizeHandler {
       height: sourceRect.height
     }
 
-    console.log(`[LinkedResize] Finding linked windows: direction=${direction}, sourceRect=${JSON.stringify(sourceRectObj)}, monitor=${monitor}`)
 
     const allWindows = workspace.list_windows()
     const winCount = allWindows.length
-    console.log(`[LinkedResize] Total windows: ${winCount}`)
 
     const sourceWindowId = sourceWindow.get_id()
     const passed = []
@@ -219,7 +210,6 @@ export class LinkedResizeHandler {
 
 
       if (!w.get_id || typeof w.get_id !== 'function') {
-        console.log(`[LinkedResize] [${i}] SKIP not MetaWindow`)
         continue
       }
 
@@ -227,18 +217,15 @@ export class LinkedResizeHandler {
       const title = w.get_title() || `win-${i}`
 
       if (wid === sourceWindowId) {
-        console.log(`[LinkedResize] [${i}] SKIP source: "${title}" id=${wid}`)
         continue
       }
 
 
       if (this._isWindowMinimized(w)) {
-        console.log(`[LinkedResize] [${i}] SKIP minimized: "${title}"`)
         continue
       }
 
       if (w.get_monitor() !== monitor) {
-        console.log(`[LinkedResize] [${i}] SKIP monitor ${w.get_monitor()} != ${monitor}: "${title}"`)
         continue
       }
 
@@ -247,24 +234,15 @@ export class LinkedResizeHandler {
 
       const atEdge = this._isWindowAtEdge(sourceRectObj, frameRectObj, direction, sourceWindow)
 
-      console.log(`[LinkedResize] [${i}] "${title}" rect=${JSON.stringify(frameRectObj)} atEdge=${atEdge}`)
 
       if (atEdge) {
         passed.push(w)
       }
     }
 
-    console.log(`[LinkedResize] Passed filter: ${passed.length} windows`)
 
-    console.log(`[LinkedResize] Filtering visibility...`)
     const filtered = this._filterVisibleWindows(passed, sourceWindow, direction)
-    console.log(`[LinkedResize] After visibility filter: ${filtered.length} windows`)
     return filtered
-  }
-
-  _rectsOverlap(a, b) {
-    return !(a.x + a.width <= b.x || b.x + b.width <= a.x ||
-      a.y + a.height <= b.y || b.y + b.height <= a.y)
   }
 
   _isWindowAtEdge(sourceRect, targetRect, direction, sourceWindow) {
@@ -274,25 +252,21 @@ export class LinkedResizeHandler {
       case 'east': {
         const edgeDist = Math.abs(targetRect.x - (sourceRect.x + sourceRect.width))
         const vOverlap = this._hasVerticalOverlap(sourceRect, targetRect)
-        console.log(`[LinkedResize] Edge check east: edgeDist=${edgeDist}, threshold=${threshold}, vOverlap=${vOverlap}`)
         return edgeDist <= threshold && vOverlap
       }
       case 'west': {
         const edgeDist = Math.abs((targetRect.x + targetRect.width) - sourceRect.x)
         const vOverlap = this._hasVerticalOverlap(sourceRect, targetRect)
-        console.log(`[LinkedResize] Edge check west: edgeDist=${edgeDist}, threshold=${threshold}, vOverlap=${vOverlap}`)
         return edgeDist <= threshold && vOverlap
       }
       case 'south': {
         const edgeDist = Math.abs(targetRect.y - (sourceRect.y + sourceRect.height))
         const hOverlap = this._hasHorizontalOverlap(sourceRect, targetRect)
-        console.log(`[LinkedResize] Edge check south: edgeDist=${edgeDist}, threshold=${threshold}, hOverlap=${hOverlap}`)
         return edgeDist <= threshold && hOverlap
       }
       case 'north': {
         const edgeDist = Math.abs((targetRect.y + targetRect.height) - sourceRect.y)
         const hOverlap = this._hasHorizontalOverlap(sourceRect, targetRect)
-        console.log(`[LinkedResize] Edge check north: edgeDist=${edgeDist}, threshold=${threshold}, hOverlap=${hOverlap}`)
         return edgeDist <= threshold && hOverlap
       }
     }
@@ -327,7 +301,6 @@ export class LinkedResizeHandler {
 
     const threshold = Math.round(gapPixels * 1.5)
 
-    console.log(`[LinkedResize] Calculated threshold: ${threshold}px (gap=${gapSize}, isPixels=${isPixels})`)
 
     return Math.max(threshold, 2)
   }
@@ -383,21 +356,18 @@ export class LinkedResizeHandler {
       const sourceIdx = allWindows.indexOf(sourceWindow)
       const wIdx = allWindows.indexOf(w)
 
-      console.log(`[LinkedResize] Filtering window "${w.get_title()}", sourceIdx=${sourceIdx}, wIdx=${wIdx}`)
 
       for (const other of allWindows) {
         if (other === w || other === sourceWindow) continue
         if (!other.get_id || typeof other.get_id !== 'function') continue
 
         if (this._isWindowMinimized(other)) {
-          console.log(`[LinkedResize]   SKIP minimized: "${other.get_title()}"`)
           continue
         }
 
         const otherIdx = allWindows.indexOf(other)
         // Only consider windows that are in front of BOTH source and candidate
         if (otherIdx <= sourceIdx || otherIdx <= wIdx) {
-          console.log(`[LinkedResize]   SKIP behind: "${other.get_title()}" idx=${otherIdx}`)
           continue
         }
 
@@ -405,13 +375,10 @@ export class LinkedResizeHandler {
 
         // Check if this window actually blocks the gap
         const isBlocking = this._isBlockingGap(sourceRect, wRect, otherRect, direction)
-        console.log(`[LinkedResize]   CHECK "${other.get_title()}" idx=${otherIdx} blocking=${isBlocking}`)
         if (isBlocking) {
-          console.log(`[LinkedResize]   -> FILTERED OUT by "${other.get_title()}"`)
           return false
         }
       }
-      console.log(`[LinkedResize]   -> PASSED`)
       return true
     })
   }
