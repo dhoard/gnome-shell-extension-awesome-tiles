@@ -1,5 +1,40 @@
 <schemalist gettext-domain="awesome-tiles@velitasali.com">
   <schema id="org.gnome.shell.extensions.awesome-tiles" path="/org/gnome/shell/extensions/awesome-tiles/">
+    <key name="enable-individual-gap-sizes" type="b">
+      <default>false</default>
+      <summary>Enable Individual Gap Sizes</summary>
+      <description>Configure separate gap sizes for each side (top, left, bottom, right) and between windows.</description>
+    </key>
+    <key name="gap-size-top" type="i">
+      <default>15</default>
+      <summary>Top Gap Size</summary>
+      <description>Gap size at the top of the workspace.</description>
+    </key>
+    <key name="gap-size-left" type="i">
+      <default>15</default>
+      <summary>Left Gap Size</summary>
+      <description>Gap size at the left of the workspace.</description>
+    </key>
+    <key name="gap-size-right" type="i">
+      <default>15</default>
+      <summary>Right Gap Size</summary>
+      <description>Gap size at the right of the workspace.</description>
+    </key>
+    <key name="gap-size-bottom" type="i">
+      <default>15</default>
+      <summary>Bottom Gap Size</summary>
+      <description>Gap size at the bottom of the workspace.</description>
+    </key>
+    <key name="gap-size-inner" type="i">
+      <default>10</default>
+      <summary>Inner Gap Size</summary>
+      <description>Gap size between windows.</description>
+    </key>
+    <key name="gap-size-in-pixels" type="b">
+      <default>false</default>
+      <summary>Gap Size in Pixels</summary>
+      <description>Use pixels instead of percentage for gap size.</description>
+    </key>
     <key name="gap-size" type="i">
       <default>15</default>
       <summary>Gap Between Window and Workspace</summary>
@@ -113,6 +148,42 @@
         Shortcut to decrease the gap size.
       </description>
     </key>
+    <key name="shortcut-workspace-switch-left" type="as">
+      <default>
+        <![CDATA[['<Super>Left', '<Super><Alt>Left', '<Control><Alt>Left']]]>
+      </default>
+      <summary>Switch to Workspace Left</summary>
+      <description>
+        Shortcut to switch to the workspace on the left.
+      </description>
+    </key>
+    <key name="shortcut-workspace-switch-right" type="as">
+      <default>
+        <![CDATA[['<Super>Right', '<Super><Alt>Right', '<Control><Alt>Right']]]>
+      </default>
+      <summary>Switch to Workspace Right</summary>
+      <description>
+        Shortcut to switch to the workspace on the right.
+      </description>
+    </key>
+    <key name="shortcut-workspace-move-left" type="as">
+      <default>
+        <![CDATA[['<Super><Alt>Left', '<Super><Shift>KP_Prior', '<Super><Shift><Alt>Left', '<Control><Shift><Alt>Left']]]>
+      </default>
+      <summary>Move Window to Workspace Left</summary>
+      <description>
+        Shortcut to move the focused window to the workspace on the left.
+      </description>
+    </key>
+    <key name="shortcut-workspace-move-right" type="as">
+      <default>
+        <![CDATA[['<Super><Alt>Right', '<Super><Shift>KP_Next', '<Super><Shift><Alt>Right', '<Control><Shift><Alt>Right']]]>
+      </default>
+      <summary>Move Window to Workspace Right</summary>
+      <description>
+        Shortcut to move the focused window to the workspace on the right.
+      </description>
+    </key>
     <key name="enable-inner-gaps" type="b">
       <default>true</default>
       <summary>Enable Inner Gaps</summary>
@@ -133,9 +204,9 @@
       <description>Maximum time of you can adjust tiling step by iterating same keybinding in milliseconds.</description>
     </key>
     <key name="gap-size-increments" type="i">
-      <default>5</default>
+      <default>1</default>
       <summary>Gap Size Increments</summary>
-      <description>Determine how much gap size adjust by keybinding.</description>
+      <description>Determine how much gap size adjust by keybinding. In percent mode this is percentage points, in pixel mode this is pixels.</description>
     </key>
     <key name="enable-bottom-gap" type="b">
       <default>false</default>
@@ -161,6 +232,26 @@
       <default><![CDATA['0.5, 0.65, 0.35']]></default>
       <summary>Side Tiling Steps</summary>
       <description>Steps on first and successive key presses when tiling.</description>
+    </key>
+    <key name="enable-linked-resize" type="b">
+      <default>true</default>
+      <summary>Enable Linked Window Resize</summary>
+      <description>When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap.</description>
+    </key>
+    <key name="linked-resize-glow-color" type="s">
+      <default><![CDATA['']]></default>
+      <summary>Linked Resize Glow Color</summary>
+      <description>Custom color for the glow effect during linked resize. Leave empty to use the default theme accent color.</description>
+    </key>
+    <key name="override-system-keybindings" type="b">
+      <default>false</default>
+      <summary>Override system workspace keybindings</summary>
+      <description>Override system workspace switching keybindings to match extension shortcuts, preventing conflicts with Numpad 9 and 3 in GNOME 49.</description>
+    </key>
+    <key name="shortcut-linked-resize" type="as">
+      <default><![CDATA[['<Alt>']]]></default>
+      <summary>Linked Resize Modifier</summary>
+      <description>The modifier key(s) to hold while resizing a window to trigger linked resizing of adjacent windows.</description>
     </key>
   </schema>
 </schemalist>

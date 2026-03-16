@@ -1,163 +1,165 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Polish translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Automatically generated, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-15 22:11+0100\n"
-"PO-Revision-Date: 2022-03-04 18:18+0100\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
-"Language-Team: \n"
-"Language: nl\n"
+"PO-Revision-Date: 2026-03-15 22:11+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/extension.js:361
+#, javascript-format
 msgid "Gap size is now at %d pixel"
 msgid_plural "Gap size is now at %d pixels"
-msgstr[0] "Tussenruimte: %d pixel"
-msgstr[1] "Tussenruimte: %d pixel"
+msgstr[0] "Rozmiar odstępu wynosi teraz %d piksel"
+msgstr[1] "Rozmiar odstępu wynosi teraz %d piksele"
+msgstr[2] "Rozmiar odstępu wynosi teraz %d pikseli"
 
 #: src/extension.js:366
 #, javascript-format
 msgid "Gap size is now at %d percent"
 msgid_plural "Gap size is now at %d percent"
-msgstr[0] "Tussenruimte: %d procent"
-msgstr[1] "Tussenruimte: %d procent"
+msgstr[0] "Rozmiar odstępu wynosi teraz %d procent"
+msgstr[1] "Rozmiar odstępu wynosi teraz %d procenty"
+msgstr[2] "Rozmiar odstępu wynosi teraz %d procent"
 
 #: src/prefs.js:55 src/prefs.js:87
 msgid "Behavior"
-msgstr "Gedrag"
+msgstr "Zachowanie"
 
 #: src/prefs.js:64 src/prefs.js:195
 msgid "Gaps"
-msgstr "Tussenruimtes"
+msgstr "Odstępy"
 
 #: src/prefs.js:73 src/prefs.js:477
 msgid "Shortcuts"
-msgstr "Sneltoetsen"
+msgstr "Skróty"
 
 #: src/prefs.js:91
 msgid "Enable Window Animations"
-msgstr "Vensteranimaties inschakelen"
+msgstr "Włącz animacje okien"
 
 #: src/prefs.js:92
 msgid "Animate windows when resized or repositioned (this may be buggy on Wayland)."
-msgstr "Vensters animeren bij herdimensioneren of herpositioneren (dit kan afwijkingen vertonen op Wayland)."
+msgstr "Animuj okna podczas zmiany ich rozmiaru lub położenia (może działać nieprawidłowo w Wayland)."
 
 #: src/prefs.js:103
 msgid "Shortcut Iteration Timeout in Milliseconds"
-msgstr "Time-out voor sneltoets-iteratie in milliseconden"
+msgstr "Limit czasu iteracji skrótu w milisekundach"
 
 #: src/prefs.js:104
 msgid "The time window to consider a new key press an iteration."
-msgstr "Het tijdsbestek om een nieuwe toetsaanslag als een iteratie te beschouwen."
+msgstr "Okno czasowe do uznania nowego naciśnięcia klawisza za iterację."
 
 #: src/prefs.js:123
 msgid "Center Tiling Steps"
-msgstr "Stappen voor centreren"
+msgstr "Kroki kafelkowania na środku"
 
 #: src/prefs.js:124 src/prefs.js:140
 msgid "Steps on each key press (values between 0-1)."
-msgstr "Stappen bij elke toetsaanslag (waarden tussen 0-1)."
+msgstr "Kroki przy każdym naciśnięciu klawisza (wartości od 0 do 1)."
 
 #: src/prefs.js:139
 msgid "Side Tiling Steps"
-msgstr "Stappen voor zijwaarts tegelen"
+msgstr "Kroki kafelkowania bocznego"
 
 #: src/prefs.js:152
 msgid "Enable Linked Window Resize"
-msgstr "Gekoppeld vensterformaat wijzigen inschakelen"
+msgstr "Włącz powiązane zmienianie rozmiaru okien"
 
 #: src/prefs.js:153
 msgid "When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap."
-msgstr "Door Alt ingedrukt te houden en een venster te herdimensioneren, zullen aangrenzende getegelde vensters samen herdimensioneren om de tussenruimte te behouden."
+msgstr "Przytrzymując Alt i zmieniając rozmiar okna, sąsiednie okna kafelkowe zostaną przeskalowane razem, aby zachować odstęp."
 
 #: src/prefs.js:165
 msgid "Use theme accent color"
-msgstr "Accentkleur van het thema gebruiken"
+msgstr "Użyj koloru akcentu motywu"
 
 #: src/prefs.js:169
 msgid "Linked Resize Glow Color"
-msgstr "Glow-kleur voor gekoppeld formaat wijzigen"
+msgstr "Kolor poświaty powiązanego zmieniania rozmiaru"
 
 #: src/prefs.js:170
 msgid "Custom color for the glow effect during linked resize (hex format like #3584e4). Leave empty to use theme accent color."
-msgstr "Aangepaste kleur voor het glow-effect tijdens gekoppeld herdimensioneren (hex-formaat zoals #3584e4). Laat leeg om de accentkleur van het thema te gebruiken."
+msgstr "Niestandardowy kolor efektu poświaty podczas powiązanego zmieniania rozmiaru (format szesnastkowy, np. #3584e4). Pozostaw puste, aby użyć koloru akcentu motywu."
 
 #: src/prefs.js:199
 msgid "Use Pixels for Gap Size"
-msgstr "Pixels gebruiken voor tussenruimte"
+msgstr "Użyj pikseli dla rozmiaru odstępu"
 
 #: src/prefs.js:200
 msgid "Use pixels instead of percentage for gap size."
-msgstr "Pixels gebruiken in plaats van percentage voor de tussenruimte."
+msgstr "Użyj pikseli zamiast procentów dla rozmiaru odstępu."
 
 #: src/prefs.js:211
 msgid "Gaps Between Windows"
-msgstr "Tussenruimtes tussen vensters"
+msgstr "Odstępy między oknami"
 
 #: src/prefs.js:212
 msgid "Put gaps between windows."
-msgstr "Plaats tussenruimtes tussen vensters."
+msgstr "Dodaj odstępy między oknami."
 
 #: src/prefs.js:223
 msgid "Enable Individual Gap Sizes"
-msgstr "Individuele tussenruimte-groottes inschakelen"
+msgstr "Włącz indywidualne rozmiary odstępów"
 
 #: src/prefs.js:224
 msgid "Configure separate gap sizes for each side (top, left, bottom, right) and between windows."
-msgstr "Configureer afzonderlijke tussenruimte-groottes voor elke kant (boven, links, onder, rechts) en tussen vensters."
+msgstr "Skonfiguruj oddzielne rozmiary odstępów dla każdej strony (góra, lewo, dół, prawo) oraz między oknami."
 
 #: src/prefs.js:235
 msgid "Top Gap Size"
-msgstr "Tussenruimte bovenaan"
+msgstr "Rozmiar odstępu na górze"
 
 #: src/prefs.js:236
 msgid "Gap size at the top (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "Rozmiar odstępu na górze (procenty)."
 
 #: src/prefs.js:252
 msgid "Left Gap Size"
-msgstr "Tussenruimte vergroten"
+msgstr "Rozmiar odstępu po lewej"
 
 #: src/prefs.js:253
 msgid "Gap size at the left (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "Rozmiar odstępu po lewej (procenty)."
 
 #: src/prefs.js:269
 msgid "Right Gap Size"
-msgstr "Tussenruimte rechts"
+msgstr "Rozmiar odstępu po prawej"
 
 #: src/prefs.js:270
 msgid "Gap size at the right (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "Rozmiar odstępu po prawej (procenty)."
 
 #: src/prefs.js:286 src/prefs.js:425
 msgid "Bottom Gap Size"
-msgstr "Grootte van onderste tussenruimte"
+msgstr "Rozmiar odstępu dolnego"
 
 #: src/prefs.js:287
 msgid "Gap size at the bottom (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "Rozmiar odstępu na dole (procenty)."
 
 #: src/prefs.js:303
 msgid "Inner Gap Size"
-msgstr "Tussenruimte vergroten"
+msgstr "Rozmiar odstępu wewnętrznego"
 
 #: src/prefs.js:304
 msgid "Gap size between windows (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "Rozmiar odstępu między oknami (procenty)."
 
 #: src/prefs.js:339
 msgid "pixels"
-msgstr "pixels"
+msgstr "pikseli"
 
 #: src/prefs.js:339
 msgid "percent"
@@ -165,280 +167,280 @@ msgstr "procent"
 
 #: src/prefs.js:340
 msgid "Gap size at the top"
-msgstr "Tussenruimte bovenaan"
+msgstr "Rozmiar odstępu na górze"
 
 #: src/prefs.js:341
 msgid "Gap size at the left"
-msgstr "Tussenruimte: %d procent"
+msgstr "Rozmiar odstępu po lewej"
 
 #: src/prefs.js:342
 msgid "Gap size at the right"
-msgstr "Tussenruimte: %d procent"
+msgstr "Rozmiar odstępu po prawej"
 
 #: src/prefs.js:343
 msgid "Gap size at the bottom"
-msgstr "Tussenruimte onderaan"
+msgstr "Rozmiar odstępu na dole"
 
 #: src/prefs.js:344
 msgid "Gap size between windows"
-msgstr "Ruimte tussen venster en werkblad"
+msgstr "Rozmiar odstępu między oknami"
 
 #: src/prefs.js:357
 msgid "Gap Between Window and Workspace"
-msgstr "Ruimte tussen venster en werkblad"
+msgstr "Odstęp między oknem a obszarem roboczym"
 
 #: src/prefs.js:358 src/prefs.js:378
 msgid "Percentage to leave out as gap when a window is tiled."
-msgstr "Percentage dat als tussenruimte wordt vrijgelaten wanneer een venster wordt getegeld."
+msgstr "Procent pozostawiony jako odstęp, gdy okno jest kafelkowane."
 
 #: src/prefs.js:377
 msgid "Pixels to leave out as gap when a window is tiled."
-msgstr "De te reserveren tussenruimte (in procenten) als een venster gefocust en getegeld is."
+msgstr "Piksele pozostawione jako odstęp, gdy okno jest kafelkowane."
 
 #: src/prefs.js:388
 msgid "Gap Size Increments"
-msgstr "Stappen voor tussenruimte-grootte"
+msgstr "Przyrost rozmiaru odstępu"
 
 #: src/prefs.js:389
 msgid "The change that the shorcuts make in the gap size."
-msgstr "De verandering die de sneltoetsen maken in de tussenruimte."
+msgstr "Zmiana rozmiaru odstępu przy użyciu skrótów."
 
 #: src/prefs.js:413
 msgid "Enable Additional Bottom Gap"
-msgstr "Extra tussenruimte onderaan inschakelen"
+msgstr "Włącz dodatkowy odstęp dolny"
 
 #: src/prefs.js:414
 msgid "Add an additional gap at the bottom of the screen to prevent dock overlap."
-msgstr "Voeg een extra tussenruimte toe aan de onderkant van het scherm om overlap met het dock te voorkomen."
+msgstr "Dodaj dodatkowy odstęp na dole ekranu, aby zapobiec nakładaniu się na dok."
 
 #: src/prefs.js:426 src/prefs.js:445
 msgid "Additional gap size at the bottom of the screen in percentage."
-msgstr "Extra tussenruimte aan de onderkant van het scherm in procenten."
+msgstr "Rozmiar dodatkowego odstępu na dole ekranu w procentach."
 
 #: src/prefs.js:444
 msgid "Additional gap size at the bottom of the screen in pixels."
-msgstr "Extra tussenruimte aan de onderkant van het scherm in pixels."
+msgstr "Rozmiar dodatkowego odstępu na dole ekranu w pikselach."
 
 #: src/prefs.js:453
 msgid "Bottom Gap Main Screen Only"
-msgstr "Onderste tussenruimte alleen op hoofdscherm"
+msgstr "Odstęp dolny tylko na głównym ekranie"
 
 #: src/prefs.js:454
 msgid "Apply the additional bottom gap only on the main screen."
-msgstr "De extra tussenruimte onderaan alleen op het hoofdscherm toepassen."
+msgstr "Zastosuj dodatkowy odstęp dolny tylko na głównym ekranie."
 
 #: src/prefs.js:478
 msgid "Assign shortcuts to the functionalities"
-msgstr "Sneltoetsen toewijzen aan de functionaliteiten"
+msgstr "Przypisz skróty do funkcjonalności"
 
 #: src/prefs.js:483 src/prefs.js:755
 msgid "Fix Numpad 9 and Numpad 3"
-msgstr "Fix Numpad 9 en Numpad 3"
+msgstr "Napraw Numpad 9 i Numpad 3"
 
 #: src/prefs.js:487
 msgid "Numpad Tiling Fix"
-msgstr "Fix voor Numpad-tiling"
+msgstr "Poprawka kafelkowania Numpad"
 
 #: src/prefs.js:488
 msgid "Resolve workspace switching shortcut conflicts on certain keyboards by overriding system defaults to match extension settings."
-msgstr "Los conflicten op met sneltoetsen voor het wisselen van werkruimte op bepaalde toetsenborden door systeemstandaarden te overschrijven zodat ze overeenkomen met de extensie-instellingen."
+msgstr "Rozwiąż konflikty skrótów przełączania obszarów roboczych na niektórych klawiaturach, nadpisując domyślne ustawienia systemowe zgodnie z ustawieniami rozszerzenia."
 
 #: src/prefs.js:499
 msgid "Linked Resize Modifier"
-msgstr "Modificatietoets voor gekoppeld formaat wijzigen"
+msgstr "Modyfikator powiązanego zmieniania rozmiaru"
 
 #: src/prefs.js:500
 msgid "The modifier key held while resizing to trigger linked resizing."
-msgstr "De modificatietoets die wordt ingedrukt tijdens het wijzigen van het formaat om gekoppeld herdimensioneren te activeren."
+msgstr "Klawisz modyfikujący przytrzymywany podczas zmiany rozmiaru, aby aktywować powiązane zmienianie rozmiaru."
 
 #: src/prefs.js:512
 msgid "Switch to Workspace Left"
-msgstr "Naar linker werkruimte gaan"
+msgstr "Przełącz na obszar roboczy po lewej"
 
 #: src/prefs.js:513
 msgid "Shortcut to switch to the workspace on the left."
-msgstr "De sneltoets waarmee een gefocust venster aan de linkerkant van het scherm kan worden getegeld."
+msgstr "Skrót do przełączania na obszar roboczy po lewej."
 
 #: src/prefs.js:523
 msgid "Switch to Workspace Right"
-msgstr "Naar rechter werkruimte gaan"
+msgstr "Przełącz na obszar roboczy po prawej"
 
 #: src/prefs.js:524
 msgid "Shortcut to switch to the workspace on the right."
-msgstr "De sneltoets waarmee een gefocust venster aan de rechterkant van het scherm kan worden getegeld."
+msgstr "Skrót do przełączania na obszar roboczy po prawej."
 
 #: src/prefs.js:534
 msgid "Move Window to Workspace Left"
-msgstr "Venster linksboven tegelen"
+msgstr "Przenieś okno na obszar roboczy po lewej"
 
 #: src/prefs.js:535
 msgid "Shortcut to move the focused window to the workspace on the left."
-msgstr "De sneltoets waarmee een gefocust venster linksboven op het scherm kan worden getegeld."
+msgstr "Skrót do przenoszenia aktywnego okna na obszar roboczy po lewej."
 
 #: src/prefs.js:545
 msgid "Move Window to Workspace Right"
-msgstr "Venster rechtsboven tegelen"
+msgstr "Przenieś okno na obszar roboczy po prawej"
 
 #: src/prefs.js:546
 msgid "Shortcut to move the focused window to the workspace on the right."
-msgstr "De sneltoets waarmee een gefocust venster rechtsboven op het scherm kan worden getegeld."
+msgstr "Skrót do przenoszenia aktywnego okna na obszar roboczy po prawej."
 
 #: src/prefs.js:572
 msgid "Align Window to Center"
-msgstr "Venster centreren"
+msgstr "Wyrównaj okno do środka"
 
 #: src/prefs.js:573
 msgid "Shortcut to align the active window to center without resizing it."
-msgstr "Sneltoets om het actieve venster te centreren zonder het formaat te wijzigen."
+msgstr "Skrót do wyrównywania aktywnego okna do środka bez zmiany jego rozmiaru."
 
 #: src/prefs.js:583
 msgid "Increase Gap Size"
-msgstr "Tussenruimte vergroten"
+msgstr "Zwiększ rozmiar odstępu"
 
 #: src/prefs.js:584
 msgid "Shortcut to increase the gap size."
-msgstr "Sneltoets om de tussenruimte te vergroten."
+msgstr "Skrót do zwiększania rozmiaru odstępu."
 
 #: src/prefs.js:594
 msgid "Decrease Gap Size"
-msgstr "Tussenruimte verkleinen"
+msgstr "Zmniejsz rozmiar odstępu"
 
 #: src/prefs.js:595
 msgid "Shortcut to decrease the gap size."
-msgstr "Sneltoets om de tussenruimte te verkleinen."
+msgstr "Skrót do zmniejszania rozmiaru odstępu."
 
 #: src/prefs.js:605
 msgid "Tile Window to Center"
-msgstr "Venster centreren en tegelen"
+msgstr "Kafelkuj okno na środku"
 
 #: src/prefs.js:606
 msgid "Shortcut to tile active window to center."
-msgstr "Sneltoets om het actieve venster gecentreerd te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna na środku."
 
 #: src/prefs.js:616
 msgid "Tile Window to Left"
-msgstr "Venster tegelen aan linkerkant"
+msgstr "Kafelkuj okno po lewej"
 
 #: src/prefs.js:617
 msgid "Shortcut to tile the active window to left."
-msgstr "Sneltoets om het actieve venster links zu te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna po lewej."
 
 #: src/prefs.js:627
 msgid "Tile Window to Right"
-msgstr "Venster tegelen aan rechterkant"
+msgstr "Kafelkuj okno po prawej"
 
 #: src/prefs.js:628
 msgid "Shortcut to tile the active window to right."
-msgstr "Sneltoets om het actieve venster rechts zu te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna po prawej."
 
 #: src/prefs.js:638
 msgid "Tile Window to Top"
-msgstr "Venster bovenaan tegelen"
+msgstr "Kafelkuj okno na górze"
 
 #: src/prefs.js:639
 msgid "Shortcut to tile the active window to top."
-msgstr "Sneltoets om het actieve venster bovenaan zu te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna na górze."
 
 #: src/prefs.js:649
 msgid "Tile Window to Bottom"
-msgstr "Venster onderaan tegelen"
+msgstr "Kafelkuj okno na dole"
 
 #: src/prefs.js:650
 msgid "Shortcut to tile the active window to bottom."
-msgstr "Sneltoets om het actieve venster onderaan te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna na dole."
 
 #: src/prefs.js:660
 msgid "Tile Window to Top Left"
-msgstr "Venster linksboven tegelen"
+msgstr "Kafelkuj okno w lewym górnym rogu"
 
 #: src/prefs.js:661
 msgid "Shortcut to tile the active window to top left."
-msgstr "Sneltoets om het actieve venster linksboven zu te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna w lewym górnym rogu."
 
 #: src/prefs.js:671
 msgid "Tile Window to Top Right"
-msgstr "Venster rechtsboven tegelen"
+msgstr "Kafelkuj okno w prawym górnym rogu"
 
 #: src/prefs.js:672
 msgid "Shortcut to tile the active window to top right."
-msgstr "Sneltoets om het actieve venster rechtsboven zu te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna w prawym górnym rogu."
 
 #: src/prefs.js:683
 msgid "Tile Window to Bottom Left"
-msgstr "Venster linksonder tegelen"
+msgstr "Kafelkuj okno w lewym dolnym rogu"
 
 #: src/prefs.js:684
 msgid "Shortcut to tile the active window to bottom left."
-msgstr "Sneltoets om het actieve venster linksonder zu te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna w lewym dolnym rogu."
 
 #: src/prefs.js:694
 msgid "Tile Window to Bottom Right"
-msgstr "Venster rechtsonder tegelen"
+msgstr "Kafelkuj okno w prawym dolnym rogu"
 
 #: src/prefs.js:695
 msgid "Shortcut to tile the active window to bottom right."
-msgstr "Sneltoets om het actieve venster rechtsonder zu te tegelen."
+msgstr "Skrót do kafelkowania aktywnego okna w prawym dolnym rogu."
 
 #: src/prefs.js:743
 msgid "Disabled"
-msgstr "Uitgeschakeld"
+msgstr "Wyłączone"
 
 #: src/prefs.js:756
 msgid "Default workspace shortcuts (Super + Page Up/Down) conflict with this extension on keyboards where Numpad 9 and 3 share those keys. Enabling this fix overrides system defaults to ensure proper numpad tiling."
-msgstr "Standaard sneltoetsen voor werkruimten (Super + Page Up/Down) conflicteren met deze extensie op toetsenborden waar Numpad 9 en 3 die toetsen delen. Het inschakelen van deze fix overschrijft de systeemstandaarden om een correcte numpad-tiling te garanderen."
+msgstr "Domyślne skróty obszarów roboczych (Super + Page Up/Down) kolidują z tym rozszerzeniem na klawiaturach, gdzie Numpad 9 i 3 współdzielą te klawisze. Włączenie tej poprawki nadpisuje domyślne ustawienia systemowe, aby zapewnić prawidłowe kafelkowanie numeryczne."
 
 #: src/prefs.js:760
 msgid "Enable Override"
-msgstr "Overschrijven inschakelen"
+msgstr "Włącz nadpisywanie"
 
 #: src/prefs.js:765
 msgid "Close"
-msgstr "Sluiten"
+msgstr "Zamknij"
 
 #: src/prefs.js:771
 msgid "About"
-msgstr "Over"
+msgstr "O rozszerzeniu"
 
 #: src/prefs.js:803
 msgid "A powerful tiling manager for GNOME Shell. Precision tile windows into 9 positions using the number pad, enjoy dynamic grid sizes that cycle on repeated keystrokes, and experience seamless linked resizing for adjacent windows. Includes customizable gaps, center alignment, and integrated workspace navigation."
-msgstr "Een krachtige tiling-manager voor GNOME Shell. Tegel vensters nauwkeurig in 9 posities met behulp van het numeriek toetsenbord, geniet van dynamische rastergroottes die wisselen bij herhaalde toetsaanslagen en ervaar naadloze gekoppelde herdimensionering voor aangrenzende vensters. Inclusief aanpasbare tussenruimtes, centrering en geïntegreerde navigatie tussen werkruimten."
+msgstr "Potężny menedżer kafelkowania dla GNOME Shell. Precyzyjne kafelkowanie okien w 9 pozycjach za pomocą klawiatury numerycznej, dynamiczne rozmiary siatki zmieniające się przy powtarzających się naciśnięciach klawiszy oraz płynne powiązane zmienianie rozmiaru sąsiednich okien. Zawiera konfigurowalne odstępy, wyrównanie do środka i zintegrowaną nawigację po obszarach roboczych."
 
 #: src/prefs.js:815
 msgid "Authors"
-msgstr "Auteurs"
+msgstr "Autorzy"
 
 #: src/prefs.js:820
 msgid "Original Author"
-msgstr "Oorspronkelijke auteur"
+msgstr "Pierwotny autor"
 
 #: src/prefs.js:821
 msgid "Author"
-msgstr "Auteur"
+msgstr "Autor"
 
 #: src/prefs.js:838
 msgid "Contributors"
-msgstr "Bijdragers"
+msgstr "Współtwórcy"
 
 #: src/prefs.js:844
 msgid "Contributor"
-msgstr "Bijdrager"
+msgstr "Współtwórca"
 
 #: src/prefs.js:869
 msgid "Links"
-msgstr "Links"
+msgstr "Linki"
 
 #: src/prefs.js:874
 msgid "GitHub Repository"
-msgstr "GitHub-repository"
+msgstr "Repozytorium GitHub"
 
 #: src/prefs.js:884
 msgid "GNOME Extensions Page"
-msgstr "GNOME-extensiepagina"
+msgstr "Strona rozszerzeń GNOME"
 
 #: src/prefs-shortcut-dialog.ui:19
 msgid "Press your keyboard shortcut or 'Backspace' to disable..."
-msgstr "Druk op je sneltoets of op 'Backspace' om uit te schakelen..."
+msgstr "Naciśnij skrót klawiaturowy lub 'Backspace', aby wyłączyć..."
 
 #: src/prefs-shortcut-dialog.ui:28
 msgid "Keyboard Shortcut"
-msgstr "Sneltoets"
+msgstr "Skrót klawiaturowy"

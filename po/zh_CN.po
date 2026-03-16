@@ -1,444 +1,442 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Chinese translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Automatically generated, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-15 22:11+0100\n"
-"PO-Revision-Date: 2022-03-04 18:18+0100\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
-"Language-Team: \n"
-"Language: nl\n"
+"PO-Revision-Date: 2026-03-15 22:11+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/extension.js:361
+#, javascript-format
 msgid "Gap size is now at %d pixel"
 msgid_plural "Gap size is now at %d pixels"
-msgstr[0] "Tussenruimte: %d pixel"
-msgstr[1] "Tussenruimte: %d pixel"
+msgstr[0] "间隙大小现在为 %d 像素"
 
 #: src/extension.js:366
 #, javascript-format
 msgid "Gap size is now at %d percent"
 msgid_plural "Gap size is now at %d percent"
-msgstr[0] "Tussenruimte: %d procent"
-msgstr[1] "Tussenruimte: %d procent"
+msgstr[0] "间隙大小现在为 %d%%"
 
 #: src/prefs.js:55 src/prefs.js:87
 msgid "Behavior"
-msgstr "Gedrag"
+msgstr "行为"
 
 #: src/prefs.js:64 src/prefs.js:195
 msgid "Gaps"
-msgstr "Tussenruimtes"
+msgstr "间隙"
 
 #: src/prefs.js:73 src/prefs.js:477
 msgid "Shortcuts"
-msgstr "Sneltoetsen"
+msgstr "快捷键"
 
 #: src/prefs.js:91
 msgid "Enable Window Animations"
-msgstr "Vensteranimaties inschakelen"
+msgstr "启用窗口动画"
 
 #: src/prefs.js:92
 msgid "Animate windows when resized or repositioned (this may be buggy on Wayland)."
-msgstr "Vensters animeren bij herdimensioneren of herpositioneren (dit kan afwijkingen vertonen op Wayland)."
+msgstr "调整窗口大小或位置时启用动画（在 Wayland 上可能存在问题）。"
 
 #: src/prefs.js:103
 msgid "Shortcut Iteration Timeout in Milliseconds"
-msgstr "Time-out voor sneltoets-iteratie in milliseconden"
+msgstr "快捷键循环超时（毫秒）"
 
 #: src/prefs.js:104
 msgid "The time window to consider a new key press an iteration."
-msgstr "Het tijdsbestek om een nieuwe toetsaanslag als een iteratie te beschouwen."
+msgstr "将新按键动作视为循环的时间窗口。"
 
 #: src/prefs.js:123
 msgid "Center Tiling Steps"
-msgstr "Stappen voor centreren"
+msgstr "中心平铺步长"
 
 #: src/prefs.js:124 src/prefs.js:140
 msgid "Steps on each key press (values between 0-1)."
-msgstr "Stappen bij elke toetsaanslag (waarden tussen 0-1)."
+msgstr "每次按键时的步长（0-1 之间的值）。"
 
 #: src/prefs.js:139
 msgid "Side Tiling Steps"
-msgstr "Stappen voor zijwaarts tegelen"
+msgstr "侧边平铺步长"
 
 #: src/prefs.js:152
 msgid "Enable Linked Window Resize"
-msgstr "Gekoppeld vensterformaat wijzigen inschakelen"
+msgstr "启用链接窗口缩放"
 
 #: src/prefs.js:153
 msgid "When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap."
-msgstr "Door Alt ingedrukt te houden en een venster te herdimensioneren, zullen aangrenzende getegelde vensters samen herdimensioneren om de tussenruimte te behouden."
+msgstr "按住 Alt 键调整窗口大小时，相邻的平铺窗口将一起调整大小以保持间隙。"
 
 #: src/prefs.js:165
 msgid "Use theme accent color"
-msgstr "Accentkleur van het thema gebruiken"
+msgstr "使用主题强调色"
 
 #: src/prefs.js:169
 msgid "Linked Resize Glow Color"
-msgstr "Glow-kleur voor gekoppeld formaat wijzigen"
+msgstr "链接缩放发光颜色"
 
 #: src/prefs.js:170
 msgid "Custom color for the glow effect during linked resize (hex format like #3584e4). Leave empty to use theme accent color."
-msgstr "Aangepaste kleur voor het glow-effect tijdens gekoppeld herdimensioneren (hex-formaat zoals #3584e4). Laat leeg om de accentkleur van het thema te gebruiken."
+msgstr "链接缩放期间发光效果的自定义颜色（十六进制格式，如 #3584e4）。留空则使用主题强调色。"
 
 #: src/prefs.js:199
 msgid "Use Pixels for Gap Size"
-msgstr "Pixels gebruiken voor tussenruimte"
+msgstr "使用像素表示间隙大小"
 
 #: src/prefs.js:200
 msgid "Use pixels instead of percentage for gap size."
-msgstr "Pixels gebruiken in plaats van percentage voor de tussenruimte."
+msgstr "间隙大小使用像素而非百分比。"
 
 #: src/prefs.js:211
 msgid "Gaps Between Windows"
-msgstr "Tussenruimtes tussen vensters"
+msgstr "窗口之间的间隙"
 
 #: src/prefs.js:212
 msgid "Put gaps between windows."
-msgstr "Plaats tussenruimtes tussen vensters."
+msgstr "在窗口之间设置间隙。"
 
 #: src/prefs.js:223
 msgid "Enable Individual Gap Sizes"
-msgstr "Individuele tussenruimte-groottes inschakelen"
+msgstr "启用单独的间隙大小"
 
 #: src/prefs.js:224
 msgid "Configure separate gap sizes for each side (top, left, bottom, right) and between windows."
-msgstr "Configureer afzonderlijke tussenruimte-groottes voor elke kant (boven, links, onder, rechts) en tussen vensters."
+msgstr "为每一侧（顶、左、底、右）及窗口之间配置单独的间隙大小。"
 
 #: src/prefs.js:235
 msgid "Top Gap Size"
-msgstr "Tussenruimte bovenaan"
+msgstr "顶部间隙大小"
 
 #: src/prefs.js:236
 msgid "Gap size at the top (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "顶部间隙大小（百分比）。"
 
 #: src/prefs.js:252
 msgid "Left Gap Size"
-msgstr "Tussenruimte vergroten"
+msgstr "左侧间隙大小"
 
 #: src/prefs.js:253
 msgid "Gap size at the left (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "左侧间隙大小（百分比）。"
 
 #: src/prefs.js:269
 msgid "Right Gap Size"
-msgstr "Tussenruimte rechts"
+msgstr "右侧间隙大小"
 
 #: src/prefs.js:270
 msgid "Gap size at the right (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "右侧间隙大小（百分比）。"
 
 #: src/prefs.js:286 src/prefs.js:425
 msgid "Bottom Gap Size"
-msgstr "Grootte van onderste tussenruimte"
+msgstr "底部间隙大小"
 
 #: src/prefs.js:287
 msgid "Gap size at the bottom (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "底部间隙大小（百分比）。"
 
 #: src/prefs.js:303
 msgid "Inner Gap Size"
-msgstr "Tussenruimte vergroten"
+msgstr "内部间隙大小"
 
 #: src/prefs.js:304
 msgid "Gap size between windows (percent)."
-msgstr "Tussenruimte: %d procent"
+msgstr "窗口之间的间隙大小（百分比）。"
 
 #: src/prefs.js:339
 msgid "pixels"
-msgstr "pixels"
+msgstr "像素"
 
 #: src/prefs.js:339
 msgid "percent"
-msgstr "procent"
+msgstr "百分比"
 
 #: src/prefs.js:340
 msgid "Gap size at the top"
-msgstr "Tussenruimte bovenaan"
+msgstr "顶部间隙大小"
 
 #: src/prefs.js:341
 msgid "Gap size at the left"
-msgstr "Tussenruimte: %d procent"
+msgstr "左侧间隙大小"
 
 #: src/prefs.js:342
 msgid "Gap size at the right"
-msgstr "Tussenruimte: %d procent"
+msgstr "右侧间隙大小"
 
 #: src/prefs.js:343
 msgid "Gap size at the bottom"
-msgstr "Tussenruimte onderaan"
+msgstr "底部间隙大小"
 
 #: src/prefs.js:344
 msgid "Gap size between windows"
-msgstr "Ruimte tussen venster en werkblad"
+msgstr "窗口之间的间隙大小"
 
 #: src/prefs.js:357
 msgid "Gap Between Window and Workspace"
-msgstr "Ruimte tussen venster en werkblad"
+msgstr "窗口与工作区之间的间隙"
 
 #: src/prefs.js:358 src/prefs.js:378
 msgid "Percentage to leave out as gap when a window is tiled."
-msgstr "Percentage dat als tussenruimte wordt vrijgelaten wanneer een venster wordt getegeld."
+msgstr "窗口平铺时保留的百分比间隙。"
 
 #: src/prefs.js:377
 msgid "Pixels to leave out as gap when a window is tiled."
-msgstr "De te reserveren tussenruimte (in procenten) als een venster gefocust en getegeld is."
+msgstr "窗口平铺时保留的像素间隙。"
 
 #: src/prefs.js:388
 msgid "Gap Size Increments"
-msgstr "Stappen voor tussenruimte-grootte"
+msgstr "间隙大小增量"
 
 #: src/prefs.js:389
 msgid "The change that the shorcuts make in the gap size."
-msgstr "De verandering die de sneltoetsen maken in de tussenruimte."
+msgstr "快捷键改变间隙大小的数值。"
 
 #: src/prefs.js:413
 msgid "Enable Additional Bottom Gap"
-msgstr "Extra tussenruimte onderaan inschakelen"
+msgstr "启用额外的底部间隙"
 
 #: src/prefs.js:414
 msgid "Add an additional gap at the bottom of the screen to prevent dock overlap."
-msgstr "Voeg een extra tussenruimte toe aan de onderkant van het scherm om overlap met het dock te voorkomen."
+msgstr "在屏幕底部添加额外间隙，防止与 Dock 重叠。"
 
 #: src/prefs.js:426 src/prefs.js:445
 msgid "Additional gap size at the bottom of the screen in percentage."
-msgstr "Extra tussenruimte aan de onderkant van het scherm in procenten."
+msgstr "屏幕底部额外间隙的大小（百分比）。"
 
 #: src/prefs.js:444
 msgid "Additional gap size at the bottom of the screen in pixels."
-msgstr "Extra tussenruimte aan de onderkant van het scherm in pixels."
+msgstr "屏幕底部额外间隙的大小（像素）。"
 
 #: src/prefs.js:453
 msgid "Bottom Gap Main Screen Only"
-msgstr "Onderste tussenruimte alleen op hoofdscherm"
+msgstr "底部间隙仅限主屏幕"
 
 #: src/prefs.js:454
 msgid "Apply the additional bottom gap only on the main screen."
-msgstr "De extra tussenruimte onderaan alleen op het hoofdscherm toepassen."
+msgstr "仅在主屏幕上应用额外的底部间隙。"
 
 #: src/prefs.js:478
 msgid "Assign shortcuts to the functionalities"
-msgstr "Sneltoetsen toewijzen aan de functionaliteiten"
+msgstr "为功能分配快捷键"
 
 #: src/prefs.js:483 src/prefs.js:755
 msgid "Fix Numpad 9 and Numpad 3"
-msgstr "Fix Numpad 9 en Numpad 3"
+msgstr "修复数字键盘 9 和 3"
 
 #: src/prefs.js:487
 msgid "Numpad Tiling Fix"
-msgstr "Fix voor Numpad-tiling"
+msgstr "数字键盘平铺修复"
 
 #: src/prefs.js:488
 msgid "Resolve workspace switching shortcut conflicts on certain keyboards by overriding system defaults to match extension settings."
-msgstr "Los conflicten op met sneltoetsen voor het wisselen van werkruimte op bepaalde toetsenborden door systeemstandaarden te overschrijven zodat ze overeenkomen met de extensie-instellingen."
+msgstr "通过覆盖系统默认设置以匹配扩展设置，解决某些键盘上的工作区切换快捷键冲突。"
 
 #: src/prefs.js:499
 msgid "Linked Resize Modifier"
-msgstr "Modificatietoets voor gekoppeld formaat wijzigen"
+msgstr "链接缩放修饰键"
 
 #: src/prefs.js:500
 msgid "The modifier key held while resizing to trigger linked resizing."
-msgstr "De modificatietoets die wordt ingedrukt tijdens het wijzigen van het formaat om gekoppeld herdimensioneren te activeren."
+msgstr "调整大小时按住以触发链接缩放的修饰键。"
 
 #: src/prefs.js:512
 msgid "Switch to Workspace Left"
-msgstr "Naar linker werkruimte gaan"
+msgstr "切换到左侧工作区"
 
 #: src/prefs.js:513
 msgid "Shortcut to switch to the workspace on the left."
-msgstr "De sneltoets waarmee een gefocust venster aan de linkerkant van het scherm kan worden getegeld."
+msgstr "切换到左侧工作区的快捷键。"
 
 #: src/prefs.js:523
 msgid "Switch to Workspace Right"
-msgstr "Naar rechter werkruimte gaan"
+msgstr "切换到右侧工作区"
 
 #: src/prefs.js:524
 msgid "Shortcut to switch to the workspace on the right."
-msgstr "De sneltoets waarmee een gefocust venster aan de rechterkant van het scherm kan worden getegeld."
+msgstr "切换到右侧工作区的快捷键。"
 
 #: src/prefs.js:534
 msgid "Move Window to Workspace Left"
-msgstr "Venster linksboven tegelen"
+msgstr "将窗口移至左侧工作区"
 
 #: src/prefs.js:535
 msgid "Shortcut to move the focused window to the workspace on the left."
-msgstr "De sneltoets waarmee een gefocust venster linksboven op het scherm kan worden getegeld."
+msgstr "将被聚焦的窗口移至左侧工作区的快捷键。"
 
 #: src/prefs.js:545
 msgid "Move Window to Workspace Right"
-msgstr "Venster rechtsboven tegelen"
+msgstr "将窗口移至右侧工作区"
 
 #: src/prefs.js:546
 msgid "Shortcut to move the focused window to the workspace on the right."
-msgstr "De sneltoets waarmee een gefocust venster rechtsboven op het scherm kan worden getegeld."
+msgstr "将被聚焦的窗口移至右侧工作区的快捷键。"
 
 #: src/prefs.js:572
 msgid "Align Window to Center"
-msgstr "Venster centreren"
+msgstr "将窗口对齐到中心"
 
 #: src/prefs.js:573
 msgid "Shortcut to align the active window to center without resizing it."
-msgstr "Sneltoets om het actieve venster te centreren zonder het formaat te wijzigen."
+msgstr "将活动窗口对齐到中心而不调整其大小的快捷键。"
 
 #: src/prefs.js:583
 msgid "Increase Gap Size"
-msgstr "Tussenruimte vergroten"
+msgstr "增大间隙大小"
 
 #: src/prefs.js:584
 msgid "Shortcut to increase the gap size."
-msgstr "Sneltoets om de tussenruimte te vergroten."
+msgstr "增大间隙大小的快捷键。"
 
 #: src/prefs.js:594
 msgid "Decrease Gap Size"
-msgstr "Tussenruimte verkleinen"
+msgstr "减小间隙大小"
 
 #: src/prefs.js:595
 msgid "Shortcut to decrease the gap size."
-msgstr "Sneltoets om de tussenruimte te verkleinen."
+msgstr "减小间隙大小的快捷键。"
 
 #: src/prefs.js:605
 msgid "Tile Window to Center"
-msgstr "Venster centreren en tegelen"
+msgstr "将窗口平铺到中心"
 
 #: src/prefs.js:606
 msgid "Shortcut to tile active window to center."
-msgstr "Sneltoets om het actieve venster gecentreerd te tegelen."
+msgstr "将活动窗口平铺到中心的快捷键。"
 
 #: src/prefs.js:616
 msgid "Tile Window to Left"
-msgstr "Venster tegelen aan linkerkant"
+msgstr "将窗口平铺到左侧"
 
 #: src/prefs.js:617
 msgid "Shortcut to tile the active window to left."
-msgstr "Sneltoets om het actieve venster links zu te tegelen."
+msgstr "将活动窗口平铺到左侧的快捷键。"
 
 #: src/prefs.js:627
 msgid "Tile Window to Right"
-msgstr "Venster tegelen aan rechterkant"
+msgstr "将窗口平铺到右侧"
 
 #: src/prefs.js:628
 msgid "Shortcut to tile the active window to right."
-msgstr "Sneltoets om het actieve venster rechts zu te tegelen."
+msgstr "将活动窗口平铺到右侧的快捷键。"
 
 #: src/prefs.js:638
 msgid "Tile Window to Top"
-msgstr "Venster bovenaan tegelen"
+msgstr "将窗口平铺到顶部"
 
 #: src/prefs.js:639
 msgid "Shortcut to tile the active window to top."
-msgstr "Sneltoets om het actieve venster bovenaan zu te tegelen."
+msgstr "将活动窗口平铺到顶部的快捷键。"
 
 #: src/prefs.js:649
 msgid "Tile Window to Bottom"
-msgstr "Venster onderaan tegelen"
+msgstr "将窗口平铺到底部"
 
 #: src/prefs.js:650
 msgid "Shortcut to tile the active window to bottom."
-msgstr "Sneltoets om het actieve venster onderaan te tegelen."
+msgstr "将活动窗口平铺到底部的快捷键。"
 
 #: src/prefs.js:660
 msgid "Tile Window to Top Left"
-msgstr "Venster linksboven tegelen"
+msgstr "将窗口平铺到左上角"
 
 #: src/prefs.js:661
 msgid "Shortcut to tile the active window to top left."
-msgstr "Sneltoets om het actieve venster linksboven zu te tegelen."
+msgstr "将活动窗口平铺到左上角的快捷键。"
 
 #: src/prefs.js:671
 msgid "Tile Window to Top Right"
-msgstr "Venster rechtsboven tegelen"
+msgstr "将窗口平铺到右上角"
 
 #: src/prefs.js:672
 msgid "Shortcut to tile the active window to top right."
-msgstr "Sneltoets om het actieve venster rechtsboven zu te tegelen."
+msgstr "将活动窗口平铺到右上角的快捷键。"
 
 #: src/prefs.js:683
 msgid "Tile Window to Bottom Left"
-msgstr "Venster linksonder tegelen"
+msgstr "将窗口平铺到左下角"
 
 #: src/prefs.js:684
 msgid "Shortcut to tile the active window to bottom left."
-msgstr "Sneltoets om het actieve venster linksonder zu te tegelen."
+msgstr "将活动窗口平铺到左下角的快捷键。"
 
 #: src/prefs.js:694
 msgid "Tile Window to Bottom Right"
-msgstr "Venster rechtsonder tegelen"
+msgstr "将窗口平铺到右下角"
 
 #: src/prefs.js:695
 msgid "Shortcut to tile the active window to bottom right."
-msgstr "Sneltoets om het actieve venster rechtsonder zu te tegelen."
+msgstr "将活动窗口平铺到右下角的快捷键。"
 
 #: src/prefs.js:743
 msgid "Disabled"
-msgstr "Uitgeschakeld"
+msgstr "已禁用"
 
 #: src/prefs.js:756
 msgid "Default workspace shortcuts (Super + Page Up/Down) conflict with this extension on keyboards where Numpad 9 and 3 share those keys. Enabling this fix overrides system defaults to ensure proper numpad tiling."
-msgstr "Standaard sneltoetsen voor werkruimten (Super + Page Up/Down) conflicteren met deze extensie op toetsenborden waar Numpad 9 en 3 die toetsen delen. Het inschakelen van deze fix overschrijft de systeemstandaarden om een correcte numpad-tiling te garanderen."
+msgstr "默认工作区快捷键 (Super + Page Up/Down) 在数字键 9 和 3 共用这些键的键盘上与此扩展发生冲突。启用此修复将覆盖系统默认值，以确保正确的数字键盘平铺。"
 
 #: src/prefs.js:760
 msgid "Enable Override"
-msgstr "Overschrijven inschakelen"
+msgstr "启用覆盖"
 
 #: src/prefs.js:765
 msgid "Close"
-msgstr "Sluiten"
+msgstr "关闭"
 
 #: src/prefs.js:771
 msgid "About"
-msgstr "Over"
+msgstr "关于"
 
 #: src/prefs.js:803
 msgid "A powerful tiling manager for GNOME Shell. Precision tile windows into 9 positions using the number pad, enjoy dynamic grid sizes that cycle on repeated keystrokes, and experience seamless linked resizing for adjacent windows. Includes customizable gaps, center alignment, and integrated workspace navigation."
-msgstr "Een krachtige tiling-manager voor GNOME Shell. Tegel vensters nauwkeurig in 9 posities met behulp van het numeriek toetsenbord, geniet van dynamische rastergroottes die wisselen bij herhaalde toetsaanslagen en ervaar naadloze gekoppelde herdimensionering voor aangrenzende vensters. Inclusief aanpasbare tussenruimtes, centrering en geïntegreerde navigatie tussen werkruimten."
+msgstr "GNOME Shell 的强大平铺管理器。使用数字小键盘将窗口精确平铺到 9 个位置，享受通过重复按键循环的动态网格大小，并体验相邻窗口的无缝链接缩放。包含可自定义的间隙、中心对齐和集成的工作区导航。"
 
 #: src/prefs.js:815
 msgid "Authors"
-msgstr "Auteurs"
+msgstr "作者"
 
 #: src/prefs.js:820
 msgid "Original Author"
-msgstr "Oorspronkelijke auteur"
+msgstr "原作者"
 
 #: src/prefs.js:821
 msgid "Author"
-msgstr "Auteur"
+msgstr "作者"
 
 #: src/prefs.js:838
 msgid "Contributors"
-msgstr "Bijdragers"
+msgstr "贡献者"
 
 #: src/prefs.js:844
 msgid "Contributor"
-msgstr "Bijdrager"
+msgstr "贡献者"
 
 #: src/prefs.js:869
 msgid "Links"
-msgstr "Links"
+msgstr "链接"
 
 #: src/prefs.js:874
 msgid "GitHub Repository"
-msgstr "GitHub-repository"
+msgstr "GitHub 仓库"
 
 #: src/prefs.js:884
 msgid "GNOME Extensions Page"
-msgstr "GNOME-extensiepagina"
+msgstr "GNOME 扩展页面"
 
 #: src/prefs-shortcut-dialog.ui:19
 msgid "Press your keyboard shortcut or 'Backspace' to disable..."
-msgstr "Druk op je sneltoets of op 'Backspace' om uit te schakelen..."
+msgstr "按下您的键盘快捷键或“退格键”以禁用..."
 
 #: src/prefs-shortcut-dialog.ui:28
 msgid "Keyboard Shortcut"
-msgstr "Sneltoets"
+msgstr "键盘快捷键"

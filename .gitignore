@@ -1,7 +1,9 @@
 /build/
 gschemas.compiled
+awesome-tiles@velitasali.com.shell-extension
 *~
 *.gmo
 *.mo
 *.zip
+.agent
 node_modules

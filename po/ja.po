@@ -1,0 +1,442 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-15 22:11+0100\n"
+"PO-Revision-Date: 2026-03-15 22:11+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/extension.js:361
+#, javascript-format
+msgid "Gap size is now at %d pixel"
+msgid_plural "Gap size is now at %d pixels"
+msgstr[0] "ギャップサイズは現在 %d ピクセルです"
+
+#: src/extension.js:366
+#, javascript-format
+msgid "Gap size is now at %d percent"
+msgid_plural "Gap size is now at %d percent"
+msgstr[0] "ギャップサイズは現在 %d パーセントです"
+
+#: src/prefs.js:55 src/prefs.js:87
+msgid "Behavior"
+msgstr "動作"
+
+#: src/prefs.js:64 src/prefs.js:195
+msgid "Gaps"
+msgstr "ギャップ"
+
+#: src/prefs.js:73 src/prefs.js:477
+msgid "Shortcuts"
+msgstr "ショートカット"
+
+#: src/prefs.js:91
+msgid "Enable Window Animations"
+msgstr "ウィンドウアニメーションを有効にする"
+
+#: src/prefs.js:92
+msgid "Animate windows when resized or repositioned (this may be buggy on Wayland)."
+msgstr "ウィンドウのリサイズや移動時にアニメーションを適用します（Waylandでは動作が不安定になる可能性があります）。"
+
+#: src/prefs.js:103
+msgid "Shortcut Iteration Timeout in Milliseconds"
+msgstr "ショートカットの繰り返しタイムアウト（ミリ秒）"
+
+#: src/prefs.js:104
+msgid "The time window to consider a new key press an iteration."
+msgstr "新しいキー入力を繰り返しとみなす時間枠。"
+
+#: src/prefs.js:123
+msgid "Center Tiling Steps"
+msgstr "センタータイリングのステップ数"
+
+#: src/prefs.js:124 src/prefs.js:140
+msgid "Steps on each key press (values between 0-1)."
+msgstr "キー入力ごとのステップ（0から1の間の値）。"
+
+#: src/prefs.js:139
+msgid "Side Tiling Steps"
+msgstr "サイドタイリングのステップ数"
+
+#: src/prefs.js:152
+msgid "Enable Linked Window Resize"
+msgstr "ウィンドウのリサイズ連動を有効にする"
+
+#: src/prefs.js:153
+msgid "When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap."
+msgstr "Alt キーを押しながらウィンドウをリサイズすると、隣接するタイル状のウィンドウも一緒にリサイズされ、ギャップが維持されます。"
+
+#: src/prefs.js:165
+msgid "Use theme accent color"
+msgstr "テーマのアクセントカラーを使用"
+
+#: src/prefs.js:169
+msgid "Linked Resize Glow Color"
+msgstr "リサイズ連動時の発光色"
+
+#: src/prefs.js:170
+msgid "Custom color for the glow effect during linked resize (hex format like #3584e4). Leave empty to use theme accent color."
+msgstr "リサイズ連動時の発光エフェクトのカスタム色（#3584e4 のような 16進数形式）。空にするとテーマのアクセントカラーを使用します。"
+
+#: src/prefs.js:199
+msgid "Use Pixels for Gap Size"
+msgstr "ギャップサイズにピクセルを使用"
+
+#: src/prefs.js:200
+msgid "Use pixels instead of percentage for gap size."
+msgstr "ギャップサイズにパーセントの代わりにピクセルを使用します。"
+
+#: src/prefs.js:211
+msgid "Gaps Between Windows"
+msgstr "ウィンドウ間のギャップ"
+
+#: src/prefs.js:212
+msgid "Put gaps between windows."
+msgstr "ウィンドウ間にギャップを設ける。"
+
+#: src/prefs.js:223
+msgid "Enable Individual Gap Sizes"
+msgstr "個別のギャップサイズを有効にする"
+
+#: src/prefs.js:224
+msgid "Configure separate gap sizes for each side (top, left, bottom, right) and between windows."
+msgstr "各辺（上、左、下、右）およびウィンドウ間のギャップサイズを個別に設定します。"
+
+#: src/prefs.js:235
+msgid "Top Gap Size"
+msgstr "上部ギャップサイズ"
+
+#: src/prefs.js:236
+msgid "Gap size at the top (percent)."
+msgstr "上部のギャップサイズ（パーセント）。"
+
+#: src/prefs.js:252
+msgid "Left Gap Size"
+msgstr "左ギャップサイズ"
+
+#: src/prefs.js:253
+msgid "Gap size at the left (percent)."
+msgstr "左側のギャップサイズ（パーセント）。"
+
+#: src/prefs.js:269
+msgid "Right Gap Size"
+msgstr "右ギャップサイズ"
+
+#: src/prefs.js:270
+msgid "Gap size at the right (percent)."
+msgstr "右側のギャップサイズ（パーセント）。"
+
+#: src/prefs.js:286 src/prefs.js:425
+msgid "Bottom Gap Size"
+msgstr "下部ギャップサイズ"
+
+#: src/prefs.js:287
+msgid "Gap size at the bottom (percent)."
+msgstr "下部のギャップサイズ（パーセント）。"
+
+#: src/prefs.js:303
+msgid "Inner Gap Size"
+msgstr "内部ギャップサイズ"
+
+#: src/prefs.js:304
+msgid "Gap size between windows (percent)."
+msgstr "ウィンドウ間のギャップサイズ（パーセント）。"
+
+#: src/prefs.js:339
+msgid "pixels"
+msgstr "ピクセル"
+
+#: src/prefs.js:339
+msgid "percent"
+msgstr "パーセント"
+
+#: src/prefs.js:340
+msgid "Gap size at the top"
+msgstr "上部のギャップサイズ"
+
+#: src/prefs.js:341
+msgid "Gap size at the left"
+msgstr "左側のギャップサイズ"
+
+#: src/prefs.js:342
+msgid "Gap size at the right"
+msgstr "右側のギャップサイズ"
+
+#: src/prefs.js:343
+msgid "Gap size at the bottom"
+msgstr "下部のギャップサイズ"
+
+#: src/prefs.js:344
+msgid "Gap size between windows"
+msgstr "ウィンドウ間のギャップサイズ"
+
+#: src/prefs.js:357
+msgid "Gap Between Window and Workspace"
+msgstr "ウィンドウとワークスペース間のギャップ"
+
+#: src/prefs.js:358 src/prefs.js:378
+msgid "Percentage to leave out as gap when a window is tiled."
+msgstr "ウィンドウの整列時にギャップとして残すパーセント数。"
+
+#: src/prefs.js:377
+msgid "Pixels to leave out as gap when a window is tiled."
+msgstr "ウィンドウの整列時にギャップとして残すピクセル数。"
+
+#: src/prefs.js:388
+msgid "Gap Size Increments"
+msgstr "ギャップサイズの増分"
+
+#: src/prefs.js:389
+msgid "The change that the shorcuts make in the gap size."
+msgstr "ショートカットによるギャップサイズの変更量。"
+
+#: src/prefs.js:413
+msgid "Enable Additional Bottom Gap"
+msgstr "追加の下部ギャップを有効にする"
+
+#: src/prefs.js:414
+msgid "Add an additional gap at the bottom of the screen to prevent dock overlap."
+msgstr "ドックとの重なりを防ぐため、画面下部に追加のギャップを設けます。"
+
+#: src/prefs.js:426 src/prefs.js:445
+msgid "Additional gap size at the bottom of the screen in percentage."
+msgstr "画面下部の追加のギャップサイズ（パーセント）。"
+
+#: src/prefs.js:444
+msgid "Additional gap size at the bottom of the screen in pixels."
+msgstr "画面下部の追加のギャップサイズ（ピクセル）。"
+
+#: src/prefs.js:453
+msgid "Bottom Gap Main Screen Only"
+msgstr "メイン画面のみ下部ギャップ"
+
+#: src/prefs.js:454
+msgid "Apply the additional bottom gap only on the main screen."
+msgstr "メイン画面にのみ追加の下部ギャップを適用します。"
+
+#: src/prefs.js:478
+msgid "Assign shortcuts to the functionalities"
+msgstr "機能にショートカットを割り当てる"
+
+#: src/prefs.js:483 src/prefs.js:755
+msgid "Fix Numpad 9 and Numpad 3"
+msgstr "テンキーの 9 と 3 を修正"
+
+#: src/prefs.js:487
+msgid "Numpad Tiling Fix"
+msgstr "テンキータイリングの修正"
+
+#: src/prefs.js:488
+msgid "Resolve workspace switching shortcut conflicts on certain keyboards by overriding system defaults to match extension settings."
+msgstr "一部のキーボードで発生するワークスペース切り替えショートカットの競合を、システムのデフォルト設定を拡張機能の設定に合わせることで解決します。"
+
+#: src/prefs.js:499
+msgid "Linked Resize Modifier"
+msgstr "リサイズ連動キー"
+
+#: src/prefs.js:500
+msgid "The modifier key held while resizing to trigger linked resizing."
+msgstr "リサイズ連動をトリガーするために押したままにする修饰キー。"
+
+#: src/prefs.js:512
+msgid "Switch to Workspace Left"
+msgstr "左のワークスペースに切り替え"
+
+#: src/prefs.js:513
+msgid "Shortcut to switch to the workspace on the left."
+msgstr "左のワークスペースに切り替えるショートカット。"
+
+#: src/prefs.js:523
+msgid "Switch to Workspace Right"
+msgstr "右のワークスペースに切り替え"
+
+#: src/prefs.js:524
+msgid "Shortcut to switch to the workspace on the right."
+msgstr "右のワークスペースに切り替えるショートカット。"
+
+#: src/prefs.js:534
+msgid "Move Window to Workspace Left"
+msgstr "ウィンドウを左のワークスペースに移動"
+
+#: src/prefs.js:535
+msgid "Shortcut to move the focused window to the workspace on the left."
+msgstr "フォーカスされたウィンドウを左のワークスペースに移動するショートカット。"
+
+#: src/prefs.js:545
+msgid "Move Window to Workspace Right"
+msgstr "ウィンドウを右のワークスペースに移動"
+
+#: src/prefs.js:546
+msgid "Shortcut to move the focused window to the workspace on the right."
+msgstr "フォーカスされたウィンドウを右のワークスペース in 移動するショートカット。"
+
+#: src/prefs.js:572
+msgid "Align Window to Center"
+msgstr "ウィンドウを中央に整列"
+
+#: src/prefs.js:573
+msgid "Shortcut to align the active window to center without resizing it."
+msgstr "リサイズせずにアクティブなウィンドウを中央に整列するショートカット。"
+
+#: src/prefs.js:583
+msgid "Increase Gap Size"
+msgstr "ギャップサイズを拡大"
+
+#: src/prefs.js:584
+msgid "Shortcut to increase the gap size."
+msgstr "ギャップサイズを拡大するショートカット。"
+
+#: src/prefs.js:594
+msgid "Decrease Gap Size"
+msgstr "ギャップサイズを縮小"
+
+#: src/prefs.js:595
+msgid "Shortcut to decrease the gap size."
+msgstr "ギャップサイズを縮小するショートカット。"
+
+#: src/prefs.js:605
+msgid "Tile Window to Center"
+msgstr "ウィンドウを中央にタイリング"
+
+#: src/prefs.js:606
+msgid "Shortcut to tile active window to center."
+msgstr "アクティブなウィンドウを中央にタイリングするショートカット。"
+
+#: src/prefs.js:616
+msgid "Tile Window to Left"
+msgstr "ウィンドウを左にタイリング"
+
+#: src/prefs.js:617
+msgid "Shortcut to tile the active window to left."
+msgstr "アクティブなウィンドウを左にタイリングするショートカット。"
+
+#: src/prefs.js:627
+msgid "Tile Window to Right"
+msgstr "ウィンドウを右にタイリング"
+
+#: src/prefs.js:628
+msgid "Shortcut to tile the active window to right."
+msgstr "アクティブなウィンドウを右にタイリングするショートカット。"
+
+#: src/prefs.js:638
+msgid "Tile Window to Top"
+msgstr "ウィンドウを上にタイリング"
+
+#: src/prefs.js:639
+msgid "Shortcut to tile the active window to top."
+msgstr "アクティブなウィンドウを上にタイリングするショートカット。"
+
+#: src/prefs.js:649
+msgid "Tile Window to Bottom"
+msgstr "ウィンドウを下にタイリング"
+
+#: src/prefs.js:650
+msgid "Shortcut to tile the active window to bottom."
+msgstr "アクティブなウィンドウを下にタイリングするショートカット。"
+
+#: src/prefs.js:660
+msgid "Tile Window to Top Left"
+msgstr "ウィンドウを左上にタイリング"
+
+#: src/prefs.js:661
+msgid "Shortcut to tile the active window to top left."
+msgstr "アクティブなウィンドウを左上にタイリングするショートカット。"
+
+#: src/prefs.js:671
+msgid "Tile Window to Top Right"
+msgstr "ウィンドウを右上にタイリング"
+
+#: src/prefs.js:672
+msgid "Shortcut to tile the active window to top right."
+msgstr "アクティブなウィンドウを右上にタイリングするショートカット。"
+
+#: src/prefs.js:683
+msgid "Tile Window to Bottom Left"
+msgstr "ウィンドウを左下にタイリング"
+
+#: src/prefs.js:684
+msgid "Shortcut to tile the active window to bottom left."
+msgstr "アクティブなウィンドウを左下にタイリングするショートカット。"
+
+#: src/prefs.js:694
+msgid "Tile Window to Bottom Right"
+msgstr "ウィンドウを右下にタイリング"
+
+#: src/prefs.js:695
+msgid "Shortcut to tile the active window to bottom right."
+msgstr "アクティブなウィンドウを右下にタイリングするショートカット。"
+
+#: src/prefs.js:743
+msgid "Disabled"
+msgstr "無効"
+
+#: src/prefs.js:756
+msgid "Default workspace shortcuts (Super + Page Up/Down) conflict with this extension on keyboards where Numpad 9 and 3 share those keys. Enabling this fix overrides system defaults to ensure proper numpad tiling."
+msgstr "デフォルトのワークスペースショートカット (Super + Page Up/Down) は、テンキーの 9 と 3 がこれらのキーを共有しているキーボードにおいて、この拡張機能と競合します。この修正を有効にすると、システムのデフォルト設定が上書きされ、テンキーによるタイリングが正しく機能するようになります。"
+
+#: src/prefs.js:760
+msgid "Enable Override"
+msgstr "オーバーライドを有効にする"
+
+#: src/prefs.js:765
+msgid "Close"
+msgstr "閉じる"
+
+#: src/prefs.js:771
+msgid "About"
+msgstr "この拡張機能について"
+
+#: src/prefs.js:803
+msgid "A powerful tiling manager for GNOME Shell. Precision tile windows into 9 positions using the number pad, enjoy dynamic grid sizes that cycle on repeated keystrokes, and experience seamless linked resizing for adjacent windows. Includes customizable gaps, center alignment, and integrated workspace navigation."
+msgstr "GNOME Shell 用の強力なタイリングマネージャーです。テンキーを使用してウィンドウを 9 つの位置に正確に配置し、繰り返しのキー入力で変化するダイナミックなグリッドサイズを楽しみ、隣接するウィンドウのシームレスなリサイズ連動を体験できます。カスタマイズ可能なギャップ、中央揃え、統合されたワークスペースナビゲーションが含まれています。"
+
+#: src/prefs.js:815
+msgid "Authors"
+msgstr "作成者"
+
+#: src/prefs.js:820
+msgid "Original Author"
+msgstr "原作者"
+
+#: src/prefs.js:821
+msgid "Author"
+msgstr "作成者"
+
+#: src/prefs.js:838
+msgid "Contributors"
+msgstr "貢献者"
+
+#: src/prefs.js:844
+msgid "Contributor"
+msgstr "貢献者"
+
+#: src/prefs.js:869
+msgid "Links"
+msgstr "リンク"
+
+#: src/prefs.js:874
+msgid "GitHub Repository"
+msgstr "GitHub リポジトリ"
+
+#: src/prefs.js:884
+msgid "GNOME Extensions Page"
+msgstr "GNOME 拡張機能ページ"
+
+#: src/prefs-shortcut-dialog.ui:19
+msgid "Press your keyboard shortcut or 'Backspace' to disable..."
+msgstr "ショートカットキーを入力するか、'Backspace' で無効にします..."
+
+#: src/prefs-shortcut-dialog.ui:28
+msgid "Keyboard Shortcut"
+msgstr "キーボードショートカット"

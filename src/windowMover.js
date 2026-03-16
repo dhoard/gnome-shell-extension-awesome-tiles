@@ -1,183 +1,103 @@
-import Clutter from 'gi://Clutter'
-import Gio from 'gi://Gio'
-import Meta from 'gi://Meta'
-import Mtk from 'gi://Mtk';
+/*
+ * Copyright (C) 2021 Pim Snel (https://github.com/mipmip)
+ * Copyright (C) 2021 Veli Tasalı (https://github.com/velitasali)
+ * Copyright (C) 2026 Samet Güzeldemirci (https://github.com/samex)
+ *
+ * Contributors:
+ * - qwreey (https://github.com/qwreey)
+ * - mhecher-sc (https://github.com/mhecher-sc)
+ * - FedericoCalzoni (https://github.com/FedericoCalzoni)
+ * - Dolland (https://github.com/Dolland)
+ * - Vistaus (https://github.com/Vistaus)
+ * - nushoin (https://github.com/nushoin)
+ * - lazydays79 (https://github.com/lazydays79)
+ * - guillaumecle (https://github.com/guillaumecle)
+ * - Chake96 (https://github.com/Chake96)
+ * - Soupolait (https://github.com/Soupolait)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
+import Meta from 'gi://Meta';
 
 export class WindowMover {
-  constructor() {
-    this._windowAnimations = []
-    this._desktopSettings = new Gio.Settings({ schema: 'org.gnome.desktop.interface' })
-  }
-
-  destroy() {
-    this._windowAnimations.forEach(animation=>{
-      animation.clone?.destroy()
-      const actor = animation.actor
-      if (actor) {
-        actor.timeline = null
-      }
-    })
-    this._desktopSettings = this._windowAnimations = null
-  }
-
-  // capture window content and create clone clutter
-  _captureWindow(window_actor,rect) {
-    return new Clutter.Actor({
-      height: rect.height,
-      width: rect.width,
-      x: rect.x,
-      y: rect.y,
-      content: window_actor.paint_to_content(null)
-    })
-  }
-
-  // unmaximize without animation by hacking gsettings
-  _unmaximizeWithoutAnimation(window,rect) {
-    rect ??= window.get_frame_rect()
-    const lastValue = this._desktopSettings.get_boolean("enable-animations")
-    if (lastValue) this._desktopSettings.set_boolean("enable-animations",false)
-    window.unmaximize()
-    window.move_resize_frame(false, rect.x, rect.y, rect.width, rect.height)
-    if (lastValue) this._desktopSettings.set_boolean("enable-animations",true)
-  }
-
-  // give time to redraw it selfs to application
-  _delayFrames(actor) {
-    return new Promise(resolve=>{
-      const timeline = actor.timeline = new Clutter.Timeline({ actor:actor,duration: 10000 })
-      let count = 0
-      timeline.connect("new-frame",()=>{
-        if (++count<=5) return
-        actor.timeline = null
-        resolve()
-      })
-      timeline.start()
-    })
-  }
-
-  _lerp(source,target,progress) {
-    if (progress == 1) return target
-    else if (progress == 0) return source
-    return source + (target-source)*progress
-  }
-
-  _destroyAnimation(animation) {
-    animation?.clone?.destroy()
-    if (animation.timer) {
-      if (animation.newFrameEvent) animation.timer.disconnect(animation.newFrameEvent)
-      if (animation.completedEvent) animation.timer.disconnect(animation.completedEvent)
-    }
-    const index = this._windowAnimations.indexOf(animation)
-    if (index != -1) this._windowAnimations.splice(index,1)
-  }
-
-  async _setWindowRect(window, x, y, width, height, animate) {
-    const innerRectBefore = window.get_frame_rect()
-    const outterRectBefore = window.get_buffer_rect()
-    const actor = window.get_compositor_private()
-    const isMaximized = window.is_maximized()
-    const lastAnimation = this._windowAnimations.find(item=>item.window === window)
-    const thisAnimation = {}
-    let clone
-
-    // unmaximize / reset all animations
-    if (isMaximized) {
-      clone = animate && this._captureWindow(actor,outterRectBefore)
-      this._unmaximizeWithoutAnimation(window,innerRectBefore)
-    }
-    if (lastAnimation) this._destroyAnimation(lastAnimation)
-
-    // clone window, and resize meta window
-    thisAnimation.clone = animate && (clone ??= this._captureWindow(actor,outterRectBefore))
-    thisAnimation.window = window
-    thisAnimation.actor = actor
-    window.move_resize_frame(false, x, y, width, height)
-    if (!animate) {
-      return
-    }
-    this._windowAnimations.push(thisAnimation)
-
-    // Calculate before size / position
-    const cloneGoalScaleX = width/innerRectBefore.width
-    const cloneGoalScaleY = height/innerRectBefore.height
-    const actorInitScaleX = innerRectBefore.width/width
-    const actorInitScaleY = innerRectBefore.height/height
-    const decoLeftBefore  = (innerRectBefore.x-outterRectBefore.x)
-    const decoTopBefore   = (innerRectBefore.y-outterRectBefore.y)
-
-    // draw clone, and wait for real window finish drawn
-    global.window_group.insert_child_above(clone,actor)
-    actor.visible = false
-    await this._delayFrames(actor)
-    if (this._windowAnimations.find(item=>item.window === window).clone != clone) {
-      clone.destroy()
-      return
-    }
-    actor.visible = true
-
-    // Recalculate after size / position (required for real window)
-    let innerRectAfter = window.get_frame_rect()
-    let outterRectAfter = window.get_buffer_rect()
-    let decoLeftAfter  = (innerRectAfter.x-outterRectAfter.x)
-    let decoTopAfter   = (innerRectAfter.y-outterRectAfter.y)
-
-    // Set real window actor position
-    actor.scale_x = actorInitScaleX
-    actor.scale_y = actorInitScaleY
-    actor.x = innerRectBefore.x - decoLeftAfter*actorInitScaleX
-    actor.y = innerRectBefore.y - decoTopAfter*actorInitScaleY
-
-    // Clone animation
-    clone.ease_property('opacity', 0, {
-      duration: 300,
-      mode: Clutter.AnimationMode.EASE_OUT_QUART
-    })
-    for (const prop of [
-      [clone,'scale_x',cloneGoalScaleX],
-      [clone,'scale_y',cloneGoalScaleY],
-      [clone,'x',x-decoLeftBefore*cloneGoalScaleX],
-      [clone,'y',y-decoTopBefore*cloneGoalScaleY]
-    ]) {
-      prop[0].ease_property(prop[1],prop[2],{
-        duration: 300,
-        mode: Clutter.AnimationMode.EASE_OUT_EXPO
-      })
+    constructor() {
+        this._desktopSettings = new Gio.Settings({ schema: 'org.gnome.desktop.interface' })
     }
 
-    // Real window animation
-    const timer = thisAnimation.timer = new Clutter.Timeline({
-      actor: actor,
-      duration: 300,
-      progress_mode: Clutter.AnimationMode.EASE_OUT_EXPO,
-    })
-    thisAnimation.newFrameEvent = timer.connect('new-frame', ()=>{
-      const progress = timer.get_progress()
-      outterRectAfter = window.get_buffer_rect()
-      decoLeftAfter  = (innerRectAfter.x-outterRectAfter.x)
-      decoTopAfter   = (innerRectAfter.y-outterRectAfter.y)
+    destroy() {
+        this._desktopSettings = null;
+    }
 
-      actor.x = this._lerp(
-        innerRectBefore.x - decoLeftAfter*actorInitScaleX,
-        x-decoLeftAfter,
-        progress
-      )
-      actor.y = this._lerp(
-        innerRectBefore.y - decoTopAfter*actorInitScaleY,
-        y-decoTopAfter,
-        progress
-      )
-      actor.scale_x = this._lerp(actorInitScaleX,1,progress)
-      actor.scale_y = this._lerp(actorInitScaleY,1,progress)
-    })
-    thisAnimation.completedEvent = timer.connect('completed', ()=>{
-      outterRectAfter = window.get_buffer_rect()
-      actor.x = outterRectAfter.x
-      actor.y = outterRectAfter.y
-      actor.scale_y = actor.scale_x = 1
+    _setWindowRect(window, x, y, width, height, animate) {
+        if (!window) return;
+        const actor = window.get_compositor_private();
+        if (!actor || !animate) {
+            window.move_resize_frame(true, x, y, width, height);
+            return;
+        }
+        const oldRect = window.get_frame_rect();
 
-      const nowAnimation = this._windowAnimations.find(item=>item.window === window)
-      if (nowAnimation && nowAnimation.clone === clone) this._destroyAnimation(nowAnimation)
-    })
-    timer.start()
-  }
+        const isMaximized = (window.get_maximized && window.get_maximized() !== Meta.MaximizeFlags.NONE) ||
+                           (window.maximized_horizontally || window.maximized_vertically);
+
+        if (isMaximized) {
+            const wasAnimationsEnabled = this._desktopSettings.get_boolean('enable-animations');
+            if (wasAnimationsEnabled) this._desktopSettings.set_boolean('enable-animations', false);
+            window.unmaximize(Meta.MaximizeFlags.BOTH);
+            if (wasAnimationsEnabled) this._desktopSettings.set_boolean('enable-animations', true);
+        }
+
+        const changeX = oldRect.x - x;
+        const changeY = oldRect.y - y;
+        const scaleX = oldRect.width / width;
+        const scaleY = oldRect.height / height;
+
+        actor.remove_all_transitions();
+        actor.freeze();
+
+        actor.set({
+            translation_x: changeX,
+            translation_y: changeY,
+            scale_x: scaleX,
+            scale_y: scaleY
+        });
+
+        window.move_resize_frame(true, x, y, width, height);
+
+        actor.thaw();
+
+        actor.ease({
+            translation_x: 0,
+            translation_y: 0,
+            scale_x: 1.0,
+            scale_y: 1.0,
+            duration: 280,
+
+            mode: Clutter.AnimationMode.EASE_OUT_QUINT,
+
+            onComplete: () => {
+                actor.set({
+                    translation_x: 0,
+                    translation_y: 0,
+                    scale_x: 1.0,
+                    scale_y: 1.0
+                });
+            }
+        });
+    }
 }

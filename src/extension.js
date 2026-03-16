@@ -1,6 +1,19 @@
 /*
- * Copyright (C) 2021 Pim Snel
- * Copyright (C) 2021 Veli Tasalı
+ * Copyright (C) 2021 Pim Snel (https://github.com/mipmip)
+ * Copyright (C) 2021 Veli Tasalı (https://github.com/velitasali)
+ * Copyright (C) 2026 Samet Güzeldemirci (https://github.com/samex)
+ *
+ * Contributors:
+ * - qwreey (https://github.com/qwreey)
+ * - mhecher-sc (https://github.com/mhecher-sc)
+ * - FedericoCalzoni (https://github.com/FedericoCalzoni)
+ * - Dolland (https://github.com/Dolland)
+ * - Vistaus (https://github.com/Vistaus)
+ * - nushoin (https://github.com/nushoin)
+ * - lazydays79 (https://github.com/lazydays79)
+ * - guillaumecle (https://github.com/guillaumecle)
+ * - Chake96 (https://github.com/Chake96)
+ * - Soupolait (https://github.com/Soupolait)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,22 +33,48 @@
 import Meta from 'gi://Meta'
 import Shell from 'gi://Shell'
 import Gio from 'gi://Gio'
-import { Extension, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js'
+import { Extension, gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { osdWindowManager, wm } from 'resource:///org/gnome/shell/ui/main.js';
 import * as windowMover from './windowMover.js';
+import { LinkedResizeHandler } from './linkedResize.js';
 import {
   GAP_SIZE_MAX,
+  GAP_SIZE_PIXEL_MAX,
   TILING_STEPS_CENTER,
   TILING_STEPS_SIDE,
 } from './constants.js'
-import { isRectEqual, parseTilingSteps } from  './utils.js'
+import { isRectEqual, parseTilingSteps } from './utils.js'
 
+const DESKTOP_WM_WORKSPACE_KEYBINDINGS = [
+  { key: 'switch-to-workspace-left', setting: 'shortcut-workspace-switch-left' },
+  { key: 'switch-to-workspace-right', setting: 'shortcut-workspace-switch-right' },
+  { key: 'move-to-workspace-left', setting: 'shortcut-workspace-move-left' },
+  { key: 'move-to-workspace-right', setting: 'shortcut-workspace-move-right' },
+]
+const MUTTER_TILED_KEYBINDINGS = [
+  'toggle-tiled-left',
+  'toggle-tiled-right',
+]
 export default class AwesomeTilesExtension extends Extension {
   enable() {
     this._windowMover = new windowMover.WindowMover()
     this._settings = this.getSettings()
+    this._ = _
+    this.ngettext = ngettext
     this._osdGapChangedIcon = Gio.icon_new_for_string("view-grid-symbolic")
     this._shortcutsBindingIds = []
+    this._linkedResizeHandler = new LinkedResizeHandler(this._settings, this._windowMover)
+    this._linkedResizeHandler.enable()
+
+    this._applyWorkspaceKeybindingsOverride()
+
+    this._settings.connect('changed::override-system-keybindings', () => {
+      if (this._settings.get_boolean('override-system-keybindings')) {
+        this._applyWorkspaceKeybindingsOverride()
+      } else {
+        this._resetWorkspaceKeybindings()
+      }
+    })
 
     this._bindShortcut("shortcut-align-window-to-center", this._alignWindowToCenter.bind(this))
     this._bindShortcut("shortcut-tile-window-to-center", this._tileWindowCenter.bind(this))
@@ -49,12 +88,72 @@ export default class AwesomeTilesExtension extends Extension {
     this._bindShortcut("shortcut-tile-window-to-bottom-right", this._tileWindowBottomRight.bind(this))
     this._bindShortcut("shortcut-increase-gap-size", this._increaseGapSize.bind(this))
     this._bindShortcut("shortcut-decrease-gap-size", this._decreaseGapSize.bind(this))
+
+    this._linkedResizeHandler.enable()
+
+    this._workspaceSettingsConnections = []
+    DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => {
+      const connection = this._settings.connect(`changed::${binding.setting}`, () => {
+        this._syncWorkspaceKeybindings()
+      })
+      this._workspaceSettingsConnections.push({ setting: binding.setting, connection })
+    })
   }
 
   disable() {
     this._windowMover.destroy()
     this._shortcutsBindingIds.forEach((id) => wm.removeKeybinding(id))
-    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = null
+
+    if (this._linkedResizeHandler) {
+      this._linkedResizeHandler.disable()
+      this._linkedResizeHandler = null
+    }
+
+    if (this._workspaceSettingsConnections) {
+      this._workspaceSettingsConnections.forEach(({ connection }) => {
+        this._settings.disconnect(connection)
+      })
+    }
+
+    if (this._settings.get_boolean('override-system-keybindings')) {
+        this._resetWorkspaceKeybindings()
+    }
+    this._shortcutsBindingIds = this._settings = this._windowMover = this._osdGapChangedIcon = this._workspaceSettingsConnections = this._linkedResizeHandler = null
+  }
+
+  _syncWorkspaceKeybindings() {
+    if (this._settings.get_boolean('override-system-keybindings')) {
+      this._applyWorkspaceKeybindingsOverride()
+    }
+  }
+
+  _applyWorkspaceKeybindingsOverride() {
+    if (!this._settings.get_boolean('override-system-keybindings')) return
+
+    try {
+      const gnomeDesktopWmKeybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      const gnomeMutterKeybindingSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter.keybindings' })
+
+      DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => {
+        const shortcut = this._settings.get_strv(binding.setting)
+        gnomeDesktopWmKeybindingsSettings.set_strv(binding.key, shortcut)
+      })
+
+      MUTTER_TILED_KEYBINDINGS.forEach(key => gnomeMutterKeybindingSettings.set_strv(key, []))
+    } catch (e) {
+      logError(e)
+    }
+  }
+
+  _resetWorkspaceKeybindings() {
+    try {
+      const gnomeDesktopWmKeybindingsSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.keybindings' })
+      const gnomeMutterKeybindingSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter.keybindings' })
+      DESKTOP_WM_WORKSPACE_KEYBINDINGS.forEach(binding => gnomeDesktopWmKeybindingsSettings.reset(binding.key))
+      MUTTER_TILED_KEYBINDINGS.forEach(key => gnomeMutterKeybindingSettings.reset(key))
+    } catch (e) {
+      logError(e)
+    }
   }
 
   _alignWindowToCenter() {
@@ -74,6 +173,7 @@ export default class AwesomeTilesExtension extends Extension {
     )
 
     this._windowMover._setWindowRect(window, x, y, windowArea.width, windowArea.height, this._isWindowAnimationEnabled)
+    
   }
 
   _bindShortcut(name, callback) {
@@ -94,44 +194,58 @@ export default class AwesomeTilesExtension extends Extension {
     const monitor = window.get_monitor()
     const monitorGeometry = global.display.get_monitor_geometry(monitor)
     const isVertical = monitorGeometry.width < monitorGeometry.height
-  
+
     const workspace = window.get_workspace()
     const workspaceArea = workspace.get_work_area_for_monitor(monitor)
+
+    if (this._isIndividualGapSizesEnabled) {
+      return this._calculateIndividualWorkspaceArea(workspaceArea, monitor, isVertical)
+    }
+
     const gap = this._gapSize
 
-    
     if (gap <= 0 && !this._isBottomGapEnabled) return {
       x: workspaceArea.x,
       y: workspaceArea.y,
       height: workspaceArea.height,
       width: workspaceArea.width,
     }
-    
-    const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
-    const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
-    
-    const gaps = {
-      x: Math.min(gapUncheckedX, gapUncheckedY * 2),
-      y: Math.min(gapUncheckedY, gapUncheckedX * 2),
+
+    let gaps
+    if (this._isGapSizeInPixels) {
+      const gapPx = Math.round(gap)
+      gaps = {
+        x: Math.min(gapPx, Math.floor(workspaceArea.width / 2)),
+        y: Math.min(gapPx, Math.floor(workspaceArea.height / 2)),
+      }
+    } else {
+      const gapUncheckedX = Math.round(gap / 200 * workspaceArea.width)
+      const gapUncheckedY = Math.round(gap / 200 * workspaceArea.height)
+
+      gaps = {
+        x: Math.min(gapUncheckedX, gapUncheckedY * 2),
+        y: Math.min(gapUncheckedY, gapUncheckedX * 2),
+      }
     }
-    
-    // If the monitor is vertical, swap the gap values
+
     if (isVertical) {
       const temp = gaps.x
       gaps.x = gaps.y
       gaps.y = temp
     }
-    
-    // Calculate additional bottom gap if enabled
+
     let bottomGap = 0
     if (this._isBottomGapEnabled) {
-      // Check if bottom gap should only be applied to the main screen
       const isPrimaryMonitor = monitor === global.display.get_primary_monitor();
       if (!this._isBottomGapMainScreenOnly || isPrimaryMonitor) {
-        bottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
+        if (this._isGapSizeInPixels) {
+          bottomGap = Math.round(this._bottomGapSize)
+        } else {
+          bottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
+        }
       }
     }
-    
+
     return {
       x: workspaceArea.x + gaps.x,
       y: workspaceArea.y + gaps.y,
@@ -142,18 +256,96 @@ export default class AwesomeTilesExtension extends Extension {
     }
   }
 
+  _calculateIndividualWorkspaceArea(workspaceArea, monitor, isVertical) {
+    const gapTop = this._gapSizeTop
+    const gapBottom = this._gapSizeBottom
+    const gapLeft = this._gapSizeLeft
+    const gapRight = this._gapSizeRight
+
+    let gaps = { x: 0, y: 0 }
+
+    if (this._isGapSizeInPixels) {
+      gaps.x = Math.min(gapLeft + gapRight, workspaceArea.width)
+      gaps.y = Math.min(gapTop + gapBottom, workspaceArea.height)
+    } else {
+      const gapTopPx = Math.round(gapTop / 200 * workspaceArea.height)
+      const gapBottomPx = Math.round(gapBottom / 200 * workspaceArea.height)
+      const gapLeftPx = Math.round(gapLeft / 200 * workspaceArea.width)
+      const gapRightPx = Math.round(gapRight / 200 * workspaceArea.width)
+
+      gaps.x = Math.min(gapLeftPx + gapRightPx, (gapTopPx + gapBottomPx) * 2)
+      gaps.y = Math.min(gapTopPx + gapBottomPx, (gapLeftPx + gapRightPx) * 2)
+    }
+
+    if (isVertical) {
+      const tempX = gaps.x
+      gaps.x = gaps.y
+      gaps.y = tempX
+    }
+
+    let extraBottomGap = 0
+    if (this._isBottomGapEnabled) {
+      const isPrimaryMonitor = monitor === global.display.get_primary_monitor();
+      if (!this._isBottomGapMainScreenOnly || isPrimaryMonitor) {
+        if (this._isGapSizeInPixels) {
+          extraBottomGap = Math.round(this._bottomGapSize)
+        } else {
+          extraBottomGap = Math.round(this._bottomGapSize / 100 * workspaceArea.height)
+        }
+      }
+    }
+
+    let topGap, leftGap, rightGap, bottomGap
+    if (this._isGapSizeInPixels) {
+      topGap = gapTop
+      leftGap = gapLeft
+      rightGap = gapRight
+      bottomGap = gapBottom + extraBottomGap
+    } else {
+      topGap = Math.round(gapTop / 200 * workspaceArea.height)
+      leftGap = Math.round(gapLeft / 200 * workspaceArea.width)
+      rightGap = Math.round(gapRight / 200 * workspaceArea.width)
+      bottomGap = Math.round(gapBottom / 200 * workspaceArea.height) + extraBottomGap
+    }
+
+    if (isVertical) {
+      const tempTop = topGap
+      topGap = leftGap
+      leftGap = tempTop
+      const tempBottom = bottomGap
+      bottomGap = rightGap
+      rightGap = tempBottom
+    }
+
+    return {
+      x: workspaceArea.x + leftGap,
+      y: workspaceArea.y + topGap,
+      height: workspaceArea.height - topGap - bottomGap,
+      width: workspaceArea.width - leftGap - rightGap,
+      gaps,
+      bottomGap: extraBottomGap,
+      individualGaps: { top: topGap, left: leftGap, right: rightGap, bottom: bottomGap }
+    }
+  }
+
   get _gapSizeIncrements() {
     return this._settings.get_int("gap-size-increments")
   }
 
   _decreaseGapSize() {
+    const maxGap = this._isGapSizeInPixels ? GAP_SIZE_PIXEL_MAX : GAP_SIZE_MAX
     this._gapSize = Math.max(this._gapSize - this._gapSizeIncrements, 0)
     this._notifyGapSize()
   }
 
   _increaseGapSize() {
-    this._gapSize = Math.min(this._gapSize + this._gapSizeIncrements, GAP_SIZE_MAX)
+    const maxGap = this._isGapSizeInPixels ? GAP_SIZE_PIXEL_MAX : GAP_SIZE_MAX
+    this._gapSize = Math.min(this._gapSize + this._gapSizeIncrements, maxGap)
     this._notifyGapSize()
+  }
+
+  get _isGapSizeInPixels() {
+    return this._settings.get_boolean("gap-size-in-pixels")
   }
 
   get _gapSize() {
@@ -165,15 +357,52 @@ export default class AwesomeTilesExtension extends Extension {
   }
 
   _notifyGapSize() {
-    const gapSize = this._gapSize
-    osdWindowManager.show(-1,this._osdGapChangedIcon,
-      ngettext(
-        'Gap size is now at %d percent',
-        'Gap size is now at %d percent',
-        gapSize
-      ).format(gapSize),
-      null,null,null
-    )
+    const gapSize = this._gapSize;
+    const label = this._isGapSizeInPixels
+      ? ngettext(
+          "Gap size is now at %d pixel",
+          "Gap size is now at %d pixels",
+          gapSize
+        ).format(gapSize)
+      : ngettext(
+          "Gap size is now at %d percent",
+          "Gap size is now at %d percent",
+          gapSize
+        ).format(gapSize)
+
+    if (osdWindowManager && osdWindowManager.showOne) {
+      osdWindowManager.showOne(
+        global.display.get_current_monitor(),
+        this._osdGapChangedIcon,
+        label,
+        null,
+        -1
+      )
+    }
+  }
+
+  get _isIndividualGapSizesEnabled() {
+    return this._settings.get_boolean("enable-individual-gap-sizes")
+  }
+
+  get _gapSizeTop() {
+    return this._settings.get_int("gap-size-top")
+  }
+
+  get _gapSizeLeft() {
+    return this._settings.get_int("gap-size-left")
+  }
+
+  get _gapSizeRight() {
+    return this._settings.get_int("gap-size-right")
+  }
+
+  get _gapSizeBottom() {
+    return this._settings.get_int("gap-size-bottom")
+  }
+
+  get _gapSizeInner() {
+    return this._settings.get_int("gap-size-inner")
   }
 
   get _isInnerGapsEnabled() {
@@ -237,11 +466,11 @@ export default class AwesomeTilesExtension extends Extension {
       prev.bottom === bottom &&
       prev.left === left &&
       prev.right === right &&
-      prev.iteration < steps.length
+      prev.iteration < steps.length &&
+      prev.window === window 
     let iteration = successive ? prev.iteration : 0
     let rect = this._computeWindowRect(window, top, bottom, left, right, steps[iteration], center)
 
-    // Iterate through the tiling steps until we find one that changes the window size.
     for (const end = iteration; successive && isRectEqual(rect, prev.rect);) {
       iteration = (iteration + 1) % steps.length
       if (iteration === end)
@@ -250,7 +479,7 @@ export default class AwesomeTilesExtension extends Extension {
     }
 
     this._previousTilingOperation =
-      { windowId, top, bottom, left, right, rect, time, iteration: iteration + 1 }
+      { windowId, top, bottom, left, right, rect, time, iteration: iteration + 1, window }
 
     return rect
   }
@@ -262,8 +491,6 @@ export default class AwesomeTilesExtension extends Extension {
     const workArea = this._calculateWorkspaceArea(window)
     let { x, y, width, height } = workArea
 
-    // Special case - when tiling to the center we want the largest size to
-    // cover the whole available space
     if (center) {
       const monitor = window.get_monitor()
       const monitorGeometry = global.display.get_monitor_geometry(monitor)
@@ -282,14 +509,28 @@ export default class AwesomeTilesExtension extends Extension {
       if (!left) x += (workArea.width - width) / (right ? 1 : 2)
       if (!top) y += (workArea.height - height) / (bottom ? 1 : 2)
 
-      if (this._isInnerGapsEnabled && workArea.gaps !== undefined) {
+      if (this._isInnerGapsEnabled) {
+        let innerGapX, innerGapY
+        if (this._isIndividualGapSizesEnabled) {
+          const innerGap = this._gapSizeInner
+          if (this._isGapSizeInPixels) {
+            innerGapX = innerGap
+            innerGapY = innerGap
+          } else {
+            innerGapX = Math.round(innerGap / 200 * workArea.width)
+            innerGapY = Math.round(innerGap / 200 * workArea.height)
+          }
+        } else {
+          innerGapX = workArea.gaps?.x ?? 0
+          innerGapY = workArea.gaps?.y ?? 0
+        }
         if (left !== right) {
-          if (right) x += workArea.gaps.x / 2
-          width -= workArea.gaps.x / 2
+          if (right) x += innerGapX / 2
+          width -= innerGapX / 2
         }
         if (top !== bottom) {
-          if (bottom) y += workArea.gaps.y / 2
-          height -= workArea.gaps.y / 2
+          if (bottom) y += innerGapY / 2
+          height -= innerGapY / 2
         }
       }
     }
