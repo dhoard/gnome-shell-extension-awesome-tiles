@@ -1,0 +1,452 @@
+# Arabic translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-15 22:11+0100\n"
+"PO-Revision-Date: 2026-03-15 22:11+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+
+#: src/extension.js:361
+#, javascript-format
+msgid "Gap size is now at %d pixel"
+msgid_plural "Gap size is now at %d pixels"
+msgstr[0] "حجم الفجوة الآن %d بكسل"
+msgstr[1] "حجم الفجوة الآن %d بكسل"
+msgstr[2] "حجم الفجوة الآن %d بكسل"
+msgstr[3] "حجم الفجوة الآن %d بكسل"
+msgstr[4] "حجم الفجوة الآن %d بكسل"
+msgstr[5] "حجم الفجوة الآن %d بكسل"
+
+#: src/extension.js:366
+#, javascript-format
+msgid "Gap size is now at %d percent"
+msgid_plural "Gap size is now at %d percent"
+msgstr[0] "حجم الفجوة الآن %d بالمائة"
+msgstr[1] "حجم الفجوة الآن %d بالمائة"
+msgstr[2] "حجم الفجوة الآن %d بالمائة"
+msgstr[3] "حجم الفجوة الآن %d بالمائة"
+msgstr[4] "حجم الفجوة الآن %d بالمائة"
+msgstr[5] "حجم الفجوة الآن %d بالمائة"
+
+#: src/prefs.js:55 src/prefs.js:87
+msgid "Behavior"
+msgstr "السلوك"
+
+#: src/prefs.js:64 src/prefs.js:195
+msgid "Gaps"
+msgstr "الفجوات"
+
+#: src/prefs.js:73 src/prefs.js:477
+msgid "Shortcuts"
+msgstr "الاختصارات"
+
+#: src/prefs.js:91
+msgid "Enable Window Animations"
+msgstr "تفعيل الرسوم المتحركة للنوافذ"
+
+#: src/prefs.js:92
+msgid "Animate windows when resized or repositioned (this may be buggy on Wayland)."
+msgstr "تحريك النوافذ عند تغيير حجمها أو إعادة وضعها (قد يكون هذا معيبًا في Wayland)."
+
+#: src/prefs.js:103
+msgid "Shortcut Iteration Timeout in Milliseconds"
+msgstr "مهلة تكرار الاختصار بالملي ثانية"
+
+#: src/prefs.js:104
+msgid "The time window to consider a new key press an iteration."
+msgstr "النافذة الزمنية لاعتبار ضغطة مفتاح جديدة تكرارًا."
+
+#: src/prefs.js:123
+msgid "Center Tiling Steps"
+msgstr "خطوات التبليط المركزي"
+
+#: src/prefs.js:124 src/prefs.js:140
+msgid "Steps on each key press (values between 0-1)."
+msgstr "الخطوات عند كل ضغطة مفتاح (القيم بين 0-1)."
+
+#: src/prefs.js:139
+msgid "Side Tiling Steps"
+msgstr "خطوات التبليط الجانبي"
+
+#: src/prefs.js:152
+msgid "Enable Linked Window Resize"
+msgstr "تفعيل تغيير حجم النوافذ المرتبط"
+
+#: src/prefs.js:153
+msgid "When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap."
+msgstr "عند الضغط على مفتاح Alt وتغيير حجم النافذة، سيتم تغيير حجم النوافذ المبلطة المجاورة معًا للحفاظ على الفجوة."
+
+#: src/prefs.js:165
+msgid "Use theme accent color"
+msgstr "استخدام لون التمييز للقالب"
+
+#: src/prefs.js:169
+msgid "Linked Resize Glow Color"
+msgstr "لون توهج تغيير الحجم المرتبط"
+
+#: src/prefs.js:170
+msgid "Custom color for the glow effect during linked resize (hex format like #3584e4). Leave empty to use theme accent color."
+msgstr "لون مخصص لتأثير التوهج أثناء تغيير الحجم المرتبط (تنسيق هيكس مثل #3584e4). اتركه فارغًا لاستخدام لون تمييز السمة."
+
+#: src/prefs.js:199
+msgid "Use Pixels for Gap Size"
+msgstr "استخدام البكسل لحجم الفجوة"
+
+#: src/prefs.js:200
+msgid "Use pixels instead of percentage for gap size."
+msgstr "استخدام البكسل بدلاً من النسب المئوية لحجم الفجوة."
+
+#: src/prefs.js:211
+msgid "Gaps Between Windows"
+msgstr "الفجوات بين النوافذ"
+
+#: src/prefs.js:212
+msgid "Put gaps between windows."
+msgstr "وضع فجوات بين النوافذ."
+
+#: src/prefs.js:223
+msgid "Enable Individual Gap Sizes"
+msgstr "تفعيل أحجام الفجوات الفردية"
+
+#: src/prefs.js:224
+msgid "Configure separate gap sizes for each side (top, left, bottom, right) and between windows."
+msgstr "تكوين أحجام فجوات منفصلة لكل جانب (أعلى، يسار، أسفل، يمين) وبين النوافذ."
+
+#: src/prefs.js:235
+msgid "Top Gap Size"
+msgstr "حجم الفجوة العلوية"
+
+#: src/prefs.js:236
+msgid "Gap size at the top (percent)."
+msgstr "حجم الفجوة في الأعلى (نسبة مئوية)."
+
+#: src/prefs.js:252
+msgid "Left Gap Size"
+msgstr "حجم الفجوة اليسرى"
+
+#: src/prefs.js:253
+msgid "Gap size at the left (percent)."
+msgstr "حجم الفجوة على اليسار (نسبة مئوية)."
+
+#: src/prefs.js:269
+msgid "Right Gap Size"
+msgstr "حجم الفجوة اليمنى"
+
+#: src/prefs.js:270
+msgid "Gap size at the right (percent)."
+msgstr "حجم الفجوة على اليمين (نسبة مئوية)."
+
+#: src/prefs.js:286 src/prefs.js:425
+msgid "Bottom Gap Size"
+msgstr "حجم الفجوة السفلية"
+
+#: src/prefs.js:287
+msgid "Gap size at the bottom (percent)."
+msgstr "حجم الفجوة في الأسفل (نسبة مئوية)."
+
+#: src/prefs.js:303
+msgid "Inner Gap Size"
+msgstr "حجم الفجوة الداخلية"
+
+#: src/prefs.js:304
+msgid "Gap size between windows (percent)."
+msgstr "حجم الفجوة بين النوافذ (نسبة مئوية)."
+
+#: src/prefs.js:339
+msgid "pixels"
+msgstr "بكسل"
+
+#: src/prefs.js:339
+msgid "percent"
+msgstr "بالمائة"
+
+#: src/prefs.js:340
+msgid "Gap size at the top"
+msgstr "حجم الفجوة في الأعلى"
+
+#: src/prefs.js:341
+msgid "Gap size at the left"
+msgstr "حجم الفجوة على اليسار"
+
+#: src/prefs.js:342
+msgid "Gap size at the right"
+msgstr "حجم الفجوة على اليمين"
+
+#: src/prefs.js:343
+msgid "Gap size at the bottom"
+msgstr "حجم الفجوة في الأسفل"
+
+#: src/prefs.js:344
+msgid "Gap size between windows"
+msgstr "حجم الفجوة بين النوافذ"
+
+#: src/prefs.js:357
+msgid "Gap Between Window and Workspace"
+msgstr "الفجوة بين النافذة ومساحة العمل"
+
+#: src/prefs.js:358 src/prefs.js:378
+msgid "Percentage to leave out as gap when a window is tiled."
+msgstr "النسبة المئوية التي تترك كفجوة عند تبليط النافذة."
+
+#: src/prefs.js:377
+msgid "Pixels to leave out as gap when a window is tiled."
+msgstr "عدد البكسلات التي تترك كفجوة عند تبليط النافذة."
+
+#: src/prefs.js:388
+msgid "Gap Size Increments"
+msgstr "زيادات حجم الفجوة"
+
+#: src/prefs.js:389
+msgid "The change that the shorcuts make in the gap size."
+msgstr "التغيير الذي تحدثه الاختصارات في حجم الفجوة."
+
+#: src/prefs.js:413
+msgid "Enable Additional Bottom Gap"
+msgstr "تفعيل الفجوة السفلية الإضافية"
+
+#: src/prefs.js:414
+msgid "Add an additional gap at the bottom of the screen to prevent dock overlap."
+msgstr "إضافة فجوة إضافية في أسفل الشاشة لمنع تداخل شريط الأدوات الرئيسي (dock)."
+
+#: src/prefs.js:426 src/prefs.js:445
+msgid "Additional gap size at the bottom of the screen in percentage."
+msgstr "حجم الفجوة الإضافية في أسفل الشاشة بالنسبة المئوية."
+
+#: src/prefs.js:444
+msgid "Additional gap size at the bottom of the screen in pixels."
+msgstr "حجم الفجوة الإضافية في أسفل الشاشة بالبكسل."
+
+#: src/prefs.js:453
+msgid "Bottom Gap Main Screen Only"
+msgstr "الفجوة السفلية للشاشة الرئيسية فقط"
+
+#: src/prefs.js:454
+msgid "Apply the additional bottom gap only on the main screen."
+msgstr "تطبيق الفجوة السفلية الإضافية على الشاشة الرئيسية فقط."
+
+#: src/prefs.js:478
+msgid "Assign shortcuts to the functionalities"
+msgstr "تعيين اختصارات للوظائف"
+
+#: src/prefs.js:483 src/prefs.js:755
+msgid "Fix Numpad 9 and Numpad 3"
+msgstr "إصلاح لوحة الأرقام 9 و3"
+
+#: src/prefs.js:487
+msgid "Numpad Tiling Fix"
+msgstr "إصلاح تبليط لوحة الأرقام"
+
+#: src/prefs.js:488
+msgid "Resolve workspace switching shortcut conflicts on certain keyboards by overriding system defaults to match extension settings."
+msgstr "حل تعارضات اختصارات تبديل مساحة العمل على لوحات مفاتيح معينة من خلال تجاوز الإعدادات الافتراضية للنظام لتتوافق مع إعدادات الإضافة."
+
+#: src/prefs.js:499
+msgid "Linked Resize Modifier"
+msgstr "مفتاح تعديل تغيير الحجم المرتبط"
+
+#: src/prefs.js:500
+msgid "The modifier key held while resizing to trigger linked resizing."
+msgstr "مفتاح التعديل الذي يتم الضغط عليه أثناء تغيير الحجم لتشغيل تغيير الحجم المرتبط."
+
+#: src/prefs.js:512
+msgid "Switch to Workspace Left"
+msgstr "التبديل إلى مساحة العمل اليسرى"
+
+#: src/prefs.js:513
+msgid "Shortcut to switch to the workspace on the left."
+msgstr "اختصار للتبديل إلى مساحة العمل على اليسار."
+
+#: src/prefs.js:523
+msgid "Switch to Workspace Right"
+msgstr "التبديل إلى مساحة العمل اليمنى"
+
+#: src/prefs.js:524
+msgid "Shortcut to switch to the workspace on the right."
+msgstr "اختصار للتبديل إلى مساحة العمل على اليمين."
+
+#: src/prefs.js:534
+msgid "Move Window to Workspace Left"
+msgstr "نقل النافذة إلى مساحة العمل اليسرى"
+
+#: src/prefs.js:535
+msgid "Shortcut to move the focused window to the workspace on the left."
+msgstr "اختصار لنقل النافذة المركزة إلى مساحة العمل على اليسار."
+
+#: src/prefs.js:545
+msgid "Move Window to Workspace Right"
+msgstr "نقل النافذة إلى مساحة العمل اليمنى"
+
+#: src/prefs.js:546
+msgid "Shortcut to move the focused window to the workspace on the right."
+msgstr "اختصار لنقل النافذة المركزة إلى مساحة العمل على اليمين."
+
+#: src/prefs.js:572
+msgid "Align Window to Center"
+msgstr "محاذاة النافذة إلى المركز"
+
+#: src/prefs.js:573
+msgid "Shortcut to align the active window to center without resizing it."
+msgstr "اختصار لمحاذاة النافذة النشطة إلى المركز دون تغيير حجمها."
+
+#: src/prefs.js:583
+msgid "Increase Gap Size"
+msgstr "زيادة حجم الفجوة"
+
+#: src/prefs.js:584
+msgid "Shortcut to increase the gap size."
+msgstr "اختصار لزيادة حجم الفجوة."
+
+#: src/prefs.js:594
+msgid "Decrease Gap Size"
+msgstr "تقليل حجم الفجوة"
+
+#: src/prefs.js:595
+msgid "Shortcut to decrease the gap size."
+msgstr "اختصار لتقليل حجم الفجوة."
+
+#: src/prefs.js:605
+msgid "Tile Window to Center"
+msgstr "تبليط النافذة في المركز"
+
+#: src/prefs.js:606
+msgid "Shortcut to tile active window to center."
+msgstr "اختصار لتبليط النافذة النشطة في المركز."
+
+#: src/prefs.js:616
+msgid "Tile Window to Left"
+msgstr "تبليط النافذة على اليسار"
+
+#: src/prefs.js:617
+msgid "Shortcut to tile the active window to left."
+msgstr "اختصار لتبليط النافذة النشطة على اليسار."
+
+#: src/prefs.js:627
+msgid "Tile Window to Right"
+msgstr "تبليط النافذة على اليمين"
+
+#: src/prefs.js:628
+msgid "Shortcut to tile the active window to right."
+msgstr "اختصار لتبليط النافذة النشطة على اليمين."
+
+#: src/prefs.js:638
+msgid "Tile Window to Top"
+msgstr "تبليط النافذة في الأعلى"
+
+#: src/prefs.js:639
+msgid "Shortcut to tile the active window to top."
+msgstr "اختصار لتبليط النافذة النشطة في الأعلى."
+
+#: src/prefs.js:649
+msgid "Tile Window to Bottom"
+msgstr "تبليط النافذة في الأسفل"
+
+#: src/prefs.js:650
+msgid "Shortcut to tile the active window to bottom."
+msgstr "اختصار لتبليط النافذة النشطة في الأسفل."
+
+#: src/prefs.js:660
+msgid "Tile Window to Top Left"
+msgstr "تبليط النافذة في أعلى اليسار"
+
+#: src/prefs.js:661
+msgid "Shortcut to tile the active window to top left."
+msgstr "اختصار لتبليط النافذة النشطة في أعلى اليسار."
+
+#: src/prefs.js:671
+msgid "Tile Window to Top Right"
+msgstr "تبليط النافذة في أعلى اليمين"
+
+#: src/prefs.js:672
+msgid "Shortcut to tile the active window to top right."
+msgstr "اختصار لتبليط النافذة النشطة في أعلى اليمين."
+
+#: src/prefs.js:683
+msgid "Tile Window to Bottom Left"
+msgstr "تبليط النافذة في أسفل اليسار"
+
+#: src/prefs.js:684
+msgid "Shortcut to tile the active window to bottom left."
+msgstr "اختصار لتبليط النافذة النشطة في أسفل اليسار."
+
+#: src/prefs.js:694
+msgid "Tile Window to Bottom Right"
+msgstr "تبليط النافذة في أسفل اليمين"
+
+#: src/prefs.js:695
+msgid "Shortcut to tile the active window to bottom right."
+msgstr "اختصار لتبليط النافذة النشطة في أسفل اليمين."
+
+#: src/prefs.js:743
+msgid "Disabled"
+msgstr "معطل"
+
+#: src/prefs.js:756
+msgid "Default workspace shortcuts (Super + Page Up/Down) conflict with this extension on keyboards where Numpad 9 and 3 share those keys. Enabling this fix overrides system defaults to ensure proper numpad tiling."
+msgstr "تتعارض اختصارات مساحات العمل الافتراضية (Super + Page Up/Down) مع هذه الإضافة على لوحات المفاتيح التي تشترك فيها لوحة الأرقام 9 و3 في هذه المفاتيح. يؤدي تفعيل هذا الإصلاح إلى تجاوز الإعدادات الافتراضية للنظام لضمان التبليط الصحيح بلوحة الأرقام."
+
+#: src/prefs.js:760
+msgid "Enable Override"
+msgstr "تفعيل التجاوز"
+
+#: src/prefs.js:765
+msgid "Close"
+msgstr "إغلاق"
+
+#: src/prefs.js:771
+msgid "About"
+msgstr "حول"
+
+#: src/prefs.js:803
+msgid "A powerful tiling manager for GNOME Shell. Precision tile windows into 9 positions using the number pad, enjoy dynamic grid sizes that cycle on repeated keystrokes, and experience seamless linked resizing for adjacent windows. Includes customizable gaps, center alignment, and integrated workspace navigation."
+msgstr "مدير تبليط قوي لصدفة جنوم. قم بتبليط النوافذ بدقة في 9 مواضع باستخدام لوحة الأرقام، واستمتع بأحجام شبكة ديناميكية تتغير بضغطات المفاتيح المتكررة، واختبر تغيير حجم النوافذ المرتبطة بسلاسة للنوافذ المجاورة. يتضمن فجوات قابلة للتخصيص ومحاذاة مركزية وتنقلًا متكاملًا في مساحة العمل."
+
+#: src/prefs.js:815
+msgid "Authors"
+msgstr "المؤلفون"
+
+#: src/prefs.js:820
+msgid "Original Author"
+msgstr "المؤلف الأصلي"
+
+#: src/prefs.js:821
+msgid "Author"
+msgstr "المؤلف"
+
+#: src/prefs.js:838
+msgid "Contributors"
+msgstr "المساهمون"
+
+#: src/prefs.js:844
+msgid "Contributor"
+msgstr "مساهم"
+
+#: src/prefs.js:869
+msgid "Links"
+msgstr "الروابط"
+
+#: src/prefs.js:874
+msgid "GitHub Repository"
+msgstr "مستودع GitHub"
+
+#: src/prefs.js:884
+msgid "GNOME Extensions Page"
+msgstr "صفحة إضافات جنوم"
+
+#: src/prefs-shortcut-dialog.ui:19
+msgid "Press your keyboard shortcut or 'Backspace' to disable..."
+msgstr "اضغط على اختصار لوحة المفاتيح أو 'Backspace' للتعطيل..."
+
+#: src/prefs-shortcut-dialog.ui:28
+msgid "Keyboard Shortcut"
+msgstr "اختصار لوحة المفاتيح"

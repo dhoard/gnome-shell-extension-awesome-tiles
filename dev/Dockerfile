@@ -16,9 +16,7 @@ RUN echo '#! /bin/sh\n\
 # basics
 RUN apt-get update && \
   env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  locales && \
-  echo "$LANG UTF-8" >> /etc/locale.gen && \
-  locale-gen && \
+  locales locales-all && \
   env DEBIAN_FRONTEND=noninteractive apt-get install -y \
   at-spi2-core \
   dbus \

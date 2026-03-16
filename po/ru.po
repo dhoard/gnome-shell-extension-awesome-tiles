@@ -1,0 +1,446 @@
+# Russian translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-15 22:11+0100\n"
+"PO-Revision-Date: 2026-03-15 22:11+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/extension.js:361
+#, javascript-format
+msgid "Gap size is now at %d pixel"
+msgid_plural "Gap size is now at %d pixels"
+msgstr[0] "Размер отступа теперь %d пиксель"
+msgstr[1] "Размер отступа теперь %d пикселя"
+msgstr[2] "Размер отступа теперь %d пикселей"
+
+#: src/extension.js:366
+#, javascript-format
+msgid "Gap size is now at %d percent"
+msgid_plural "Gap size is now at %d percent"
+msgstr[0] "Размер отступа теперь %d процент"
+msgstr[1] "Размер отступа теперь %d процента"
+msgstr[2] "Размер отступа теперь %d процентов"
+
+#: src/prefs.js:55 src/prefs.js:87
+msgid "Behavior"
+msgstr "Поведение"
+
+#: src/prefs.js:64 src/prefs.js:195
+msgid "Gaps"
+msgstr "Отступы"
+
+#: src/prefs.js:73 src/prefs.js:477
+msgid "Shortcuts"
+msgstr "Горячие клавиши"
+
+#: src/prefs.js:91
+msgid "Enable Window Animations"
+msgstr "Включить анимацию окон"
+
+#: src/prefs.js:92
+msgid "Animate windows when resized or repositioned (this may be buggy on Wayland)."
+msgstr "Анимировать окна при изменении их размера или положения (может работать некорректно в Wayland)."
+
+#: src/prefs.js:103
+msgid "Shortcut Iteration Timeout in Milliseconds"
+msgstr "Таймаут итерации горячей клавиши в миллисекундах"
+
+#: src/prefs.js:104
+msgid "The time window to consider a new key press an iteration."
+msgstr "Временное окно для того, чтобы считать новое нажатие клавиши итерацией."
+
+#: src/prefs.js:123
+msgid "Center Tiling Steps"
+msgstr "Шаги тайлинга по центру"
+
+#: src/prefs.js:124 src/prefs.js:140
+msgid "Steps on each key press (values between 0-1)."
+msgstr "Шаги при каждом нажатии клавиши (значения от 0 до 1)."
+
+#: src/prefs.js:139
+msgid "Side Tiling Steps"
+msgstr "Шаги бокового тайлинга"
+
+#: src/prefs.js:152
+msgid "Enable Linked Window Resize"
+msgstr "Включить связанное изменение размера окон"
+
+#: src/prefs.js:153
+msgid "When holding Alt and resizing a window, adjacent tiled windows will resize together to maintain the gap."
+msgstr "При удерживании Alt и изменении размера окна соседние тайловые окна будут изменять размер вместе для сохранения отступа."
+
+#: src/prefs.js:165
+msgid "Use theme accent color"
+msgstr "Использовать акцентный цвет темы"
+
+#: src/prefs.js:169
+msgid "Linked Resize Glow Color"
+msgstr "Цвет свечения связанного изменения размера"
+
+#: src/prefs.js:170
+msgid "Custom color for the glow effect during linked resize (hex format like #3584e4). Leave empty to use theme accent color."
+msgstr "Пользовательский цвет для эффекта свечения при связанном изменении размера (в шестнадцатеричном формате, например, #3584e4). Оставьте пустым, чтобы использовать акцентный цвет темы."
+
+#: src/prefs.js:199
+msgid "Use Pixels for Gap Size"
+msgstr "Использовать пиксели для размера отступа"
+
+#: src/prefs.js:200
+msgid "Use pixels instead of percentage for gap size."
+msgstr "Использовать пиксели вместо процентов для размера отступа."
+
+#: src/prefs.js:211
+msgid "Gaps Between Windows"
+msgstr "Отступы между окнами"
+
+#: src/prefs.js:212
+msgid "Put gaps between windows."
+msgstr "Добавлять отступы между окнами."
+
+#: src/prefs.js:223
+msgid "Enable Individual Gap Sizes"
+msgstr "Включить индивидуальные размеры отступов"
+
+#: src/prefs.js:224
+msgid "Configure separate gap sizes for each side (top, left, bottom, right) and between windows."
+msgstr "Настройте отдельные размеры отступов для каждой стороны (сверху, слева, снизу, справа) и между окнами."
+
+#: src/prefs.js:235
+msgid "Top Gap Size"
+msgstr "Размер отступа сверху"
+
+#: src/prefs.js:236
+msgid "Gap size at the top (percent)."
+msgstr "Размер отступа сверху (в процентах)."
+
+#: src/prefs.js:252
+msgid "Left Gap Size"
+msgstr "Размер отступа слева"
+
+#: src/prefs.js:253
+msgid "Gap size at the left (percent)."
+msgstr "Размер отступа слева (в процентах)."
+
+#: src/prefs.js:269
+msgid "Right Gap Size"
+msgstr "Размер отступа справа"
+
+#: src/prefs.js:270
+msgid "Gap size at the right (percent)."
+msgstr "Размер отступа справа (в процентах)."
+
+#: src/prefs.js:286 src/prefs.js:425
+msgid "Bottom Gap Size"
+msgstr "Размер отступа снизу"
+
+#: src/prefs.js:287
+msgid "Gap size at the bottom (percent)."
+msgstr "Размер отступа снизу (в процентах)."
+
+#: src/prefs.js:303
+msgid "Inner Gap Size"
+msgstr "Размер внутреннего отступа"
+
+#: src/prefs.js:304
+msgid "Gap size between windows (percent)."
+msgstr "Размер отступа между окнами (в процентах)."
+
+#: src/prefs.js:339
+msgid "pixels"
+msgstr "пикселей"
+
+#: src/prefs.js:339
+msgid "percent"
+msgstr "процентов"
+
+#: src/prefs.js:340
+msgid "Gap size at the top"
+msgstr "Размер отступа сверху"
+
+#: src/prefs.js:341
+msgid "Gap size at the left"
+msgstr "Размер отступа слева"
+
+#: src/prefs.js:342
+msgid "Gap size at the right"
+msgstr "Размер отступа справа"
+
+#: src/prefs.js:343
+msgid "Gap size at the bottom"
+msgstr "Размер отступа снизу"
+
+#: src/prefs.js:344
+msgid "Gap size between windows"
+msgstr "Размер отступа между окнами"
+
+#: src/prefs.js:357
+msgid "Gap Between Window and Workspace"
+msgstr "Отступ между окном и рабочей областью"
+
+#: src/prefs.js:358 src/prefs.js:378
+msgid "Percentage to leave out as gap when a window is tiled."
+msgstr "Процент, оставляемый в качестве отступа при тайлинге окна."
+
+#: src/prefs.js:377
+msgid "Pixels to leave out as gap when a window is tiled."
+msgstr "Пиксели, оставляемые в качестве отступа при тайлинге окна."
+
+#: src/prefs.js:388
+msgid "Gap Size Increments"
+msgstr "Шаг изменения размера отступа"
+
+#: src/prefs.js:389
+msgid "The change that the shorcuts make in the gap size."
+msgstr "Изменение размера отступа при использовании горячих клавиш."
+
+#: src/prefs.js:413
+msgid "Enable Additional Bottom Gap"
+msgstr "Включить дополнительный отступ снизу"
+
+#: src/prefs.js:414
+msgid "Add an additional gap at the bottom of the screen to prevent dock overlap."
+msgstr "Добавить дополнительный отступ внизу экрана для предотвращения перекрытия дока."
+
+#: src/prefs.js:426 src/prefs.js:445
+msgid "Additional gap size at the bottom of the screen in percentage."
+msgstr "Размер дополнительного отступа внизу экрана в процентах."
+
+#: src/prefs.js:444
+msgid "Additional gap size at the bottom of the screen in pixels."
+msgstr "Размер дополнительного отступа внизу экрана в пикселях."
+
+#: src/prefs.js:453
+msgid "Bottom Gap Main Screen Only"
+msgstr "Отступ снизу только на основном экране"
+
+#: src/prefs.js:454
+msgid "Apply the additional bottom gap only on the main screen."
+msgstr "Применять дополнительный отступ снизу только на основном экране."
+
+#: src/prefs.js:478
+msgid "Assign shortcuts to the functionalities"
+msgstr "Назначить горячие клавиши для функций"
+
+#: src/prefs.js:483 src/prefs.js:755
+msgid "Fix Numpad 9 and Numpad 3"
+msgstr "Исправить Numpad 9 и Numpad 3"
+
+#: src/prefs.js:487
+msgid "Numpad Tiling Fix"
+msgstr "Исправление тайлинга Numpad"
+
+#: src/prefs.js:488
+msgid "Resolve workspace switching shortcut conflicts on certain keyboards by overriding system defaults to match extension settings."
+msgstr "Устраните конфликты горячих клавиш переключения рабочих областей на некоторых клавиатурах, переопределив системные настройки по умолчанию в соответствии с настройками расширения."
+
+#: src/prefs.js:499
+msgid "Linked Resize Modifier"
+msgstr "Модификатор связанного изменения размера"
+
+#: src/prefs.js:500
+msgid "The modifier key held while resizing to trigger linked resizing."
+msgstr "Клавиша-модификатор, удерживаемая при изменении размера для активации связанного изменения размера."
+
+#: src/prefs.js:512
+msgid "Switch to Workspace Left"
+msgstr "Переключиться на рабочую область слева"
+
+#: src/prefs.js:513
+msgid "Shortcut to switch to the workspace on the left."
+msgstr "Горячая клавиша для переключения на рабочую область слева."
+
+#: src/prefs.js:523
+msgid "Switch to Workspace Right"
+msgstr "Переключиться на рабочую область справа"
+
+#: src/prefs.js:524
+msgid "Shortcut to switch to the workspace on the right."
+msgstr "Горячая клавиша для переключения на рабочую область справа."
+
+#: src/prefs.js:534
+msgid "Move Window to Workspace Left"
+msgstr "Переместить окно на рабочую область слева"
+
+#: src/prefs.js:535
+msgid "Shortcut to move the focused window to the workspace on the left."
+msgstr "Горячая клавиша для перемещения текущего окна на рабочую область слева."
+
+#: src/prefs.js:545
+msgid "Move Window to Workspace Right"
+msgstr "Переместить окно на рабочую область справа"
+
+#: src/prefs.js:546
+msgid "Shortcut to move the focused window to the workspace on the right."
+msgstr "Горячая клавиша для перемещения текущего окна на рабочую область справа."
+
+#: src/prefs.js:572
+msgid "Align Window to Center"
+msgstr "Выровнять окно по центру"
+
+#: src/prefs.js:573
+msgid "Shortcut to align the active window to center without resizing it."
+msgstr "Горячая клавиша для выравнивания активного окна по центру без изменения его размера."
+
+#: src/prefs.js:583
+msgid "Increase Gap Size"
+msgstr "Увеличить размер отступа"
+
+#: src/prefs.js:584
+msgid "Shortcut to increase the gap size."
+msgstr "Горячая клавиша для увеличения размера отступа."
+
+#: src/prefs.js:594
+msgid "Decrease Gap Size"
+msgstr "Уменьшить размер отступа"
+
+#: src/prefs.js:595
+msgid "Shortcut to decrease the gap size."
+msgstr "Горячая клавиша для уменьшения размера отступа."
+
+#: src/prefs.js:605
+msgid "Tile Window to Center"
+msgstr "Разместить окно по центру"
+
+#: src/prefs.js:606
+msgid "Shortcut to tile active window to center."
+msgstr "Горячая клавиша для тайлинга активного окна по центру."
+
+#: src/prefs.js:616
+msgid "Tile Window to Left"
+msgstr "Разместить окно слева"
+
+#: src/prefs.js:617
+msgid "Shortcut to tile the active window to left."
+msgstr "Горячая клавиша для тайлинга активного окна слева."
+
+#: src/prefs.js:627
+msgid "Tile Window to Right"
+msgstr "Разместить окно справа"
+
+#: src/prefs.js:628
+msgid "Shortcut to tile the active window to right."
+msgstr "Горячая клавиша для тайлинга активного окна справа."
+
+#: src/prefs.js:638
+msgid "Tile Window to Top"
+msgstr "Разместить окно вверху"
+
+#: src/prefs.js:639
+msgid "Shortcut to tile the active window to top."
+msgstr "Горячая клавиша для тайлинга активного окна вверху."
+
+#: src/prefs.js:649
+msgid "Tile Window to Bottom"
+msgstr "Разместить окно внизу"
+
+#: src/prefs.js:650
+msgid "Shortcut to tile the active window to bottom."
+msgstr "Горячая клавиша для тайлинга активного окна внизу."
+
+#: src/prefs.js:660
+msgid "Tile Window to Top Left"
+msgstr "Разместить окно в левом верхнем углу"
+
+#: src/prefs.js:661
+msgid "Shortcut to tile the active window to top left."
+msgstr "Горячая клавиша для тайлинга активного окна в левый верхний угол."
+
+#: src/prefs.js:671
+msgid "Tile Window to Top Right"
+msgstr "Разместить окно в правом верхнем углу"
+
+#: src/prefs.js:672
+msgid "Shortcut to tile the active window to top right."
+msgstr "Горячая клавиша для тайлинга активного окна в правый верхний угол."
+
+#: src/prefs.js:683
+msgid "Tile Window to Bottom Left"
+msgstr "Разместить окно в левом нижнем углу"
+
+#: src/prefs.js:684
+msgid "Shortcut to tile the active window to bottom left."
+msgstr "Горячая клавиша для тайлинга активного окна в левый нижний угол."
+
+#: src/prefs.js:694
+msgid "Tile Window to Bottom Right"
+msgstr "Разместить окно в правом нижнем углу"
+
+#: src/prefs.js:695
+msgid "Shortcut to tile the active window to bottom right."
+msgstr "Горячая клавиша для тайлинга активного окна в правый нижний угол."
+
+#: src/prefs.js:743
+msgid "Disabled"
+msgstr "Отключено"
+
+#: src/prefs.js:756
+msgid "Default workspace shortcuts (Super + Page Up/Down) conflict with this extension on keyboards where Numpad 9 and 3 share those keys. Enabling this fix overrides system defaults to ensure proper numpad tiling."
+msgstr "Стандартные горячие клавиши рабочих областей (Super + Page Up/Down) конфликтуют с этим расширением на клавиатурах, где клавиши Numpad 9 and 3 совмещены с этими функциями. Включение этого исправления переопределяет системные настройки для обеспечения корректного тайлинга с помощью цифровой клавиатуры."
+
+#: src/prefs.js:760
+msgid "Enable Override"
+msgstr "Включить переопределение"
+
+#: src/prefs.js:765
+msgid "Close"
+msgstr "Закрыть"
+
+#: src/prefs.js:771
+msgid "About"
+msgstr "О расширении"
+
+#: src/prefs.js:803
+msgid "A powerful tiling manager for GNOME Shell. Precision tile windows into 9 positions using the number pad, enjoy dynamic grid sizes that cycle on repeated keystrokes, and experience seamless linked resizing for adjacent windows. Includes customizable gaps, center alignment, and integrated workspace navigation."
+msgstr "Мощный менеджер тайлинга для GNOME Shell. Точное размещение окон в 9 позициях с помощью цифровой клавиатуры, динамические размеры сетки, сменяющиеся при повторных нажатиях клавиш, и плавное связанное изменение размера соседних окон. Включает настраиваемые отступы, выравнивание по центру и интегрированную навигацию по рабочим областям."
+
+#: src/prefs.js:815
+msgid "Authors"
+msgstr "Авторы"
+
+#: src/prefs.js:820
+msgid "Original Author"
+msgstr "Автор оригинала"
+
+#: src/prefs.js:821
+msgid "Author"
+msgstr "Автор"
+
+#: src/prefs.js:838
+msgid "Contributors"
+msgstr "Участники"
+
+#: src/prefs.js:844
+msgid "Contributor"
+msgstr "Участник"
+
+#: src/prefs.js:869
+msgid "Links"
+msgstr "Ссылки"
+
+#: src/prefs.js:874
+msgid "GitHub Repository"
+msgstr "Репозиторий GitHub"
+
+#: src/prefs.js:884
+msgid "GNOME Extensions Page"
+msgstr "Страница расширений GNOME"
+
+#: src/prefs-shortcut-dialog.ui:19
+msgid "Press your keyboard shortcut or 'Backspace' to disable..."
+msgstr "Нажмите комбинацию клавиш или 'Backspace' для отключения..."
+
+#: src/prefs-shortcut-dialog.ui:28
+msgid "Keyboard Shortcut"
+msgstr "Горячая клавиша"

@@ -43,6 +43,20 @@ function build_extension_folder {
     if [ -f "src/schemas/$SCHEMA_ID.gschema.xml" ]; then
         glib-compile-schemas "$DEV_DIR/schemas/"
     fi
+
+    # Compile translations
+    if [ -d "po" ]; then
+        echo "🌐 [BUILD] Compiling translations..."
+        for po_file in po/*.po; do
+            if [ -f "$po_file" ]; then
+                lang=$(basename "$po_file" .po)
+                locale_dir="$DEV_DIR/locale/$lang/LC_MESSAGES"
+                mkdir -p "$locale_dir"
+                msgfmt "$po_file" -o "$locale_dir/$EXTENSION_UUID.mo"
+                echo "   ✅ $lang compiled"
+            fi
+        done
+    fi
 }
 
 function start_watcher {
@@ -66,8 +80,29 @@ function start_watcher {
 
 # --- Main Execution ---
 
-# 1. Image Check
-[[ "$1" == "rebuild" ]] && docker rmi -f $IMAGE_NAME 2>/dev/null
+# 1. Argument Parsing
+REBUILD=false
+X11_LANG_VAL=""
+
+for arg in "$@"; do
+    case $arg in
+        rebuild)
+            REBUILD=true
+            ;;
+        --lang=*)
+            X11_LANG_VAL="${arg#*=}"
+            ;;
+        *)
+            # If it looks like a locale (e.g., ru_RU.UTF-8 or de_DE), treat it as lang
+            if [[ $arg =~ ^[a-z]{2}(_[A-Z]{2})?(\.[Uu][Tt][Ff]-?8)?$ ]]; then
+                X11_LANG_VAL="$arg"
+            fi
+            ;;
+    esac
+done
+
+# 2. Image Check
+[[ "$REBUILD" == "true" ]] && docker rmi -f $IMAGE_NAME 2>/dev/null
 # Point to dev/ directory where Dockerfile is now located
 [[ "$(docker images -q $IMAGE_NAME 2> /dev/null)" == "" ]] && docker build -t $IMAGE_NAME dev/
 
@@ -82,26 +117,31 @@ echo "🚀 Entering Dev Loop. Close the GNOME window to exit script."
 while true; do
     echo "🖥️  Starting x11docker..."
     
-    x11docker \
-      --name "$CONTAINER_NAME" \
-      --desktop \
-      --gpu \
-      --init=systemd \
-      --ipc=host \
-      --network=host \
-      --dbus \
-      --cap-default \
-      --home \
-      --size 1920x1080 \
-      -- \
-      --cap-add ALL \
-      --privileged \
-      --security-opt seccomp=unconfined \
-      --security-opt apparmor=unconfined \
-      -v "$DEV_DIR:/home/$(whoami)/.local/share/gnome-shell/extensions/$EXTENSION_UUID" \
-      -- \
-      "$IMAGE_NAME" \
-      gnome-shell
+    # Build x11docker options array
+    X11_OPTS=(
+      --name "$CONTAINER_NAME"
+      --desktop
+      --gpu
+      --init=systemd
+      --ipc=host
+      --network=host
+      --dbus
+      --cap-default
+      --home
+      --size 1920x1080
+    )
+    [ -n "$X11_LANG_VAL" ] && X11_OPTS+=(--lang="$X11_LANG_VAL")
+
+    # Build docker run options array
+    DOCKER_OPTS=(
+      --cap-add ALL
+      --privileged
+      --security-opt seccomp=unconfined
+      --security-opt apparmor=unconfined
+      -v "$DEV_DIR:/home/$(whoami)/.local/share/gnome-shell/extensions/$EXTENSION_UUID"
+    )
+
+    x11docker "${X11_OPTS[@]}" -- "${DOCKER_OPTS[@]}" -- "$IMAGE_NAME" gnome-shell
 
     # If x11docker exited naturally (you closed the window), stop the loop
     # We check if the watcher is still running; if we manually killed the container, 

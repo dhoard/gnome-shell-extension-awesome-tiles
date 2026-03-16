@@ -33,7 +33,7 @@
 import Meta from 'gi://Meta'
 import Shell from 'gi://Shell'
 import Gio from 'gi://Gio'
-import { Extension, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js'
+import { Extension, gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { osdWindowManager, wm } from 'resource:///org/gnome/shell/ui/main.js';
 import * as windowMover from './windowMover.js';
 import { LinkedResizeHandler } from './linkedResize.js';
@@ -59,6 +59,8 @@ export default class AwesomeTilesExtension extends Extension {
   enable() {
     this._windowMover = new windowMover.WindowMover()
     this._settings = this.getSettings()
+    this._ = _
+    this.ngettext = ngettext
     this._osdGapChangedIcon = Gio.icon_new_for_string("view-grid-symbolic")
     this._shortcutsBindingIds = []
     this._linkedResizeHandler = new LinkedResizeHandler(this._settings, this._windowMover)
@@ -356,12 +358,17 @@ export default class AwesomeTilesExtension extends Extension {
 
   _notifyGapSize() {
     const gapSize = this._gapSize;
-    const unit = this._isGapSizeInPixels ? 'pixels' : 'percent';
-    const label = ngettext(
-      `Gap size is now at %d ${unit}`,
-      `Gap size is now at %d ${unit}`,
-      gapSize
-    ).format(gapSize)
+    const label = this._isGapSizeInPixels
+      ? ngettext(
+          "Gap size is now at %d pixel",
+          "Gap size is now at %d pixels",
+          gapSize
+        ).format(gapSize)
+      : ngettext(
+          "Gap size is now at %d percent",
+          "Gap size is now at %d percent",
+          gapSize
+        ).format(gapSize)
 
     if (osdWindowManager && osdWindowManager.showOne) {
       osdWindowManager.showOne(

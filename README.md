@@ -70,6 +70,74 @@ Hold **Alt** (reconfigurable in settings) while dragging a window edge to resize
     ./install.sh local-install
     ```
 
+## Available Translations
+
+The extension is translated into the following languages:
+
+- **Arabic** (`ar`)
+- **German** (`de`)
+- **Greek** (`el`)
+- **Spanish** (`es`)
+- **French** (`fr`)
+- **Italian** (`it`)
+- **Japanese** (`ja`)
+- **Korean** (`ko`)
+- **Dutch** (`nl`)
+- **Polish** (`pl`)
+- **Russian** (`ru`)
+- **Turkish** (`tr`)
+- **Ukrainian** (`uk`)
+- **Chinese (Simplified)** (`zh_CN`)
+
+## Development
+
+A containerized development environment is provided to test the extension in various locales without affecting your host system.
+
+### Dependencies (Host System)
+
+To run the development environment, you need the following packages installed on your host:
+
+- `docker`
+- `x11docker`
+- `inotify-tools` (for the file watcher)
+- `gettext` (for translation compilation)
+- `glib2.0` (for schema compilation)
+- `rsync`
+
+### Usage
+
+1. **Start the development session**:
+
+   ```bash
+   ./dev/start-dev.sh
+   ```
+
+   This will build the development image (if it doesn't exist), setup the extension, and launch GNOME Shell inside a container.
+
+2. **Testing different locales**:
+   You can specify a language using the `--lang` argument:
+
+   ```bash
+   ./dev/start-dev.sh --lang=de_DE.UTF-8
+   ```
+
+3. **Rebuilding the image**:
+   If you modify the `Dockerfile`, force a rebuild of the container image:
+   ```bash
+   ./dev/start-dev.sh rebuild
+   ```
+
+### How it Works (Hot Reload)
+
+The `start-dev.sh` script includes an integrated watcher that monitors the `src/` and `po/` directories:
+
+- **Watcher**: Uses `inotifywait` to detect file saves.
+- **Syncing**: Automatically syncs `src/` files to the development directory.
+- **Compiling**:
+  - Compiles GSettings schemas using `glib-compile-schemas`.
+  - Compiles `.po` files into `.mo` binaries using `msgfmt`.
+- **Hot Reload**: When a change is detected, the GNOME Shell container is automatically restarted to apply the fresh build immediately.
+
 ## Credits
 
 - [Useless Gaps](https://github.com/mipmip/gnome-shell-extensions-useless-gaps)
@@ -88,6 +156,6 @@ as follows:
 Examples:
 
 - `ja.po` for the Japanese language translation.
-- `de_AU.po` for the German language spoken in Austria.
+- `de_AT.po` for the German language spoken in Austria.
 
 Finally, open a new pull request that includes your translation.
